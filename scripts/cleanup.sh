@@ -4,6 +4,7 @@
 ############################################################
 
 yum -y update
+yum-config-manager --disable rpmforge >/dev/null 2>&1
 yum clean all
 rm -rf /tmp/* /var/tmp/*
 unset HISTFILE
@@ -51,6 +52,10 @@ du -h --max-depth=1 /
 du -h --max-depth=1 /var
 du -h --max-depth=1 /usr
 du -h --max-depth=1 /usr/local/
+
+echo
+df -hT
+echo
 
 find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
 cat /dev/null > /root/.bash_history
