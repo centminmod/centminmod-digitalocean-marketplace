@@ -17,8 +17,6 @@ cat /dev/null > /var/log/wtmp;
 rm -rf /root/centminlogs/*
 rm -f /etc/centminmod/email-primary.ini
 rm -f /etc/centminmod/email-secondary.ini
-rm -rf /root/tools/
-mkdir -p /root/tools
 rm -f /var/lib/mysql/ib_logfile0.gz
 rm -f /var/lib/mysql/ib_logfile1.gz
 find /svr-setup -maxdepth 1 -type d ! -wholename "/svr-setup" -exec rm -rf {} \;
