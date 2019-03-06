@@ -56,4 +56,3 @@ du -h --max-depth=1 /usr/local/
 cat /dev/null > /root/.bash_history
 rm -f /root/.ssh/authorized_keys /etc/ssh/*key*
 history -c
-shutdown -h now & exit 0

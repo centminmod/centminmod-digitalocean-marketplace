@@ -7,4 +7,5 @@ cd centminmod-digitalocean-marketplace/scripts
 ./img-check.sh
 rm -rf /root/tools/
 mkdir -p /root/tools
+shutdown -h now
 ```
