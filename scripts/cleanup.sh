@@ -7,10 +7,9 @@ yum -y update
 yum clean all
 rm -rf /tmp/* /var/tmp/*
 unset HISTFILE
-find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
 rm -rf /var/log/*.gz /var/log/*.[0-9] /var/log/*-????????
 rm -rf /var/lib/cloud/instances/*
-dd if=/dev/zero of=/zerofile; sync; rm /zerofile; sync
+# dd if=/dev/zero of=/zerofile; sync; rm /zerofile; sync
 cat /dev/null > /var/log/lastlog; 
 cat /dev/null > /var/log/wtmp;
 rm -rf /root/centminlogs/*
@@ -53,6 +52,7 @@ du -h --max-depth=1 /var
 du -h --max-depth=1 /usr
 du -h --max-depth=1 /usr/local/
 
+find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
 cat /dev/null > /root/.bash_history
 rm -f /root/.ssh/authorized_keys /etc/ssh/*key*
 history -c
