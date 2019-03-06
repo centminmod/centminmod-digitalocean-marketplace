@@ -18,27 +18,48 @@ echo "
 whitelistip() {
   # whitelist ssh log in user's IP in csf firewall
   # https://centminmod.com/csf_firewall.html
-  echo "whitelist IP in CSF Firewall"
+  echo
+  echo "----------------------------------------------------------"
+  echo "Whitelist IP in CSF Firewall"
+  echo "----------------------------------------------------------"
   ssh_user_ip=$(echo $SSH_CLIENT | awk '{print $1}')
   csf -a ${ssh_user_ip} # do-firstlogin-ip-whitelisting
   echo "${ssh_user_ip}" >> /etc/csf/csf.ignore
   csf -ra >/dev/null 2>&1
+  echo
 }
 
 set_hostname() {
+  echo
+  echo "----------------------------------------------------------"
+  echo "Setup main hostname as per Getting Started Guide Step 1"
+  echo "https://centminmod.com/getstarted.html"
+  echo "----------------------------------------------------------"
+  echo
   read -p "Enter desired hostname for this VPS: " yourhostname
+  echo
   hostnamectl set-hostname $yourhostname
   IPADDR=$(hostname -I | cut -f1 -d' ')
   echo $IPADDR $yourhostname >> /etc/hosts
+  if [ -f /usr/local/nginx/conf/conf.d/virtual.conf ]; then
+    sed -i "s|server_name .*|server_name ${yourhostname};|" /usr/local/nginx/conf/conf.d/virtual.conf
+  fi
 }
 
 cmm_update() {
-  echo "ensure centmin mod up to date"
+  echo
+  echo "----------------------------------------------------------"
+  echo "Ensure centmin mod up to date"
+  echo "----------------------------------------------------------"
   cmupdate
+  echo
 }
 
 reset_mysqlroot() {
-  echo "generate mysql root password"
+  echo
+  echo "----------------------------------------------------------"
+  echo "Generate mysql root password"
+  echo "----------------------------------------------------------"
   if [ -f /root/.my.cnf ]; then
     echo "Previous MySQL root password:"
     echo
@@ -49,10 +70,14 @@ reset_mysqlroot() {
     echo "mysqladmin -u root -p${OLDMYSQLROOTPASS} password $NEWMYSQLROOTPASS"
     mysqladmin -u root -p${OLDMYSQLROOTPASS} password $NEWMYSQLROOTPASS
     echo
+    echo "----------------------------------------------------------"
     echo "New MySQL root user password: $NEWMYSQLROOTPASS"
+    echo "----------------------------------------------------------"
     echo
     sed -i "s|password=.*|password=$NEWMYSQLROOTPASS|" /root/.my.cnf
+    echo "----------------------------------------------------------"
     echo "/root/.my.cnf updated"
+    echo "----------------------------------------------------------"
     echo
     cat /root/.my.cnf
     echo
@@ -64,7 +89,7 @@ reset_bashrc() {
 }
 
 msg
-whitelist
+whitelistip
 cmm_update
 set_hostname
 reset_mysqlroot
