@@ -6,6 +6,7 @@
 yum -y update
 yum-config-manager --disable rpmforge >/dev/null 2>&1
 yum clean all
+ccache -C
 rm -rf /tmp/* /var/tmp/*
 unset HISTFILE
 rm -rf /var/log/*.gz /var/log/*.[0-9] /var/log/*-????????
