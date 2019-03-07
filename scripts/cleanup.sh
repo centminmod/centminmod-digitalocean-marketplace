@@ -49,6 +49,13 @@ rm -f /svr-setup/wget-1.19.4.tar.gz
 rm -rf /usr/local/nginxbackup/confbackup/*
 rm -rf /usr/local/nginxbackup/nginxdirbackup/*
 
+cd /usr/local/src
+branchname=123.09beta01
+du -sh centminmod
+rm -rf centminmod
+git clone -b ${branchname} --depth=1 https://github.com/centminmod/centminmod.git centminmod
+du -sh centminmod
+
 du -h --max-depth=1 /
 du -h --max-depth=1 /var
 du -h --max-depth=1 /usr
