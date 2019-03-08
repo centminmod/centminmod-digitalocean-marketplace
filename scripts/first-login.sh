@@ -13,6 +13,12 @@ echo "
 * Community Forums https://community.centminmod.com  [ << Register ]
 ===============================================================================
 "
+
+echo
+echo "Below are a number of tasks required to initially setup your server"
+sleep 2
+updatedb
+echo
 }
 
 get_email() {
@@ -104,6 +110,72 @@ cmm_update() {
   echo
 }
 
+reset_pureftpd_params() {
+  echo
+  echo "regenerate /etc/ssl/private/pure-ftpd-dhparams.pem"
+  openssl dhparam -out /etc/ssl/private/pure-ftpd-dhparams.pem 2048 >/dev/null 2>&1
+
+  echo
+  echo "regenerating pure-ftpd self-signed ssl certificate"
+  CNIP=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+  openssl req -x509 -days 7300 -sha256 -nodes -subj "/C=US/ST=California/L=Los Angeles/O=Default Company Ltd/CN==$CNIP" -newkey rsa:1024 -keyout /etc/pki/pure-ftpd/pure-ftpd.pem -out /etc/pki/pure-ftpd/pure-ftpd.pem
+  chmod 600 /etc/pki/pure-ftpd/*.pem
+}
+
+reset_memcache_admin() {
+# Randomize memcache_${N}.php filename
+N=$(od -vAn -N8 -tx < /dev/urandom | sed -e 's/\s//g')
+rm -f /usr/local/nginx/html/memcache_*
+\cp -a /usr/local/src/centminmod/config/memcached/memcache.php /usr/local/nginx/html/memcache_${N}.php
+chown -R nginx:nginx /usr/local/nginx/html
+chmod 644 /usr/local/nginx/html/memcache_${N}.php
+
+sed -i "s/'ADMIN_USERNAME','memcache'/'ADMIN_USERNAME','memcacheuser'/g" /usr/local/nginx/html/memcache_${N}.php
+sed -i "s/'ADMIN_PASSWORD','password'/'ADMIN_PASSWORD','memcachepass'/g" /usr/local/nginx/html/memcache_${N}.php
+sed -i "s/mymemcache-server1:11211/localhost:11211/g" /usr/local/nginx/html/memcache_${N}.php
+sed -i "s/\$MEMCACHE_SERVERS\[] = 'mymemcache-server2:11211'; \/\/ add more as an array/\/\/ mymemcache-server2:/g" /usr/local/nginx/html/memcache_${N}.php
+
+CSALT=$(openssl rand 8 -base64 | tr -dc 'a-zA-Z0-9')
+memcacheduser=$(echo "memadmin${CSALT}")
+memcachedpassword=$(openssl rand 19 -base64 | tr -dc 'a-zA-Z0-9')
+
+echo "--------------------------------------------------------------------"
+echo "Memcached Server Admin Login File: /usr/local/nginx/html/memcache_${N}.php"
+echo "Memcached Server Admin Login: ${hname}/memcache_${N}.php"
+echo "new memcached username: ${memcacheduser}"
+echo "new memcached password: ${memcachedpassword}"
+echo "--------------------------------------------------------------------"
+}
+
+reset_phpinfo() {
+  locate phpi.php | while read f; do
+    fname=$(basename ${f})
+    if [[ "${fname}" = 'phpi.php' ]]; then
+      cp -a "${f}" /usr/local/nginx/html/phpi.php
+    else
+      rm -f "${f}"
+    fi
+  done
+  # Randomize phpi.php filename
+  NPHP=$(od -vAn -N4 -tx < /dev/urandom)
+  NPHP=$(echo ${NPHP} | sed -e 's/\s//')
+  PHPISALT=$(openssl rand 11 -base64 | tr -dc 'a-zA-Z0-9')
+  PHPIUSER=$(echo "phpiadmin${PHPISALT}")
+  PHPIPASS=$(openssl rand 19 -base64 | tr -dc 'a-zA-Z0-9')
+  echo ""
+  mv /usr/local/nginx/html/phpi.php "/usr/local/nginx/html/${NPHP}_phpi.php"
+  sed -i "s|PHPUSERNAME|$PHPIUSER|" "/usr/local/nginx/html/${NPHP}_phpi.php"
+  sed -i "s|PHPPASSWORD|$PHPIPASS|" "/usr/local/nginx/html/${NPHP}_phpi.php"
+  chown nginx:nginx "/usr/local/nginx/html/${NPHP}_phpi.php"
+  echo "--------------------------------------------------------------------"
+  echo "PHP Info Login File: /usr/local/nginx/html/${NPHP}_phpi.php"
+  echo "PHP Info Login: ${hname}/${NPHP}_phpi.php"
+  echo "PHP Info Login username: ${PHPIUSER}"
+  echo "PHP Info Login password: ${PHPIPASS}"
+  echo "--------------------------------------------------------------------"
+  echo
+}
+
 reset_mysqlroot() {
   echo
   echo "--------------------------------------------------------------------"
@@ -142,5 +214,8 @@ get_email
 set_hostname
 whitelistip
 cmm_update
+reset_pureftpd_params
+reset_memcache_admin
+reset_phpinfo
 reset_mysqlroot
 reset_bashrc

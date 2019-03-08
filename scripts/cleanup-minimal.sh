@@ -60,6 +60,7 @@ du -h --max-depth=1 /
 du -h --max-depth=1 /var
 du -h --max-depth=1 /usr
 du -h --max-depth=1 /usr/local/
+du -sh /svr-setup/
 
 echo
 df -hT
