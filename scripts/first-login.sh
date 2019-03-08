@@ -139,6 +139,9 @@ CSALT=$(openssl rand 8 -base64 | tr -dc 'a-zA-Z0-9')
 memcacheduser=$(echo "memadmin${CSALT}")
 memcachedpassword=$(openssl rand 19 -base64 | tr -dc 'a-zA-Z0-9')
 
+sed -i "s/'ADMIN_USERNAME','memcacheuser'/'ADMIN_USERNAME','${memcacheduser}'/g" /usr/local/nginx/html/memcache_${N}.php 2>&1>/dev/null
+sed -i "s/'ADMIN_PASSWORD','memcachepass'/'ADMIN_PASSWORD','${memcachedpassword}'/g" /usr/local/nginx/html/memcache_${N}.php 2>&1>/dev/null
+
 echo "--------------------------------------------------------------------"
 echo "Memcached Server Admin Login File: /usr/local/nginx/html/memcache_${N}.php"
 echo "Memcached Server Admin Login: ${hname}/memcache_${N}.php"
