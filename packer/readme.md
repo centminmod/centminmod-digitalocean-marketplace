@@ -69,7 +69,38 @@ Variables available
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_token=YOUR_DO_API_KEY' -var 'do_size=s-1vcpu-1gb' -var 'do_tags=YOURTAGS' packer-centos7-basic.json
 ```
 
-example start of packer build run
+# Example validation & inspection
+
+```
+packer validate packer-centos7-basic.json
+Template validated successfully.
+```
+
+```
+packer inspect packer-centos7-basic.json
+Optional variables and their defaults:
+
+  do_image      = centos-7-x64
+  do_image_name = centos7-packer-snapshot-{{timestamp}}
+  do_region     = nyc3
+  do_size       = c-2
+  do_tags       = cmm
+  do_token      = {{env `TOKEN`}}
+
+Builders:
+
+  digitalocean
+
+Provisioners:
+
+  shell
+
+Note: If your build names contain user variables or template
+functions such as 'timestamp', these are processed at build time,
+and therefore only show in their raw form here.
+```
+
+# Example start of packer build run
 
 ```
 digitalocean output will be in this color.
