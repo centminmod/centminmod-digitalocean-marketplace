@@ -21,6 +21,8 @@ echo
 
 # update server and setup TMPDIR
 echo
+echo "hostname: $(hostname)"
+echo
 lscpu
 echo
 yum -y update
