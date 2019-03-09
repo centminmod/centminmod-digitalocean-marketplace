@@ -294,7 +294,7 @@ Unfortunately, DigitalOcean Marketplace's img_check.sh script isn't 100% compati
 
 # Updated packer builds with benchmarks
 
-Being a benchmark & performance addict, might as well benchmark each packer created temporary droplet before it gets automatically destroyed by packer after snapsho t image builds. So added Centmin Mod Nginx HTTP/2 HTTPS ECDSA vs RSA ssl cert benchmarks via h2load HTTP/2 HTTPS load tester and sysbench benchmarks.
+Being a benchmark & performance addict, might as well benchmark each packer created temporary droplet before it gets automatically destroyed by packer after snapshot image builds. So added Centmin Mod Nginx HTTP/2 HTTPS ECDSA vs RSA ssl cert benchmarks via h2load HTTP/2 HTTPS load tester and sysbench benchmarks.
 
 ```
     digitalocean: -------------------------------------------------------------------------------------------

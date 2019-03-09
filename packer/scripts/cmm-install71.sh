@@ -34,6 +34,46 @@ export TMPDIR=/home/packertmp
 # install centmin mod 123.09beta01 with PHP 7.1 latest defaults
 curl -O https://centminmod.com/betainstaller71.sh && chmod 0700 betainstaller71.sh && bash betainstaller71.sh
 
+# install docker
+echo "INSTALL_DOCKER=$INSTALL_DOCKER"
+
+if [[ "$INSTALL_DOCKER" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "docker install"
+  echo "---------------------------------------------"
+  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  yum -y install yum-utils device-mapper-persistent-data lvm2
+  yum -y install docker-ce
+  mkdir -p /etc/systemd/system/docker.service.d
+  touch /etc/systemd/system/docker.service.d/docker.conf
+  mkdir -p /etc/docker
+  wget -O /etc/docker/daemon.json https://gist.githubusercontent.com/centminmod/e79bca8d3ef56d4d7272663f755e830d/raw/daemon.json
+  systemctl daemon-reload
+  systemctl start docker
+  systemctl enable docker
+  echo
+  systemctl status docker
+  echo
+  journalctl -u docker --no-pager
+  echo
+  docker info
+fi
+
+# install redis
+echo "INSTALL_REDIS=$INSTALL_REDIS"
+
+if [[ "$INSTALL_REDIS" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "redis install"
+  echo "---------------------------------------------"
+  mkdir -p /root/tools
+  git clone https://github.com/centminmod/centminmod-redis
+  cd centminmod-redis
+  ./redis-install.sh install
+fi
+
 # might as well do some quick benchmarks to test the temp droplets performance
 # http/2 https benchmarks
 echo

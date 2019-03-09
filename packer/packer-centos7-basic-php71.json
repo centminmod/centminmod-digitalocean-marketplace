@@ -5,7 +5,9 @@
     "do_image": "centos-7-x64",
     "do_region": "nyc3",
     "do_size": "c-2",
-    "do_tags": "cmm"
+    "do_tags": "cmm",
+    "install_docker": "n",
+    "install_redis": "n"
   },
   "builders": [
     {
@@ -22,6 +24,10 @@
   "provisioners": [
     {
       "type": "shell",
+      "environment_vars": [
+        "INSTALL_DOCKER={{user `install_docker`}}",
+        "INSTALL_REDIS={{user `install_redis`}}"
+      ],
       "scripts": [
         "scripts/cmm-install71.sh"
       ],
