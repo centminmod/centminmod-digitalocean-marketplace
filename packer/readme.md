@@ -291,3 +291,420 @@ Unfortunately, DigitalOcean Marketplace's img_check.sh script isn't 100% compati
 
 * CSF Firewall compatibility if not using firewalld https://github.com/digitalocean/marketplace-partners/issues/32
 * User password set check compatibility for CentOS/Redhat https://github.com/digitalocean/marketplace-partners/issues/33
+
+# Updated packer builds with benchmarks
+
+Being a benchmark & performance addict, might as well benchmark each packer created temporary droplet before it gets automatically destroyed by packer after snapsho t image builds. So added Centmin Mod Nginx HTTP/2 HTTPS ECDSA vs RSA ssl cert benchmarks via h2load HTTP/2 HTTPS load tester and sysbench benchmarks.
+
+```
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean: h2load --version
+    digitalocean: h2load nghttp2/1.31.1
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES128-GCM-SHA256 -H 'Accept-Encoding: gzip' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 223.19ms, 4480.57 req/s, 9.96MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 2.22MB (2331900) total, 202.15KB (207000) headers (space savings 26.86%), 2.00MB (2102000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     1.06ms     44.78ms     11.73ms      6.01ms    84.80%
+    digitalocean: time for connect:     4.78ms    128.31ms     80.40ms     35.30ms    68.00%
+    digitalocean: time to 1st byte:    94.18ms    138.74ms    119.59ms     11.50ms    67.00%
+    digitalocean: req/s           :      45.03       50.40       47.17        0.93    73.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES256-GCM-SHA384 -H 'Accept-Encoding: gzip' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 224.19ms, 4460.54 req/s, 9.92MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 2.22MB (2331900) total, 202.15KB (207000) headers (space savings 26.86%), 2.00MB (2102000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     1.92ms     46.55ms     11.68ms      6.40ms    87.30%
+    digitalocean: time for connect:     4.58ms    131.28ms     80.78ms     37.98ms    62.00%
+    digitalocean: time to 1st byte:    99.43ms    141.66ms    121.19ms     12.30ms    60.00%
+    digitalocean: req/s           :      45.87       49.52       47.03        0.84    64.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES128-GCM-SHA256 -H 'Accept-Encoding: gzip' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 191.33ms, 5226.65 req/s, 11.62MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 2.22MB (2331900) total, 202.15KB (207000) headers (space savings 26.86%), 2.00MB (2102000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:      330us     34.23ms     10.53ms      6.21ms    79.20%
+    digitalocean: time for connect:     3.69ms    107.49ms     60.86ms     29.36ms    66.00%
+    digitalocean: time to 1st byte:    74.24ms    118.18ms     96.51ms     12.73ms    68.00%
+    digitalocean: req/s           :      52.93       57.96       55.80        1.18    69.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES256-GCM-SHA384 -H 'Accept-Encoding: gzip' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 207.53ms, 4818.58 req/s, 10.72MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 2.22MB (2331900) total, 202.15KB (207000) headers (space savings 26.86%), 2.00MB (2102000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     2.20ms     42.58ms     11.67ms      6.04ms    82.20%
+    digitalocean: time for connect:     3.61ms    110.73ms     63.86ms     31.58ms    61.00%
+    digitalocean: time to 1st byte:    78.04ms    122.05ms    101.39ms     12.88ms    60.00%
+    digitalocean: req/s           :      49.60       54.84       51.58        1.12    67.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES128-GCM-SHA256 -H 'Accept-Encoding: gzip' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 961.05ms, 6243.17 req/s, 13.87MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 13.33MB (13976700) total, 1.18MB (1242000) headers (space savings 26.86%), 12.03MB (12612000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     2.06ms    129.10ms     32.79ms     13.32ms    93.00%
+    digitalocean: time for connect:    22.22ms    381.65ms    225.32ms    103.95ms    61.00%
+    digitalocean: time to 1st byte:   269.84ms    413.17ms    345.61ms     42.09ms    57.67%
+    digitalocean: req/s           :      21.05       22.31       21.58        0.31    62.67%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES256-GCM-SHA384 -H 'Accept-Encoding: gzip' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 969.31ms, 6189.96 req/s, 13.75MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 13.33MB (13976700) total, 1.18MB (1242000) headers (space savings 26.86%), 12.03MB (12612000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     1.83ms    130.93ms     32.39ms     15.03ms    88.82%
+    digitalocean: time for connect:    25.36ms    394.90ms    229.99ms    108.61ms    58.67%
+    digitalocean: time to 1st byte:   280.64ms    426.43ms    353.13ms     46.85ms    59.67%
+    digitalocean: req/s           :      20.85       22.81       21.62        0.51    78.67%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES128-GCM-SHA256 -H 'Accept-Encoding: gzip' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 810.64ms, 7401.60 req/s, 16.44MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 13.33MB (13976700) total, 1.18MB (1242000) headers (space savings 26.86%), 12.03MB (12612000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:      955us     76.01ms     31.17ms      6.57ms    90.10%
+    digitalocean: time for connect:    18.36ms    220.63ms    148.02ms     32.33ms    81.00%
+    digitalocean: time to 1st byte:   116.87ms    253.74ms    179.73ms     29.87ms    78.67%
+    digitalocean: req/s           :      25.09       27.57       25.91        0.56    75.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES256-GCM-SHA384 -H 'Accept-Encoding: gzip' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 898.14ms, 6680.48 req/s, 14.84MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 13.33MB (13976700) total, 1.18MB (1242000) headers (space savings 26.86%), 12.03MB (12612000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     5.49ms    110.49ms     32.16ms     12.53ms    90.73%
+    digitalocean: time for connect:    21.19ms    325.34ms    177.54ms     93.96ms    56.00%
+    digitalocean: time to 1st byte:   212.38ms    358.71ms    282.20ms     49.21ms    54.67%
+    digitalocean: req/s           :      22.67       24.08       23.29        0.40    60.67%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES128-GCM-SHA256 -H 'Accept-Encoding: br' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 188.65ms, 5300.88 req/s, 34.50MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 6.51MB (6824900) total, 205.08KB (210000) headers (space savings 29.29%), 6.29MB (6592000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     2.22ms     47.60ms      9.18ms      7.42ms    88.80%
+    digitalocean: time for connect:     4.49ms    120.05ms     74.26ms     33.08ms    61.00%
+    digitalocean: time to 1st byte:    91.72ms    127.71ms    110.88ms     10.25ms    59.00%
+    digitalocean: req/s           :      53.39       59.80       56.27        1.13    74.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES256-GCM-SHA384 -H 'Accept-Encoding: br' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 188.38ms, 5308.39 req/s, 34.55MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 6.51MB (6824900) total, 205.08KB (210000) headers (space savings 29.29%), 6.29MB (6592000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     1.59ms     47.46ms      9.13ms      6.81ms    88.60%
+    digitalocean: time for connect:     4.68ms    118.83ms     74.85ms     32.26ms    68.00%
+    digitalocean: time to 1st byte:    94.17ms    126.76ms    112.21ms      9.83ms    66.00%
+    digitalocean: req/s           :      53.27       58.65       55.79        0.97    68.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES128-GCM-SHA256 -H 'Accept-Encoding: br' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 171.04ms, 5846.45 req/s, 38.05MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 6.51MB (6824900) total, 205.08KB (210000) headers (space savings 29.29%), 6.29MB (6592000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     1.28ms     44.88ms      8.87ms      6.31ms    89.10%
+    digitalocean: time for connect:     3.57ms     98.91ms     59.43ms     26.85ms    60.00%
+    digitalocean: time to 1st byte:    76.64ms    106.14ms     94.42ms      7.10ms    66.00%
+    digitalocean: req/s           :      60.00       67.09       62.28        1.32    73.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES256-GCM-SHA384 -H 'Accept-Encoding: br' -c100 -n1000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 167.80ms, 5959.65 req/s, 38.79MB/s
+    digitalocean: requests: 1000 total, 1000 started, 1000 done, 1000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 1000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 6.51MB (6824900) total, 205.08KB (210000) headers (space savings 29.29%), 6.29MB (6592000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     2.37ms     40.55ms      8.64ms      5.65ms    88.10%
+    digitalocean: time for connect:     9.14ms     94.88ms     60.33ms     26.45ms    60.00%
+    digitalocean: time to 1st byte:    69.05ms    101.90ms     90.55ms      9.03ms    55.00%
+    digitalocean: req/s           :      61.62       69.63       64.11        1.41    66.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES128-GCM-SHA256 -H 'Accept-Encoding: br' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 770.49ms, 7787.28 req/s, 50.67MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 39.04MB (40934700) total, 1.20MB (1260000) headers (space savings 29.29%), 37.72MB (39552000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     2.92ms    123.66ms     22.90ms     15.38ms    85.30%
+    digitalocean: time for connect:    22.29ms    376.73ms    223.69ms    105.12ms    58.00%
+    digitalocean: time to 1st byte:   287.67ms    398.43ms    343.93ms     35.69ms    63.00%
+    digitalocean: req/s           :      26.21       29.47       27.25        0.70    76.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-RSA-AES256-GCM-SHA384 -H 'Accept-Encoding: br' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-RSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 810.96ms, 7398.66 req/s, 48.14MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 39.04MB (40934700) total, 1.20MB (1260000) headers (space savings 29.29%), 37.72MB (39552000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     5.73ms    127.03ms     25.28ms     14.00ms    93.93%
+    digitalocean: time for connect:    30.02ms    368.54ms    222.05ms    102.94ms    57.67%
+    digitalocean: time to 1st byte:   277.18ms    389.97ms    336.64ms     36.86ms    64.00%
+    digitalocean: req/s           :      25.21       26.80       25.83        0.42    65.00%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES128-GCM-SHA256 -H 'Accept-Encoding: br' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES128-GCM-SHA256
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 691.06ms, 8682.29 req/s, 56.49MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 39.04MB (40934700) total, 1.20MB (1260000) headers (space savings 29.29%), 37.72MB (39552000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:      854us     98.68ms     22.52ms     12.32ms    86.02%
+    digitalocean: time for connect:    27.16ms    287.61ms    168.94ms     81.44ms    54.33%
+    digitalocean: time to 1st byte:   197.20ms    309.86ms    257.65ms     36.20ms    57.33%
+    digitalocean: req/s           :      29.44       33.22       30.71        0.88    65.67%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load -t1 --ciphers=ECDHE-ECDSA-AES256-GCM-SHA384 -H 'Accept-Encoding: br' -c300 -n6000 https://http2.domain.com/
+    digitalocean: TLS Protocol: TLSv1.2
+    digitalocean: Cipher: ECDHE-ECDSA-AES256-GCM-SHA384
+    digitalocean: Server Temp Key: ECDH P-256 256 bits
+    digitalocean: Application protocol: h2
+    digitalocean:
+    digitalocean: finished in 721.57ms, 8315.24 req/s, 54.10MB/s
+    digitalocean: requests: 6000 total, 6000 started, 6000 done, 6000 succeeded, 0 failed, 0 errored, 0 timeout
+    digitalocean: status codes: 6000 2xx, 0 3xx, 0 4xx, 0 5xx
+    digitalocean: traffic: 39.04MB (40934700) total, 1.20MB (1260000) headers (space savings 29.29%), 37.72MB (39552000) data
+    digitalocean:                      min         max         mean         sd        +/- sd
+    digitalocean: time for request:     2.29ms    102.88ms     24.37ms     12.90ms    91.07%
+    digitalocean: time for connect:    22.09ms    307.06ms    167.93ms     82.52ms    59.67%
+    digitalocean: time to 1st byte:   208.20ms    329.45ms    268.13ms     39.23ms    63.33%
+    digitalocean: req/s           :      28.13       29.85       28.88        0.40    67.33%
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean:
+    digitalocean: h2load tests completed using temp /etc/hosts entry:
+    digitalocean: server-ip-mask http2.domain.com #h2load
+    digitalocean:
+    digitalocean: centmin mod local code last commit:
+    digitalocean:
+    digitalocean: 3092268 George Liu Sat, 9 Mar 2019 18:34:42 +1000
+    digitalocean: update march_hostcheck function in 123.09beta01
+    digitalocean:
+    digitalocean: users requests req/s encoding cipher protocol started succeeded
+    digitalocean: 100 1000 4480.57 gzip ECDHE-RSA-AES128-GCM-SHA256 TLSv1.2 1000 1000
+    digitalocean: 100 1000 4460.54 gzip ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 1000 1000
+    digitalocean: 100 1000 5226.65 gzip ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.2 1000 1000
+    digitalocean: 100 1000 4818.58 gzip ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 1000 1000
+    digitalocean: 300 6000 6243.17 gzip ECDHE-RSA-AES128-GCM-SHA256 TLSv1.2 6000 6000
+    digitalocean: 300 6000 6189.96 gzip ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 6000 6000
+    digitalocean: 300 6000 7401.60 gzip ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.2 6000 6000
+    digitalocean: 300 6000 6680.48 gzip ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 6000 6000
+    digitalocean: 100 1000 5300.88 br'  ECDHE-RSA-AES128-GCM-SHA256 TLSv1.2 1000 1000
+    digitalocean: 100 1000 5308.39 br'  ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 1000 1000
+    digitalocean: 100 1000 5846.45 br'  ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.2 1000 1000
+    digitalocean: 100 1000 5959.65 br'  ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 1000 1000
+    digitalocean: 300 6000 7787.28 br'  ECDHE-RSA-AES128-GCM-SHA256 TLSv1.2 6000 6000
+    digitalocean: 300 6000 7398.66 br'  ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 6000 6000
+    digitalocean: 300 6000 8682.29 br'  ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.2 6000 6000
+    digitalocean: 300 6000 8315.24 br'  ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 6000 6000
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean: h2load result summary
+    digitalocean: min:      avg:      max:      stddev:   requests-succeeded:
+    digitalocean: 4460.540  6256.274  8682.290  1337.717  100.00
+    digitalocean: -------------------------------------------------------------------------------------------
+    digitalocean: h2load result summary end
+    digitalocean:
+    digitalocean: clean up https://http2.domain.com
+```
+
+```
+    digitalocean: ---------------------------------------------
+    digitalocean: ./sysbench.sh cpu
+    digitalocean: ---------------------------------------------
+    digitalocean: -------------------------------------------
+    digitalocean: System Information
+    digitalocean: -------------------------------------------
+    digitalocean:
+    digitalocean: 3.10.0-862.2.3.el7.x86_64
+    digitalocean:
+    digitalocean: CentOS Linux release 7.6.1810 (Core)
+    digitalocean:
+    digitalocean: Centmin Mod
+    digitalocean: Architecture:          x86_64
+    digitalocean: CPU op-mode(s):        32-bit, 64-bit
+    digitalocean: Byte Order:            Little Endian
+    digitalocean: CPU(s):                2
+    digitalocean: On-line CPU(s) list:   0,1
+    digitalocean: Thread(s) per core:    1
+    digitalocean: Core(s) per socket:    1
+    digitalocean: Socket(s):             2
+    digitalocean: NUMA node(s):          1
+    digitalocean: Vendor ID:             GenuineIntel
+    digitalocean: CPU family:            6
+    digitalocean: Model:                 85
+    digitalocean: Model name:            Intel(R) Xeon(R) Platinum 8168 CPU @ 2.70GHz
+    digitalocean: Stepping:              4
+    digitalocean: CPU MHz:               2693.674
+    digitalocean: BogoMIPS:              5387.34
+    digitalocean: Virtualization:        VT-x
+    digitalocean: Hypervisor vendor:     KVM
+    digitalocean: Virtualization type:   full
+    digitalocean: L1d cache:             32K
+    digitalocean: L1i cache:             32K
+    digitalocean: L2 cache:              1024K
+    digitalocean: L3 cache:              33792K
+    digitalocean: NUMA node0 CPU(s):     0,1
+    digitalocean: Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl eagerfpu pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 pku ospke
+    digitalocean:
+    digitalocean: CPU Flags
+    digitalocean:  fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl eagerfpu pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 pku ospke
+    digitalocean:
+    digitalocean: CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE
+    digitalocean: 0   0    0      0    0:0:0:0       yes
+    digitalocean: 1   0    1      1    0:0:0:0       yes
+    digitalocean:
+    digitalocean:               total        used        free      shared  buff/cache   available
+    digitalocean: Mem:           3790         296        3003          18         490        3218
+    digitalocean: Low:           3790         786        3003
+    digitalocean: High:             0           0           0
+    digitalocean: Swap:          1023           0        1023
+    digitalocean:
+    digitalocean: Filesystem      Size  Used Avail Use% Mounted on
+    digitalocean: /dev/vda1        25G  5.3G   20G  21% /
+    digitalocean: devtmpfs        1.9G     0  1.9G   0% /dev
+    digitalocean: tmpfs           1.9G     0  1.9G   0% /dev/shm
+    digitalocean: tmpfs           1.9G   17M  1.9G   1% /run
+    digitalocean: tmpfs           1.9G     0  1.9G   0% /sys/fs/cgroup
+    digitalocean: tmpfs           380M     0  380M   0% /run/user/0
+    digitalocean: /dev/loop0      5.8G   25M  5.5G   1% /tmp
+    digitalocean:
+    digitalocean:
+    digitalocean: sysbench cpu --cpu-max-prime=20000 --threads=1 run
+    digitalocean: sysbench 1.0.16 (using bundled LuaJIT 2.1.0-beta2)
+    digitalocean: threads: 1
+    digitalocean: prime: 20000
+    digitalocean: events/s: 447.43
+    digitalocean: time: 10.0002s
+    digitalocean: min: 2.21
+    digitalocean: avg: 2.23
+    digitalocean: max: 3.49
+    digitalocean: 95th: 2.26
+    digitalocean:
+    digitalocean: | cpu sysbench | threads: | events/s: | time: | min: | avg: | max: | 95th: |
+    digitalocean: | --- | --- | --- | --- | --- | --- | --- | --- |
+    digitalocean: | 1.0.16 | 1 | 447.43 | 10.0002s | 2.21 | 2.23 | 3.49 | 2.26 |
+    digitalocean:
+    digitalocean: sysbench,threads,events/s,time,min,avg,max,95th
+    digitalocean: 1.0.16,1,447.43,10.0002s,2.21,2.23,3.49,2.26
+    digitalocean:
+    digitalocean: sysbench cpu --cpu-max-prime=20000 --threads=2 run
+    digitalocean: sysbench 1.0.16 (using bundled LuaJIT 2.1.0-beta2)
+    digitalocean: threads: 2
+    digitalocean: prime: 20000
+    digitalocean: events/s: 893.19
+    digitalocean: time: 10.0021s
+    digitalocean: min: 2.22
+    digitalocean: avg: 2.24
+    digitalocean: max: 3.04
+    digitalocean: 95th: 2.26
+    digitalocean:
+    digitalocean: | cpu sysbench | threads: | events/s: | time: | min: | avg: | max: | 95th: |
+    digitalocean: | --- | --- | --- | --- | --- | --- | --- | --- |
+    digitalocean: | 1.0.16 | 2 | 893.19 | 10.0021s | 2.22 | 2.24 | 3.04 | 2.26 |
+    digitalocean:
+    digitalocean: sysbench,threads,events/s,time,min,avg,max,95th
+    digitalocean: 1.0.16,2,893.19,10.0021s,2.22,2.24,3.04,2.26
+    digitalocean:
+```
