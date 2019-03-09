@@ -169,3 +169,10 @@ Build 'digitalocean' finished.
 ==> Builds finished. The artifacts of successful builds are:
 --> digitalocean: A snapshot was created: 'centos7-packer-snapshot-15520722XX' (ID: 4447XXXX3) in regions 'nyc3'
 ```
+
+# DigitalOcean Marketplace img_check.sh compatibility
+
+Unfortunately, DigitalOcean Marketplace's img_check.sh script isn't 100% compatible with CentOS systems due to false assumptions the script makes about CentOS 6/7 systems. See details at https://github.com/digitalocean/marketplace-partners/pull/35
+
+* CSF Firewall compatibility if not using firewalld https://github.com/digitalocean/marketplace-partners/issues/32
+* User password set check compatibility for CentOS/Redhat https://github.com/digitalocean/marketplace-partners/issues/33
