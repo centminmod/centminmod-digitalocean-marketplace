@@ -34,6 +34,56 @@ export TMPDIR=/home/packertmp
 # install centmin mod 123.09beta01 with PHP 7.2 latest defaults
 curl -O https://centminmod.com/betainstaller72.sh && chmod 0700 betainstaller72.sh && bash betainstaller72.sh
 
+# might as well do some quick benchmarks to test the temp droplets performance
+# http/2 https benchmarks
+echo
+echo "---------------------------------------------"
+echo "centmin mod nginx http/2 https benchmarks"
+echo "---------------------------------------------"
+mkdir -p /root/tools
+cd /root/tools
+wget -O https_bench.sh https://github.com/centminmod/centminmodbench/raw/master/https_bench.sh
+chmod +x https_bench.sh
+time /root/tools/https_bench.sh
+
+# sysbench
+echo
+echo "---------------------------------------------"
+echo "sysbench benchmarks"
+echo "---------------------------------------------"
+mkdir -p /root/tools/sysbench
+cd /root/tools/sysbench
+wget -O /root/tools/sysbench/sysbench.sh https://github.com/centminmod/centminmod-sysbench/raw/master/sysbench.sh
+chmod +x sysbench.sh
+./sysbench.sh install
+
+echo
+echo "---------------------------------------------"
+echo "./sysbench.sh cpu"
+echo "---------------------------------------------"
+./sysbench.sh cpu
+echo
+echo "---------------------------------------------"
+echo "./sysbench.sh mem"
+echo "---------------------------------------------"
+./sysbench.sh mem
+echo
+echo "---------------------------------------------"
+echo "./sysbench.sh file"
+echo "---------------------------------------------"
+./sysbench.sh file
+echo
+echo "---------------------------------------------"
+echo "./sysbench.sh file-fsync"
+echo "---------------------------------------------"
+./sysbench.sh file-fsync
+echo
+echo "---------------------------------------------"
+echo "./sysbench.sh mysqloltpnew"
+echo "---------------------------------------------"
+./sysbench.sh mysqloltpnew
+echo
+
 # cleanup after centminmod install
 yum -y clean all
 yum-config-manager --disable rpmforge >/dev/null 2>&1
@@ -47,6 +97,7 @@ cat /dev/null > /var/log/wtmp;
 rm -rf /root/centminlogs/*
 rm -f /etc/centminmod/email-primary.ini
 rm -f /etc/centminmod/email-secondary.ini
+rm -rf /home/sysbench
 rm -f /var/lib/mysql/ib_logfile0.gz
 rm -f /var/lib/mysql/ib_logfile1.gz
 find /svr-setup -maxdepth 1 -type d ! -wholename "/svr-setup" -exec rm -rf {} \;
