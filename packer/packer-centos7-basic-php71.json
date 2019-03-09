@@ -1,7 +1,7 @@
 {
   "variables": {
     "do_token": "{{env `TOKEN`}}",
-    "do_image_name": "centos7-packer-snapshot-php72-{{timestamp}}",
+    "do_image_name": "centos7-packer-snapshot-php71-{{timestamp}}",
     "do_image": "centos-7-x64",
     "do_region": "nyc3",
     "do_size": "c-2",
@@ -23,7 +23,7 @@
     {
       "type": "shell",
       "scripts": [
-        "scripts/cmm-install.sh"
+        "scripts/cmm-install71.sh"
       ],
       "remote_folder": "/home",
       "remote_file": "script_1.sh"
