@@ -2,6 +2,7 @@
 # packer.io install
 
 ```
+yum -y install jq
 mkdir -p /root/tools
 cd /root/tools
 packer_version=1.3.5
@@ -60,6 +61,16 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic.json
 
 # with debug mode
 # time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -debug packer-centos7-basic.json
+
+# parse PACKER_LOG_PATH
+snapshot_name=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $10}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_id=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $12}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_region=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $15}' | sed -e "s|'||g" -e 's|)||g')
+echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
+
+# snapshot info query API by snapshot id
+# https://developers.digitalocean.com/documentation/v2/#retrieve-an-existing-snapshot-by-id
+curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
 ```
 
 For PHP 7.3 default Centmin Mod builds
@@ -83,6 +94,16 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic-php73
 
 # with debug mode
 # time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -debug packer-centos7-basic-php73.json
+
+# parse PACKER_LOG_PATH
+snapshot_name=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $10}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_id=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $12}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_region=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $15}' | sed -e "s|'||g" -e 's|)||g')
+echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
+
+# snapshot info query API by snapshot id
+# https://developers.digitalocean.com/documentation/v2/#retrieve-an-existing-snapshot-by-id
+curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
 ```
 
 For PHP 7.1 default Centmin Mod builds
@@ -106,6 +127,16 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic-php71
 
 # with debug mode
 # time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -debug packer-centos7-basic-php71.json
+
+# parse PACKER_LOG_PATH
+snapshot_name=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $10}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_id=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $12}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_region=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $15}' | sed -e "s|'||g" -e 's|)||g')
+echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
+
+# snapshot info query API by snapshot id
+# https://developers.digitalocean.com/documentation/v2/#retrieve-an-existing-snapshot-by-id
+curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
 ```
 
 You can also override `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` or `packer-centos7-basic-php71.json` set variables at runtime on command line.
