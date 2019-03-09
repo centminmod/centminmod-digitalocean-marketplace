@@ -72,6 +72,7 @@ if [[ "$INSTALL_REDIS" = [yY] ]]; then
   git clone https://github.com/centminmod/centminmod-redis
   cd centminmod-redis
   ./redis-install.sh install
+  redis-cli info
 fi
 
 # might as well do some quick benchmarks to test the temp droplets performance

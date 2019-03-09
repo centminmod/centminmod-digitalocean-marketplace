@@ -149,11 +149,19 @@ Variables available
 * do_region - default = `nyc3`
 * do_size - default = `c-2` or set to `s-1vcpu-1gb`
 * do_tags - default = `cmm`
+* install_docker - default = `n`
+* install_redis - default = `n`
 
 For PHP 7.2 default Centmin Mod builds
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_size=s-1vcpu-1gb' packer-centos7-basic.json
+```
+
+or install docker & redis
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic.json
 ```
 
 or
@@ -170,6 +178,12 @@ For PHP 7.3 default Centmin Mod builds
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_size=s-1vcpu-1gb' packer-centos7-basic-php73.json
 ```
 
+or install docker & redis
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php73.json
+```
+
 or
 
 ```
@@ -182,6 +196,12 @@ For PHP 7.1 default Centmin Mod builds
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_size=s-1vcpu-1gb' packer-centos7-basic-php71.json
+```
+
+or install docker & redis
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php71.json
 ```
 
 or
