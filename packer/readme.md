@@ -35,9 +35,11 @@ Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-
 
 # build centminmod digitalocean snapshot image
 
-Build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io using `packer-centos7-basic.json` configuration using DigitalOcean `nyc3` region and lowest disk space sized DigitalOcean droplet plan, [cpu optimized droplet](https://centminmod.com/digitalocean/) (c-2 default) or [standard droplet 1GB plan](https://centminmod.com/digitalocean/) (s-1vcpu-1gb) - both come in at 25GB disk size. However cpu optimized droplet (c-2), can install Centmin and build DigitalOcean snapshot image 3x times faster than standard droplet 1GB plan.
+Build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io using `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` configuration using DigitalOcean `nyc3` region and lowest disk space sized DigitalOcean droplet plan, [cpu optimized droplet](https://centminmod.com/digitalocean/) (c-2 default) or [standard droplet 1GB plan](https://centminmod.com/digitalocean/) (s-1vcpu-1gb) - both come in at 25GB disk size. However cpu optimized droplet (c-2), can install Centmin and build DigitalOcean snapshot image 3x times faster than standard droplet 1GB plan.
 
 You need to manually export your generated [DigitalOcean API Token](https://cloud.digitalocean.com/account/api/tokens) below `TOKEN='YOUR_DO_API_KEY'`
+
+For PHP 7.2 default Centmin Mod builds
 
 ```
 mkdir -p /home/packertmp
@@ -60,7 +62,30 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic.json
 # time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -debug packer-centos7-basic.json
 ```
 
-You can also override `packer-centos7-basic.json` set variables at runtime on command line.
+For PHP 7.3 default Centmin Mod builds
+
+```
+mkdir -p /home/packertmp
+mkdir -p /root/tools/packer/scripts
+chmod 1777 /home/packertmp
+export TMPDIR=/home/packertmp
+
+cd /root/tools
+git clone https://github.com/centminmod/centminmod-digitalocean-marketplace
+cd centminmod-digitalocean-marketplace/packer
+
+export TOKEN='YOUR_DO_API_KEY'
+
+packer validate packer-centos7-basic-php73.json
+packer inspect packer-centos7-basic-php73.json
+export PACKER_LOG_PATH="packerlog-php73.log"
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic-php73.json
+
+# with debug mode
+# time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -debug packer-centos7-basic-php73.json
+```
+
+You can also override `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` set variables at runtime on command line.
 
 Variables available
 
@@ -71,8 +96,18 @@ Variables available
 * do_size - default = `c-2` or set to `s-1vcpu-1gb`
 * do_tags - default = `cmm`
 
+For PHP 7.2 default Centmin Mod builds
+
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_token=YOUR_DO_API_KEY' -var 'do_size=s-1vcpu-1gb' -var 'do_tags=YOURTAGS' packer-centos7-basic.json
+```
+
+or 
+
+For PHP 7.3 default Centmin Mod builds
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_token=YOUR_DO_API_KEY' -var 'do_size=s-1vcpu-1gb' -var 'do_tags=YOURTAGS' packer-centos7-basic-php73.json
 ```
 
 # Example validation & inspection
