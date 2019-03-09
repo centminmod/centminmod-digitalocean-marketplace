@@ -27,6 +27,12 @@ Available commands are:
     version     Prints the Packer version
 ```
 
+# packer explained
+
+Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-1gb) with CentOS 7 64bit OS and install Centmin Mod 123.09beta01 and then clean up after itself and create a DigitalOcean snapshot image and then automatically detroy and remove that temporary droplet. You can see the associated cost of my test Packer Centmin Mod DigitalOcean temporary droplets below:
+
+![packer droplet costs](/packer/images/packer-droplet-costs-01.png)
+
 # build centminmod digitalocean snapshot image
 
 Build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io using `packer-centos7-basic.json` configuration using DigitalOcean `nyc3` region and lowest disk space sized DigitalOcean droplet plan, [cpu optimized droplet](https://centminmod.com/digitalocean/) (c-2 default) or [standard droplet 1GB plan](https://centminmod.com/digitalocean/) (s-1vcpu-1gb) - both come in at 25GB disk size. However cpu optimized droplet (c-2), can install Centmin and build DigitalOcean snapshot image 3x times faster than standard droplet 1GB plan.
