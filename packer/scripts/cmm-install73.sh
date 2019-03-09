@@ -20,10 +20,10 @@ cat /etc/centminmod/custom_config.inc
 echo
 
 # update server and setup TMPDIR
-yum -y update
 echo
 lscpu
 echo
+yum -y update
 mkdir -p /home/packertmp
 mkdir -p /root/tools/packer/scripts
 chmod 1777 /home/packertmp
