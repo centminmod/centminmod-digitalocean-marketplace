@@ -141,13 +141,14 @@ memcachedpassword=$(openssl rand 19 -base64 | tr -dc 'a-zA-Z0-9')
 
 sed -i "s/'ADMIN_USERNAME','memcacheuser'/'ADMIN_USERNAME','${memcacheduser}'/g" /usr/local/nginx/html/memcache_${N}.php 2>&1>/dev/null
 sed -i "s/'ADMIN_PASSWORD','memcachepass'/'ADMIN_PASSWORD','${memcachedpassword}'/g" /usr/local/nginx/html/memcache_${N}.php 2>&1>/dev/null
-
+{
 echo "--------------------------------------------------------------------"
 echo "Memcached Server Admin Login File: /usr/local/nginx/html/memcache_${N}.php"
 echo "Memcached Server Admin Login: ${hname}/memcache_${N}.php"
 echo "new memcached username: ${memcacheduser}"
 echo "new memcached password: ${memcachedpassword}"
 echo "--------------------------------------------------------------------"
+} 2>&1 | tee /opt/centminmod/memcache-admin-login.txt
 }
 
 reset_phpinfo() {
@@ -170,6 +171,7 @@ reset_phpinfo() {
   sed -i "s|PHPUSERNAME|$PHPIUSER|" "/usr/local/nginx/html/${NPHP}_phpi.php"
   sed -i "s|PHPPASSWORD|$PHPIPASS|" "/usr/local/nginx/html/${NPHP}_phpi.php"
   chown nginx:nginx "/usr/local/nginx/html/${NPHP}_phpi.php"
+  {
   echo "--------------------------------------------------------------------"
   echo "PHP Info Login File: /usr/local/nginx/html/${NPHP}_phpi.php"
   echo "PHP Info Login: ${hname}/${NPHP}_phpi.php"
@@ -177,6 +179,7 @@ reset_phpinfo() {
   echo "PHP Info Login password: ${PHPIPASS}"
   echo "--------------------------------------------------------------------"
   echo
+  } 2>&1 | tee /opt/centminmod/php-info-password.txt
 }
 
 reset_mysqlroot() {
@@ -203,7 +206,7 @@ reset_mysqlroot() {
     echo "/root/.my.cnf updated"
     echo "--------------------------------------------------------------------"
     echo
-    cat /root/.my.cnf
+    cat /root/.my.cnf | tee /opt/centminmod/mysql-root-password.txt
     echo
   fi
 }
