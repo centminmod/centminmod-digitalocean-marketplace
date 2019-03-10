@@ -144,7 +144,7 @@ echo "---------------------------------------------"
 ./sysbench.sh mysqloltpnew
 echo
 
-# install elrepo kernel-lt
+# install elrepo kernel-ml
 echo "INSTALL_ELREPO=$INSTALL_ELREPO"
 
 if [[ "$INSTALL_BBR" = [yY] ]]; then
@@ -156,7 +156,7 @@ if [[ "$INSTALL_ELREPO" = [yY] ]]; then
   rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
   rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
   yum -y remove kernel-tools kernel-tools-libs
-  yum -y install kernel-lt kernel-lt-devel kernel-lt-tools --enablerepo=elrepo-kernel
+  yum -y install kernel-ml kernel-ml-devel kernel-ml-tools --enablerepo=elrepo-kernel
   yum -y versionlock kernel-[0-9]*
   awk -F\' '$1=="menuentry " {print i++ " : " $2}' /etc/grub2.cfg
   grub2-set-default 0

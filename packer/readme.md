@@ -181,7 +181,7 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic.json
 ```
 
-or install docker & redis + elrepo Linux 4.x Kernel
+or install docker & redis + elrepo Linux 5.x Kernel
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic.json
@@ -231,7 +231,7 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php73.json
 ```
 
-or install docker & redis + elrepo Linux 4.x Kernel
+or install docker & redis + elrepo Linux 5.x Kernel
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic-php73.json
@@ -281,7 +281,7 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php71.json
 ```
 
-or install docker & redis + elrepo Linux 4.x Kernel
+or install docker & redis + elrepo Linux 5.x Kernel
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic-php71.json
