@@ -36,7 +36,7 @@ Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-
 
 # build centminmod digitalocean snapshot image
 
-Build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io using `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` or `packer-centos7-basic-php71.json` configuration using DigitalOcean `nyc3` region and lowest disk space sized DigitalOcean droplet plan, [cpu optimized droplet](https://centminmod.com/digitalocean/) (c-2 default) or [standard droplet 1GB plan](https://centminmod.com/digitalocean/) (s-1vcpu-1gb) - both come in at 25GB disk size. However cpu optimized droplet (c-2), can install Centmin and build DigitalOcean snapshot image 3x times faster than standard droplet 1GB plan.
+Build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io using `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` or `packer-centos7-basic-php71.json` configuration using DigitalOcean `sfo2` region and lowest disk space sized DigitalOcean droplet plan, [cpu optimized droplet](https://centminmod.com/digitalocean/) (c-2 default) or [standard droplet 1GB plan](https://centminmod.com/digitalocean/) (s-1vcpu-1gb) - both come in at 25GB disk size. However cpu optimized droplet (c-2), can install Centmin and build DigitalOcean snapshot image 3x times faster than standard droplet 1GB plan.
 
 You need to manually export your generated [DigitalOcean API Token](https://cloud.digitalocean.com/account/api/tokens) below `TOKEN='YOUR_DO_API_KEY'`
 
@@ -146,7 +146,7 @@ Variables available
 * do_token - default takes the value of exported `TOKEN` variable
 * do_image_name - default = `centos7-packer-snapshot-{{timestamp}}`
 * do_image - default = `centos-7-x64`
-* do_region - default = `nyc3`
+* do_region - default = `sfo2` (others available `nyc3` or `ams3` or `sgp1` which also have corresponding DigitalOcean Spaces region available)
 * do_size - default = `c-2` or set to `s-1vcpu-1gb`
 * do_tags - default = `cmm`
 * install_docker - default = `n`
@@ -223,7 +223,7 @@ Optional variables and their defaults:
 
   do_image      = centos-7-x64
   do_image_name = centos7-packer-snapshot-{{timestamp}}
-  do_region     = nyc3
+  do_region     = sfo2
   do_size       = c-2
   do_tags       = cmm
   do_token      = {{env `TOKEN`}}
@@ -302,7 +302,7 @@ ending output
 Build 'digitalocean' finished.
 
 ==> Builds finished. The artifacts of successful builds are:
---> digitalocean: A snapshot was created: 'centos7-packer-snapshot-15520722XX' (ID: 4447XXXX3) in regions 'nyc3'
+--> digitalocean: A snapshot was created: 'centos7-packer-snapshot-15520722XX' (ID: 4447XXXX3) in regions 'sfo2'
 ```
 
 # DigitalOcean Marketplace img_check.sh compatibility

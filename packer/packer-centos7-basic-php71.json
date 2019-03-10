@@ -3,7 +3,7 @@
     "do_token": "{{env `TOKEN`}}",
     "do_image_name": "centos7-packer-snapshot-php71-{{timestamp}}",
     "do_image": "centos-7-x64",
-    "do_region": "nyc3",
+    "do_region": "sfo2",
     "do_size": "c-2",
     "do_tags": "cmm",
     "install_docker": "n",
