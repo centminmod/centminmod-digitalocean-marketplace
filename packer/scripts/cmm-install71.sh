@@ -171,12 +171,16 @@ fi
 if [[ "$INSTALL_BBR" = [yY] ]]; then
   echo 'net.core.default_qdisc=fq' | tee -a /etc/sysctl.conf
   echo 'net.ipv4.tcp_congestion_control=bbr' | tee -a /etc/sysctl.conf
+  echo 'net.ipv4.tcp_notsent_lowat=16384' | tee -a /etc/sysctl.conf
   sysctl -p
   echo "sysctl net.ipv4.tcp_available_congestion_control"
   sysctl net.ipv4.tcp_available_congestion_control
   echo
   echo "sysctl -n net.ipv4.tcp_congestion_control"
   sysctl -n net.ipv4.tcp_congestion_control
+  echo
+  echo "sysctl -n net.ipv4.tcp_notsent_lowat"
+  sysctl -n net.ipv4.tcp_notsent_lowat
   echo
   echo "lsmod | grep bbr"
   lsmod | grep bbr
