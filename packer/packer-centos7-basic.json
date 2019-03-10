@@ -6,6 +6,8 @@
     "do_region": "sfo2",
     "do_size": "c-2",
     "do_tags": "cmm",
+    "install_elrepo": "n",
+    "install_bbr": "n",
     "install_docker": "n",
     "install_redis": "n",
     "install_auditd": "n",
@@ -29,6 +31,8 @@
     {
       "type": "shell",
       "environment_vars": [
+        "INSTALL_ELREPO={{user `install_elrepo`}}",
+        "INSTALL_BBR={{user `install_bbr`}}",
         "INSTALL_DOCKER={{user `install_docker`}}",
         "INSTALL_REDIS={{user `install_redis`}}",
         "INSTALL_AUDITD={{user `install_auditd`}}",

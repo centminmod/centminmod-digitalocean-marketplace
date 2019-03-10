@@ -144,6 +144,44 @@ echo "---------------------------------------------"
 ./sysbench.sh mysqloltpnew
 echo
 
+# install elrepo kernel-ml
+echo "INSTALL_ELREPO=$INSTALL_ELREPO"
+
+if [[ "$INSTALL_BBR" = [yY] ]]; then
+  INSTALL_ELREPO='y'
+fi
+
+if [[ "$INSTALL_ELREPO" = [yY] ]]; then
+  uname -r
+  rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+  rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+  yum -y remove kernel-tools kernel-tools-libs
+  yum install kernel-ml kernel-ml-devel kernel-ml-tools --enablerepo=elrepo-kernel
+  yum versionlock kernel-[0-9]*
+  awk -F\' '$1=="menuentry " {print i++ " : " $2}' /etc/grub2.cfg
+  grub2-set-default 0
+  grub2-mkconfig -o /boot/grub2/grub.cfg
+  echo
+  echo "sysctl net.ipv4.tcp_available_congestion_control"
+  sysctl net.ipv4.tcp_available_congestion_control
+  echo
+  echo "sysctl -n net.ipv4.tcp_congestion_control"
+  sysctl -n net.ipv4.tcp_congestion_control
+fi
+if [[ "$INSTALL_BBR" = [yY] ]]; then
+  echo 'net.core.default_qdisc=fq' | tee -a /etc/sysctl.conf
+  echo 'net.ipv4.tcp_congestion_control=bbr' | tee -a /etc/sysctl.conf
+  sysctl -p
+  echo "sysctl net.ipv4.tcp_available_congestion_control"
+  sysctl net.ipv4.tcp_available_congestion_control
+  echo
+  echo "sysctl -n net.ipv4.tcp_congestion_control"
+  sysctl -n net.ipv4.tcp_congestion_control
+  echo
+  echo "lsmod | grep bbr"
+  lsmod | grep bbr
+fi
+
 # cleanup after centminmod install
 yum -y clean all
 yum-config-manager --disable rpmforge >/dev/null 2>&1

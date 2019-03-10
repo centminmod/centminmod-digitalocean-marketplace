@@ -179,6 +179,12 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic.json
 ```
 
+or install docker & redis + elrepo mainline Linux 4.x Kernel
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo' -var 'install_bbr' packer-centos7-basic.json
+```
+
 or install docker & redis & auditd
 
 ```
@@ -223,6 +229,12 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php73.json
 ```
 
+or install docker & redis + elrepo mainline Linux 4.x Kernel
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo' -var 'install_bbr' packer-centos7-basic-php73.json
+```
+
 or install docker & redis & auditd
 
 ```
@@ -265,6 +277,12 @@ or install docker & redis
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php71.json
+```
+
+or install docker & redis + elrepo mainline Linux 4.x Kernel
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo' -var 'install_bbr' packer-centos7-basic-php71.json
 ```
 
 or install docker & redis & auditd
@@ -423,7 +441,9 @@ Optional variables and their defaults:
   enable_logrotate_zstd = n
   enable_phppgo         = n
   install_auditd        = n
+  install_bbr           = n
   install_docker        = n
+  install_elrepo        = n
   install_redis         = n
 
 Builders:
