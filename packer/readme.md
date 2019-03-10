@@ -1,12 +1,12 @@
-* [packer.io install](r#packerio-install)
-* [packer explained](r#packer-explained)
-* [build centminmod digitalocean snapshot image](r#build-centminmod-digitalocean-snapshot-image)
-  * [Override Variables](r#override-variables)
-* [Example validation & inspection](r#example-validation--inspection)
-* [Example start of packer build run](r#example-start-of-packer-build-run)
-* [Using build-image.sh script](r#using-build-imagesh-script)
-* [DigitalOcean Marketplace img_check.sh compatibility](r#digitalocean-marketplace-img_checksh-compatibility)
-* [Updated packer builds with benchmarks](r#updated-packer-builds-with-benchmarks)
+* [packer.io install](#packerio-install)
+* [packer explained](#packer-explained)
+* [build centminmod digitalocean snapshot image](#build-centminmod-digitalocean-snapshot-image)
+  * [Override Variables](#override-variables)
+* [Example validation & inspection](#example-validation--inspection)
+* [Example start of packer build run](#example-start-of-packer-build-run)
+* [Using build-image.sh script](#using-build-imagesh-script)
+* [DigitalOcean Marketplace img_check.sh compatibility](#digitalocean-marketplace-img_checksh-compatibility)
+* [Updated packer builds with benchmarks](#updated-packer-builds-with-benchmarks)
 
 # packer.io install
 
