@@ -7,7 +7,10 @@
     "do_size": "c-2",
     "do_tags": "cmm",
     "install_docker": "n",
-    "install_redis": "n"
+    "install_redis": "n",
+    "install_auditd": "n",
+    "enable_brotli": "n",
+    "enable_phppgo": "n",
   },
   "builders": [
     {
@@ -26,7 +29,10 @@
       "type": "shell",
       "environment_vars": [
         "INSTALL_DOCKER={{user `install_docker`}}",
-        "INSTALL_REDIS={{user `install_redis`}}"
+        "INSTALL_REDIS={{user `install_redis`}}",
+        "INSTALL_AUDITD={{user `install_auditd`}}",
+        "INSTALL_BROTLI={{user `enable_brotli`}}",
+        "INSTALL_PHPPGO={{user `enable_phppgo`}}"
       ],
       "scripts": [
         "scripts/cmm-install.sh"

@@ -5,11 +5,16 @@ mkdir -p /etc/centminmod
 touch /etc/centminmod/custom_config.inc
 echo "LETSENCRYPT_DETECT='y'" >> /etc/centminmod/custom_config.inc
 echo "NGINX_VIDEO='y'" >> /etc/centminmod/custom_config.inc
-echo "NGXDYNAMIC_BROTLI='y'" >> /etc/centminmod/custom_config.inc
-echo "NGINX_LIBBROTLI='y'" >> /etc/centminmod/custom_config.inc
-echo "NGINX_BROTLIDEP_UPDATE='y'" >> /etc/centminmod/custom_config.inc
+if [[ "$INSTALL_PHPPGO" = [yY] ]]; then
+  echo "PHP_PGO='y'" >> /etc/centminmod/custom_config.inc
+fi
 echo "PHPFINFO='y'" >> /etc/centminmod/custom_config.inc
-echo "PHP_BROTLI='y'" >> /etc/centminmod/custom_config.inc
+if [[ "$INSTALL_BROTLI" = [yY] ]]; then
+  echo "NGXDYNAMIC_BROTLI='y'" >> /etc/centminmod/custom_config.inc
+  echo "NGINX_LIBBROTLI='y'" >> /etc/centminmod/custom_config.inc
+  echo "NGINX_BROTLIDEP_UPDATE='y'" >> /etc/centminmod/custom_config.inc
+  echo "PHP_BROTLI='y'" >> /etc/centminmod/custom_config.inc
+fi
 echo "PHP_LZFOUR='y'" >> /etc/centminmod/custom_config.inc
 echo "PHP_LZF='y'" >> /etc/centminmod/custom_config.inc
 echo "PHP_ZSTD='y'" >> /etc/centminmod/custom_config.inc
@@ -73,6 +78,18 @@ if [[ "$INSTALL_REDIS" = [yY] ]]; then
   cd centminmod-redis
   ./redis-install.sh install
   redis-cli info
+fi
+
+# install auditd
+echo "INSTALL_AUDITD=$INSTALL_AUDITD"
+
+if [[ "$INSTALL_AUDITD" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "auditd install"
+  echo "---------------------------------------------"
+  echo "AUDITD_ENABLE='y'" >> /etc/centminmod/custom_config.inc
+  /usr/local/src/centminmod/tools/auditd.sh setup
 fi
 
 # might as well do some quick benchmarks to test the temp droplets performance

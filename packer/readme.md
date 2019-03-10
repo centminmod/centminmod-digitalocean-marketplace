@@ -151,6 +151,9 @@ Variables available
 * do_tags - default = `cmm`
 * install_docker - default = `n`
 * install_redis - default = `n`
+* install_auditd - default = `n`
+* enable_brotli - default = `n`
+* enable_phppgo - default = `n`
 
 For PHP 7.2 default Centmin Mod builds
 
@@ -162,6 +165,24 @@ or install docker & redis
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic.json
+```
+
+or install docker & redis & auditd
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' packer-centos7-basic.json
+```
+
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' packer-centos7-basic.json
+```
+
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable PHP 7 PGO (for greater than 2 cpu core droplets)
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_phppgo=y' packer-centos7-basic.json
 ```
 
 or
@@ -184,6 +205,24 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php73.json
 ```
 
+or install docker & redis & auditd
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' packer-centos7-basic-php73.json
+```
+
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' packer-centos7-basic-php73.json
+```
+
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable PHP 7 PGO (for greater than 2 cpu core droplets)
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_phppgo=y' packer-centos7-basic-php73.json
+```
+
 or
 
 ```
@@ -202,6 +241,24 @@ or install docker & redis
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php71.json
+```
+
+or install docker & redis & auditd
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' packer-centos7-basic-php71.json
+```
+
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' packer-centos7-basic-php71.json
+```
+
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable PHP 7 PGO (for greater than 2 cpu core droplets)
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_phppgo=y' packer-centos7-basic-php71.json
 ```
 
 or
