@@ -389,6 +389,92 @@ Build 'digitalocean' finished.
 --> digitalocean: A snapshot was created: 'centos7-packer-snapshot-php72-15520722XX' (ID: 4447XXXX3) in regions 'sfo2'
 ```
 
+# Using build-image.sh script
+
+Above manual steps can be automated using `build-image.sh` script
+
+```
+./build-image.sh 
+
+packer validate packer-centos7-basic.json
+Template validated successfully.
+
+packer inspect packer-centos7-basic.json
+Optional variables and their defaults:
+
+  do_image              = centos-7-x64
+  do_image_name         = centos7-packer-snapshot-php72-{{timestamp}}
+  do_region             = sfo2
+  do_size               = c-2
+  do_tags               = cmm
+  do_token              = {{env `TOKEN`}}
+  enable_brotli         = n
+  enable_logrotate_zstd = n
+  enable_phppgo         = n
+  install_auditd        = n
+  install_docker        = n
+  install_redis         = n
+
+Builders:
+
+  digitalocean
+
+Provisioners:
+
+  shell
+
+Note: If your build names contain user variables or template
+functions such as 'timestamp', these are processed at build time,
+and therefore only show in their raw form here.
+
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' packer-centos7-basic.json
+digitalocean output will be in this color.
+
+==> digitalocean: Creating temporary ssh key for droplet...
+==> digitalocean: Creating droplet...
+==> digitalocean: Waiting for droplet to become active...
+==> digitalocean: Using ssh communicator to connect: 167.xxx.xxx.xxx
+==> digitalocean: Waiting for SSH to become available...
+==> digitalocean: Connected to SSH!
+==> digitalocean: Provisioning with shell script: scripts/cmm-install.sh
+    digitalocean: LETSENCRYPT_DETECT='y'
+    digitalocean: NGINX_VIDEO='y'
+    digitalocean: PHPFINFO='y'
+    digitalocean: PHP_LZFOUR='y'
+    digitalocean: PHP_LZF='y'
+    digitalocean: MARIADB_INSTALLTENTHREE='y'
+    digitalocean:
+    digitalocean:
+    digitalocean: hostname: packer-5c84f7e3-3c53-4e05-fc85-f089ed9b27e5
+    digitalocean:
+    digitalocean: Architecture:          x86_64
+    digitalocean: CPU op-mode(s):        32-bit, 64-bit
+    digitalocean: Byte Order:            Little Endian
+    digitalocean: CPU(s):                2
+    digitalocean: On-line CPU(s) list:   0,1
+    digitalocean: Thread(s) per core:    1
+    digitalocean: Core(s) per socket:    1
+    digitalocean: Socket(s):             2
+    digitalocean: NUMA node(s):          1
+    digitalocean: Vendor ID:             GenuineIntel
+    digitalocean: CPU family:            6
+    digitalocean: Model:                 79
+    digitalocean: Model name:            Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz
+    digitalocean: Stepping:              1
+    digitalocean: CPU MHz:               2599.996
+    digitalocean: BogoMIPS:              5199.99
+    digitalocean: Virtualization:        VT-x
+    digitalocean: Hypervisor vendor:     KVM
+    digitalocean: Virtualization type:   full
+    digitalocean: L1d cache:             32K
+    digitalocean: L1i cache:             32K
+    digitalocean: L2 cache:              256K
+    digitalocean: L3 cache:              40960K
+    digitalocean: NUMA node0 CPU(s):     0,1
+    digitalocean: Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl eagerfpu pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+    digitalocean:
+```
+
 # DigitalOcean Marketplace img_check.sh compatibility
 
 Unfortunately, DigitalOcean Marketplace's img_check.sh script isn't 100% compatible with CentOS systems due to false assumptions the script makes about CentOS 6/7 systems. See details at https://github.com/digitalocean/marketplace-partners/pull/35 and my DO idea submission at https://ideas.digitalocean.com/ideas/DO-I-2983.
