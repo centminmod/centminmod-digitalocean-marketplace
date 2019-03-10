@@ -10,7 +10,8 @@
     "install_redis": "n",
     "install_auditd": "n",
     "enable_brotli": "n",
-    "enable_phppgo": "n"
+    "enable_phppgo": "n",
+    "enable_logrotate_zstd": "n"
   },
   "builders": [
     {
@@ -32,7 +33,8 @@
         "INSTALL_REDIS={{user `install_redis`}}",
         "INSTALL_AUDITD={{user `install_auditd`}}",
         "INSTALL_BROTLI={{user `enable_brotli`}}",
-        "INSTALL_PHPPGO={{user `enable_phppgo`}}"
+        "INSTALL_PHPPGO={{user `enable_phppgo`}}",
+        "INSTALL_LOGROTATEZSTD={{user `enable_logrotate_zstd`}}"
       ],
       "scripts": [
         "scripts/cmm-install73.sh"

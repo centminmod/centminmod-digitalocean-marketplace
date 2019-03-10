@@ -40,7 +40,7 @@ Build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io usi
 
 You need to manually export your generated [DigitalOcean API Token](https://cloud.digitalocean.com/account/api/tokens) below `TOKEN='YOUR_DO_API_KEY'`
 
-For PHP 7.2 default Centmin Mod builds
+## For PHP 7.2 default Centmin Mod builds
 
 ```
 mkdir -p /home/packertmp
@@ -73,7 +73,7 @@ echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
 curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
 ```
 
-For PHP 7.3 default Centmin Mod builds
+## For PHP 7.3 default Centmin Mod builds
 
 ```
 mkdir -p /home/packertmp
@@ -106,7 +106,7 @@ echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
 curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
 ```
 
-For PHP 7.1 default Centmin Mod builds
+## For PHP 7.1 default Centmin Mod builds
 
 ```
 mkdir -p /home/packertmp
@@ -156,6 +156,7 @@ Variables available
 * install_auditd - default = `n`
 * enable_brotli - default = `n`
 * enable_phppgo - default = `n`
+* enable_logrotate_zstd - default = `n`
 
 ## For PHP 7.2 default Centmin Mod builds
 
@@ -179,6 +180,12 @@ or install docker & redis & auditd & enable nginx brotli module + php brotli ext
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' packer-centos7-basic.json
+```
+
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable zstd compression for php-fpm & nginx log rotation
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' packer-centos7-basic.json
 ```
 
 or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable PHP 7 PGO (for greater than 2 cpu core droplets)
@@ -219,6 +226,12 @@ or install docker & redis & auditd & enable nginx brotli module + php brotli ext
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' packer-centos7-basic-php73.json
 ```
 
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable zstd compression for php-fpm & nginx log rotation
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' packer-centos7-basic-php73.json
+```
+
 or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable PHP 7 PGO (for greater than 2 cpu core droplets)
 
 ```
@@ -257,6 +270,12 @@ or install docker & redis & auditd & enable nginx brotli module + php brotli ext
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' packer-centos7-basic-php71.json
 ```
 
+or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable zstd compression for php-fpm & nginx log rotation
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' packer-centos7-basic-php71.json
+```
+
 or install docker & redis & auditd & enable nginx brotli module + php brotli extension & enable PHP 7 PGO (for greater than 2 cpu core droplets)
 
 ```
@@ -291,6 +310,7 @@ Optional variables and their defaults:
   install_auditd = n
   install_docker = n
   install_redis  = n
+  enable_logrotate_zstd = n
 
 Builders:
 
@@ -359,14 +379,14 @@ ending output
     digitalocean: Other repos take up 14 M of disk space (use --verbose for details)
     digitalocean: Cleared cache
 ==> digitalocean: Gracefully shutting down droplet...
-==> digitalocean: Creating snapshot: centos7-packer-snapshot-15520722XX
+==> digitalocean: Creating snapshot: centos7-packer-snapshot-php72-15520722XX
 ==> digitalocean: Waiting for snapshot to complete...
 ==> digitalocean: Destroying droplet...
 ==> digitalocean: Deleting temporary ssh key...
 Build 'digitalocean' finished.
 
 ==> Builds finished. The artifacts of successful builds are:
---> digitalocean: A snapshot was created: 'centos7-packer-snapshot-15520722XX' (ID: 4447XXXX3) in regions 'sfo2'
+--> digitalocean: A snapshot was created: 'centos7-packer-snapshot-php72-15520722XX' (ID: 4447XXXX3) in regions 'sfo2'
 ```
 
 # DigitalOcean Marketplace img_check.sh compatibility

@@ -17,9 +17,11 @@ if [[ "$INSTALL_BROTLI" = [yY] ]]; then
 fi
 echo "PHP_LZFOUR='y'" >> /etc/centminmod/custom_config.inc
 echo "PHP_LZF='y'" >> /etc/centminmod/custom_config.inc
-echo "PHP_ZSTD='y'" >> /etc/centminmod/custom_config.inc
-echo "ZSTD_LOGROTATE_NGINX='y'" >> /etc/centminmod/custom_config.inc
-echo "ZSTD_LOGROTATE_PHPFPM='y'" >> /etc/centminmod/custom_config.inc
+if [[ "$INSTALL_INSTALL_LOGROTATEZSTD" = [yY] ]]; then
+  echo "PHP_ZSTD='y'" >> /etc/centminmod/custom_config.inc
+  echo "ZSTD_LOGROTATE_NGINX='y'" >> /etc/centminmod/custom_config.inc
+  echo "ZSTD_LOGROTATE_PHPFPM='y'" >> /etc/centminmod/custom_config.inc
+fi
 echo "MARIADB_INSTALLTENTHREE='y'" >> /etc/centminmod/custom_config.inc
 cat /etc/centminmod/custom_config.inc
 echo
