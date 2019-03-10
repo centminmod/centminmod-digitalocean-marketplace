@@ -7,7 +7,7 @@ mkdir -p /root/tools
 cd /root/tools
 packer_version=1.3.5
 wget https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
-unzip packer_${packer_version}_linux_amd64.zip -d /usr/local/bin
+unzip packer_${packer_version}_linux_amd64.zip -df /usr/local/bin
 rm -f packer_${packer_version}_linux_amd64.zip
 packer
 packer version

@@ -10,7 +10,7 @@
     "install_redis": "n",
     "install_auditd": "n",
     "enable_brotli": "n",
-    "enable_phppgo": "n",
+    "enable_phppgo": "n"
   },
   "builders": [
     {
