@@ -56,7 +56,7 @@ export TOKEN='YOUR_DO_API_KEY'
 
 packer validate packer-centos7-basic.json
 packer inspect packer-centos7-basic.json
-export PACKER_LOG_PATH="packerlog-php72.log"
+export PACKER_LOG_PATH="packerlog-php72-$(date +"%d%m%y-%H%M%S").log"
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic.json
 
 # with debug mode
@@ -89,7 +89,7 @@ export TOKEN='YOUR_DO_API_KEY'
 
 packer validate packer-centos7-basic-php73.json
 packer inspect packer-centos7-basic-php73.json
-export PACKER_LOG_PATH="packerlog-php73.log"
+export PACKER_LOG_PATH="packerlog-php73-$(date +"%d%m%y-%H%M%S").log"
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic-php73.json
 
 # with debug mode
@@ -122,7 +122,7 @@ export TOKEN='YOUR_DO_API_KEY'
 
 packer validate packer-centos7-basic-php71.json
 packer inspect packer-centos7-basic-php71.json
-export PACKER_LOG_PATH="packerlog-php71.log"
+export PACKER_LOG_PATH="packerlog-php71-$(date +"%d%m%y-%H%M%S").log"
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-basic-php71.json
 
 # with debug mode
@@ -280,12 +280,17 @@ Template validated successfully.
 packer inspect packer-centos7-basic.json
 Optional variables and their defaults:
 
-  do_image      = centos-7-x64
-  do_image_name = centos7-packer-snapshot-{{timestamp}}
-  do_region     = sfo2
-  do_size       = c-2
-  do_tags       = cmm
-  do_token      = {{env `TOKEN`}}
+  do_image       = centos-7-x64
+  do_image_name  = centos7-packer-snapshot-php72-{{timestamp}}
+  do_region      = sfo2
+  do_size        = c-2
+  do_tags        = cmm
+  do_token       = {{env `TOKEN`}}
+  enable_brotli  = n
+  enable_phppgo  = n
+  install_auditd = n
+  install_docker = n
+  install_redis  = n
 
 Builders:
 
