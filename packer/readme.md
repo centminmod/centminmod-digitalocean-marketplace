@@ -160,6 +160,8 @@ Variables available
 * do_region - default = `sfo2` (others available `nyc3` or `ams3` or `sgp1` which also have corresponding DigitalOcean Spaces region available)
 * do_size - default = `c-2` or set to `s-1vcpu-1gb`
 * do_tags - default = `cmm`
+* install_elrepo - default = `n`
+* install_bbr - default = `n`
 * install_docker - default = `n`
 * install_redis - default = `n`
 * install_auditd - default = `n`
@@ -182,7 +184,7 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -v
 or install docker & redis + elrepo mainline Linux 4.x Kernel
 
 ```
-time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo' -var 'install_bbr' packer-centos7-basic.json
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic.json
 ```
 
 or install docker & redis & auditd
@@ -232,7 +234,7 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -v
 or install docker & redis + elrepo mainline Linux 4.x Kernel
 
 ```
-time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo' -var 'install_bbr' packer-centos7-basic-php73.json
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic-php73.json
 ```
 
 or install docker & redis & auditd
@@ -282,7 +284,7 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -v
 or install docker & redis + elrepo mainline Linux 4.x Kernel
 
 ```
-time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo' -var 'install_bbr' packer-centos7-basic-php71.json
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic-php71.json
 ```
 
 or install docker & redis & auditd
@@ -332,12 +334,14 @@ Optional variables and their defaults:
   do_size        = c-2
   do_tags        = cmm
   do_token       = {{env `TOKEN`}}
-  enable_brotli  = n
-  enable_phppgo  = n
-  install_auditd = n
-  install_docker = n
-  install_redis  = n
+  enable_brotli         = n
   enable_logrotate_zstd = n
+  enable_phppgo         = n
+  install_auditd        = n
+  install_bbr           = n
+  install_docker        = n
+  install_elrepo        = n
+  install_redis         = n
 
 Builders:
 
