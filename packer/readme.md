@@ -403,6 +403,8 @@ Build 'digitalocean' finished.
 Above manual steps can be automated using `build-image.sh` script
 
 ```
+export TOKEN='YOUR_DO_API_KEY'
+
 ./build-image.sh 
 
 packer validate packer-centos7-basic.json
