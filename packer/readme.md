@@ -139,6 +139,8 @@ echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
 curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
 ```
 
+## Override Variables
+
 You can also override `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` or `packer-centos7-basic-php71.json` set variables at runtime on command line.
 
 Variables available
@@ -155,7 +157,7 @@ Variables available
 * enable_brotli - default = `n`
 * enable_phppgo - default = `n`
 
-For PHP 7.2 default Centmin Mod builds
+## For PHP 7.2 default Centmin Mod builds
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_size=s-1vcpu-1gb' packer-centos7-basic.json
@@ -193,7 +195,7 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_token=YOUR_DO_API
 
 or 
 
-For PHP 7.3 default Centmin Mod builds
+## For PHP 7.3 default Centmin Mod builds
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_size=s-1vcpu-1gb' packer-centos7-basic-php73.json
@@ -231,7 +233,7 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_token=YOUR_DO_API
 
 or 
 
-For PHP 7.1 default Centmin Mod builds
+## For PHP 7.1 default Centmin Mod builds
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_size=s-1vcpu-1gb' packer-centos7-basic-php71.json
