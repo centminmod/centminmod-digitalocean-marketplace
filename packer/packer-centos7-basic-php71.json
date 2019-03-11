@@ -13,7 +13,8 @@
     "install_auditd": "n",
     "enable_brotli": "n",
     "enable_phppgo": "n",
-    "enable_logrotate_zstd": "n"
+    "enable_logrotate_zstd": "n",
+    "enable_phpfpm_systemd": "n"
   },
   "builders": [
     {
@@ -30,6 +31,24 @@
   "provisioners": [
     {
       "type": "shell",
+      "inline": [
+        "mkdir -p /opt/centminmod"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "scripts/first-login.sh",
+      "destination": "/opt/centminmod/"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "chmod +x /opt/centminmod/first-login.sh",
+        "echo '/opt/centminmod/first-login.sh' >> /root/.bashrc"
+      ]
+    },
+    {
+      "type": "shell",
       "environment_vars": [
         "INSTALL_ELREPO={{user `install_elrepo`}}",
         "INSTALL_BBR={{user `install_bbr`}}",
@@ -38,7 +57,8 @@
         "INSTALL_AUDITD={{user `install_auditd`}}",
         "INSTALL_BROTLI={{user `enable_brotli`}}",
         "INSTALL_PHPPGO={{user `enable_phppgo`}}",
-        "INSTALL_LOGROTATEZSTD={{user `enable_logrotate_zstd`}}"
+        "INSTALL_LOGROTATEZSTD={{user `enable_logrotate_zstd`}}",
+        "INSTALL_PHPFPMSYSTEMD={{user `enable_phpfpm_systemd`}}"
       ],
       "scripts": [
         "scripts/cmm-install71.sh"

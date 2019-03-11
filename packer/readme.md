@@ -171,6 +171,7 @@ Variables available
 * enable_brotli - default = `n`
 * enable_phppgo - default = `n`
 * enable_logrotate_zstd - default = `n`
+* enable_phpfpm_systemd - default = `n`
 
 ## For PHP 7.2 default Centmin Mod builds
 
@@ -331,14 +332,15 @@ Template validated successfully.
 packer inspect packer-centos7-basic.json
 Optional variables and their defaults:
 
-  do_image       = centos-7-x64
-  do_image_name  = centos7-packer-snapshot-php72-{{timestamp}}
-  do_region      = sfo2
-  do_size        = c-2
-  do_tags        = cmm
-  do_token       = {{env `TOKEN`}}
+  do_image              = centos-7-x64
+  do_image_name         = centos7-packer-snapshot-php72-{{timestamp}}
+  do_region             = sfo2
+  do_size               = c-2
+  do_tags               = cmm
+  do_token              = {{env `TOKEN`}}
   enable_brotli         = n
   enable_logrotate_zstd = n
+  enable_phpfpm_systemd = n
   enable_phppgo         = n
   install_auditd        = n
   install_bbr           = n

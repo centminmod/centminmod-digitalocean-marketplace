@@ -4,6 +4,9 @@
 mkdir -p /etc/centminmod
 touch /etc/centminmod/custom_config.inc
 echo "LETSENCRYPT_DETECT='y'" >> /etc/centminmod/custom_config.inc
+if [[ "$INSTALL_PHPFPMSYSTEMD" = [yY] ]]; then
+  echo "SWITCH_PHPFPM_SYSTEMD='y'" >> /etc/centminmod/custom_config.inc
+fi
 echo "NGINX_VIDEO='y'" >> /etc/centminmod/custom_config.inc
 if [[ "$INSTALL_PHPPGO" = [yY] ]]; then
   echo "PHP_PGO='y'" >> /etc/centminmod/custom_config.inc

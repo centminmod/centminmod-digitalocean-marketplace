@@ -256,3 +256,4 @@ reset_phpinfo
 reset_mysqlroot
 log_cleanup
 reset_bashrc
+exit

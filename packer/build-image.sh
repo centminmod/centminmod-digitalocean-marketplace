@@ -28,8 +28,8 @@ build() {
     # build
     echo
     export PACKER_LOG_PATH="packerlog-php72-$(date +"%d%m%y-%H%M%S").log"
-    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' packer-centos7-basic.json"
-    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' packer-centos7-basic.json
+    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
+    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
     # get snapshot_id
     echo
