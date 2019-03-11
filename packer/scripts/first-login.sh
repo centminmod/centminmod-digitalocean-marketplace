@@ -211,6 +211,55 @@ reset_phpinfo() {
   } 2>&1 | tee /opt/centminmod/php-info-password.txt
 }
 
+reset_opcache() {
+  echo
+  echo "--------------------------------------------------------------------"
+  echo "Generate Zend Opcache Admin password"
+  echo "--------------------------------------------------------------------"
+  N=$(od -vAn -N8 -tx < /dev/urandom | sed -e 's/\s//g')
+  locate opcache.php | while read f; do
+    fname=$(basename ${f})
+    if [[ "${fname}" = 'opcache.php' ]]; then
+      cp -a "${f}" /usr/local/nginx/html/${N}_opcache.php
+    else
+      rm -f "${f}"
+    fi
+  done
+  echo
+  echo "reset initial /usr/local/nginx/html/opcache.php"
+  echo
+  OPSALT=$(openssl rand 10 -base64 | tr -dc 'a-zA-Z0-9')
+  OPUSER=$(echo "opadmin${OPSALT}")
+  OPPASS=$(openssl rand 22 -base64 | tr -dc 'a-zA-Z0-9')
+  
+  sed -i "s|OPCACHEUSERNAME|$OPUSER|" /usr/local/nginx/html/${N}_opcache.php
+  sed -i "s|OPCACHEPASSWORD|$OPPASS|" /usr/local/nginx/html/${N}_opcache.php
+
+  echo "" > /root/centminlogs/zendopcache_passfile.txt
+  echo "-------------------------------------------------------" >> /root/centminlogs/zendopcache_passfile.txt
+  echo "File Location: /usr/local/nginx/html/${N}_opcache.php" >> /root/centminlogs/zendopcache_passfile.txt
+  echo "Password protected ${hname}/${N}_opcache.php" >> /root/centminlogs/zendopcache_passfile.txt
+  echo "-------------------------------------------------------" >> /root/centminlogs/zendopcache_passfile.txt
+  echo "Username: $OPUSER" >> /root/centminlogs/zendopcache_passfile.txt
+  echo "Password: $OPPASS" >> /root/centminlogs/zendopcache_passfile.txt
+  echo "-------------------------------------------------------" >> /root/centminlogs/zendopcache_passfile.txt
+  echo "" >> /root/centminlogs/zendopcache_passfile.txt
+
+  /usr/local/nginx/conf/htpasswd.sh create /usr/local/nginx/conf/htpasswd_opcache $OPUSER $OPPASS
+
+cat > "/usr/local/nginx/conf/include_opcache.conf" <<EOF
+            location ~ ^/(${N}_opcache.php) {
+    include /usr/local/nginx/conf/php.conf;
+  auth_basic "Password Protected";
+  auth_basic_user_file /usr/local/nginx/conf/htpasswd_opcache;
+            }
+EOF
+
+  {
+    cat /root/centminlogs/zendopcache_passfile.txt
+  } 2>&1 | tee /opt/centminmod/zend-opcache-admin-login.txt
+}
+
 reset_mysqlroot() {
   echo
   echo "--------------------------------------------------------------------"
@@ -279,6 +328,7 @@ whitelistip
 cmm_update
 reset_pureftpd_params
 reset_memcache_admin
+reset_opcache
 reset_phpinfo
 reset_mysqlroot
 log_cleanup
