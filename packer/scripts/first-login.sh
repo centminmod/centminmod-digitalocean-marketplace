@@ -313,6 +313,13 @@ log_cleanup() {
   fi
 }
 
+service_checks() {
+  if [[ -f /usr/lib/systemd/system/redis.service && "$(systemctl status redis >/dev/null 2>&1; echo $?)" -ne '0' ]]; then
+    service redis start >/dev/null 2>&1
+    chkconfig redis on >/dev/null 2>&1
+  fi
+}
+
 reset_bashrc() {
   echo
   echo "--------------------------------------------------------------------"
@@ -332,5 +339,6 @@ reset_opcache
 reset_phpinfo
 reset_mysqlroot
 log_cleanup
+service_checks
 reset_bashrc
 exit
