@@ -202,6 +202,7 @@ if [ -f /opt/centminmod/first-login-run ]; then /opt/centminmod/first-login.sh; 
 EOF
   touch /opt/centminmod/first-login-run
   echo
+  date
 fi
 
 # cleanup after centminmod install
