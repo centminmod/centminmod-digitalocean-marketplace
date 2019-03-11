@@ -116,7 +116,22 @@ cmm_update() {
   echo "--------------------------------------------------------------------"
   echo "Ensure centmin mod up to date"
   echo "--------------------------------------------------------------------"
-  cmupdate
+  cd /usr/local/src
+  mv centminmod centminmod-automoved
+  branchname=123.09beta01
+  git clone -b ${branchname} --depth=1 https://github.com/centminmod/centminmod.git centminmod
+  if [[ "$?" -eq '0' ]]; then
+    rm -rf centminmod-automoved
+    echo
+    echo "Completed. Fresh /usr/local/src/centminmod code base in place"
+    # echo "To run centmin.sh again, you need to change into directory: /usr/local/src/centminmod"
+    # echo "cd /usr/local/src/centminmod"
+  else
+    mv centminmod-automoved centminmod
+    echo
+    echo "Error: wasn't able to successfully update /usr/local/src/centminmod code base"
+    echo "       restoring previous copy of /usr/local/src/centminmod code base"
+  fi
   echo
 }
 
