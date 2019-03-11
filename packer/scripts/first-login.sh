@@ -202,13 +202,10 @@ reset_mysqlroot() {
   echo "Generate mysql root password"
   echo "--------------------------------------------------------------------"
   if [ -f /root/.my.cnf ]; then
-    echo "Previous MySQL root password:"
-    echo
-    cat /root/.my.cnf
     echo
     OLDMYSQLROOTPASS=$(awk -F '=' '/password/ {print $2}' /root/.my.cnf)
     NEWMYSQLROOTPASS=$(openssl rand 21 -base64 | tr -dc 'a-zA-Z0-9')
-    echo "mysqladmin -u root -p${OLDMYSQLROOTPASS} password $NEWMYSQLROOTPASS"
+    echo "setup mysql root password"
     mysqladmin -u root -p${OLDMYSQLROOTPASS} password $NEWMYSQLROOTPASS
     echo
     echo "--------------------------------------------------------------------"
