@@ -1030,6 +1030,12 @@ setup at /etc/centminmod/email-secondary.ini
 --------------------------------------------------------------------
 Setup main hostname as per Getting Started Guide Step 1
 https://centminmod.com/getstarted.html
+
+Main hostname is not same as desired site domain name but
+used for where server statistics files get hosted as outlined
+here https://community.centminmod.com/threads/1513/
+
+It's usually something like host.domain.com
 --------------------------------------------------------------------
 
 Enter desired hostname for this VPS: do-test.com

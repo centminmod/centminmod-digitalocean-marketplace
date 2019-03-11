@@ -93,9 +93,15 @@ set_hostname() {
   echo "--------------------------------------------------------------------"
   echo "Setup main hostname as per Getting Started Guide Step 1"
   echo "https://centminmod.com/getstarted.html"
+  echo
+  echo "Main hostname is not same as desired site domain name but"
+  echo "used for where server statistics files get hosted as outlined"
+  echo "here https://community.centminmod.com/threads/1513/"
+  echo
+  echo "It's usually something like host.domain.com"
   echo "--------------------------------------------------------------------"
   echo
-  read -p "Enter desired hostname for this VPS: " yourhostname
+  read -p "Enter desired main hostname for this VPS: " yourhostname
   echo
   hostnamectl set-hostname $yourhostname
   IPADDR=$(hostname -I | cut -f1 -d' ')
