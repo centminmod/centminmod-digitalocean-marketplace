@@ -211,9 +211,22 @@ reset_mysqlroot() {
   fi
 }
 
-auditd_cleanup() {
+log_cleanup() {
   if [ -f /var/log/audit/audit.log ]; then
+    # remove packer snapshot image builder entries
     find /var/log/audit/audit.log -mtime -1 -type f -exec truncate -s 0 {} \;
+  fi
+  if [ -f /var/log/messages ]; then
+    # remove packer snapshot image builder entries
+    sed -i '1,8d' /var/log/messages
+  fi
+  if [ -f /var/log/lfd.log ]; then
+    # remove packer snapshot image builder entries
+    sed -i '1,6d' /var/log/lfd.log
+  fi
+  if [ -f /var/log/secure ]; then
+    # remove packer snapshot image builder entries
+    sed -i '1d' /var/log/secure
   fi
 }
 
@@ -230,5 +243,5 @@ reset_pureftpd_params
 reset_memcache_admin
 reset_phpinfo
 reset_mysqlroot
-auditd_cleanup
+log_cleanup
 reset_bashrc
