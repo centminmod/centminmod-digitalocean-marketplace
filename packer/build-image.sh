@@ -31,6 +31,9 @@ build() {
     echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
     time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
+    echo
+    date
+    
     # get snapshot_id
     echo
     echo "get snapshot id"
