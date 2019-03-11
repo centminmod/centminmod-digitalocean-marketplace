@@ -1063,9 +1063,12 @@ Fast-forward
  5 files changed, 213 insertions(+), 10 deletions(-)
  create mode 100644 tools/php-systemd.sh
 
+--------------------------------------------------------------------
 regenerate /etc/ssl/private/pure-ftpd-dhparams.pem
-
+--------------------------------------------------------------------
+--------------------------------------------------------------------
 regenerating pure-ftpd self-signed ssl certificate
+--------------------------------------------------------------------
 Generating a 1024 bit RSA private key
 ................++++++
 ..............++++++

@@ -122,11 +122,15 @@ cmm_update() {
 
 reset_pureftpd_params() {
   echo
+  echo "--------------------------------------------------------------------"
   echo "regenerate /etc/ssl/private/pure-ftpd-dhparams.pem"
+  echo "--------------------------------------------------------------------"
   openssl dhparam -out /etc/ssl/private/pure-ftpd-dhparams.pem 2048 >/dev/null 2>&1
 
   echo
+  echo "--------------------------------------------------------------------"
   echo "regenerating pure-ftpd self-signed ssl certificate"
+  echo "--------------------------------------------------------------------"
   CNIP=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
   openssl req -x509 -days 7300 -sha256 -nodes -subj "/C=US/ST=California/L=Los Angeles/O=Default Company Ltd/CN==$CNIP" -newkey rsa:1024 -keyout /etc/pki/pure-ftpd/pure-ftpd.pem -out /etc/pki/pure-ftpd/pure-ftpd.pem
   chmod 600 /etc/pki/pure-ftpd/*.pem
