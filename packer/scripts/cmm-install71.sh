@@ -200,7 +200,7 @@ if [ -f /opt/centminmod/first-login.sh ]; then
 # cat >> /root/.bashrc <<EOF
 # if [ -f /opt/centminmod/first-login-run ]; then /opt/centminmod/first-login.sh; fi
 # EOF
-  touch /opt/centminmod/first-login-run
+  # touch /opt/centminmod/first-login-run
   echo
   date
 fi

@@ -101,7 +101,7 @@ set_hostname() {
   echo "It's usually something like host.domain.com"
   echo "--------------------------------------------------------------------"
   echo
-  read -p "Enter desired main hostname for this VPS: " yourhostname
+  read -ep "Enter desired main hostname for this VPS: " yourhostname
   echo
   hostnamectl set-hostname $yourhostname
   IPADDR=$(hostname -I | cut -f1 -d' ')
@@ -331,6 +331,9 @@ reset_bashrc() {
   # sed -i '/first-login.sh/d' /usr/local/bin/dmotd
   if [ -f /opt/centminmod/first-login-run ]; then
     rm -f /opt/centminmod/first-login-run
+  fi
+  if [ -f /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh ]; then
+    rm -f /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh
   fi
 }
 

@@ -41,9 +41,15 @@
       "destination": "/opt/centminmod/"
     },
     {
+      "type": "file",
+      "source": "scripts/01-setup-first-login.sh",
+      "destination": "/var/lib/cloud/scripts/per-instance/"
+    },
+    {
       "type": "shell",
       "inline": [
-        "chmod +x /opt/centminmod/first-login.sh"
+        "chmod +x /opt/centminmod/first-login.sh",
+        "chmod +x /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh"
       ]
     },
     {
