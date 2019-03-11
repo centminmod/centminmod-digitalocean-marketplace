@@ -326,6 +326,7 @@ reset_bashrc() {
   echo "cleanup /root/.bashrc"
   echo "--------------------------------------------------------------------"
   sed -i '/first-login.sh/d' /root/.bashrc
+  sed -i '/first-login.sh/d' /usr/local/bin/dmotd
   if [ -f /opt/centminmod/first-login-run ]; then
     rm -f /opt/centminmod/first-login-run
   fi
