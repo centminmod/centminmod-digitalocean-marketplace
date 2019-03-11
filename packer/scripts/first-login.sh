@@ -265,7 +265,11 @@ log_cleanup() {
 }
 
 reset_bashrc() {
-  cp -f /etc/skel/.bashrc /root/.bashrc
+  echo
+  echo "--------------------------------------------------------------------"
+  echo "cleanup /root/.bashrc"
+  echo "--------------------------------------------------------------------"
+  sed -i '/first-login.sh/d' /root/.bashrc
 }
 
 msg
