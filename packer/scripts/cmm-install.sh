@@ -196,7 +196,11 @@ fi
 if [ -f /opt/centminmod/first-login.sh ]; then
   echo
   echo "setup /opt/centminmod/first-login.sh"
-  echo '/opt/centminmod/first-login.sh' >> /root/.bashrc
+  # echo '/opt/centminmod/first-login.sh' >> /root/.bashrc
+cat >> /root/.bashrc <<EOF
+if [ -f /opt/centminmod/first-login-run ]; then /opt/centminmod/first-login.sh; fi
+EOF
+  touch /opt/centminmod/first-login-run
   echo
 fi
 
