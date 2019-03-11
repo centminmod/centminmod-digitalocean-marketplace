@@ -239,6 +239,14 @@ log_cleanup() {
     # remove packer snapshot image builder entries
     sed -i '1d' /var/log/secure
   fi
+  if [ -f /etc/csf/csf.allow ]; then
+    # remove packer snapshot image builder entries
+    sed -i '/csf SSH installation/d' /etc/csf/csf.allow
+  fi
+  if [ -f /etc/csf/csf.ignore ]; then
+    # remove packer snapshot image builder entries
+    sed -i '/127.0.0.1/{n;N;d}' /etc/csf/csf.ignore
+  fi
 }
 
 reset_bashrc() {
