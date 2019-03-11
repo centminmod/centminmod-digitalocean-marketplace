@@ -937,7 +937,7 @@ Being a benchmark & performance addict, might as well benchmark each packer crea
 
 # Example Build With Docker + Redis + ELRepo Linux 5.x Kernel
 
-For prebuilt image with options enabled to install docker & redis + elrepo Linux 5.x Kernel
+For prebuilt image with [override variable](#override-variables) options enabled to install docker & redis + elrepo Linux 5.x Kernel
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic.json
