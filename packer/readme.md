@@ -945,6 +945,9 @@ time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -v
 
 Then using that image to create a new CentOS 7 droplet with Centmin Mod LEMP stack pre installed
 
+
+## first boot MOTD
+
 On First boot right now shows MOTD banner but eventually it will show first time initialisation prompts for users to setup their droplets i.e. hostname and regenerating passwords on first login.
 
 ```
@@ -982,6 +985,120 @@ tmpfs          tmpfs      99M     0   99M   0% /run/user/0
 * Change Log - https://centminmod.com/changelog.html
 * Community Forums https://community.centminmod.com  [ << Register ]
 ===============================================================================
+```
+
+## first boot prompts
+
+Preview of what first login prompts would look like eventually
+
+```
+===============================================================================
+* Getting Started Guide - https://centminmod.com/getstarted.html
+* Centmin Mod FAQ - https://centminmod.com/faq.html
+* Centmin Mod Config Files - https://centminmod.com/configfiles.html
+* Change Log - https://centminmod.com/changelog.html
+* Community Forums https://community.centminmod.com  [ << Register ]
+===============================================================================
+
+
+Below are a number of tasks required to initially setup your server
+
+
+--------------------------------------------------------------------
+Setup Server Administration Email
+Emails will be used for future notification alert features
+--------------------------------------------------------------------
+Hit Enter To Skip...
+Will be prompted everytime run centmin.sh if both emails not entered
+--------------------------------------------------------------------
+enter primary email: myemail@domain.com
+enter secondary email: myotheremail@domain2.com
+--------------------------------------------------------------------
+
+Primary: 1
+setup at /etc/centminmod/email-primary.ini
+
+  myemail@domain.com
+
+Secondary: 2
+setup at /etc/centminmod/email-secondary.ini
+
+  myotheremail@domain2.com
+
+--------------------------------------------------------------------
+Setup main hostname as per Getting Started Guide Step 1
+https://centminmod.com/getstarted.html
+--------------------------------------------------------------------
+
+Enter desired hostname for this VPS: do-test.com
+
+
+--------------------------------------------------------------------
+Whitelist IP in CSF Firewall
+--------------------------------------------------------------------
+Adding 45.xxx.xxx.xxx to csf.allow and iptables ACCEPT...
+csf: IPSET adding [45.xxx.xxx.xxx] to set [chain_ALLOW]
+
+
+--------------------------------------------------------------------
+Ensure centmin mod up to date
+--------------------------------------------------------------------
+Saved working directory and index state WIP on 123.09beta01: 303fa79 smarter MARCH_TARGETNATIVE='n' routine in 123.09beta01
+HEAD is now at 303fa79 smarter MARCH_TARGETNATIVE='n' routine in 123.09beta01
+Updating 303fa79..c173666
+Fast-forward
+ centmin.sh                |   7 ++++++-
+ example/custom_config.inc |   1 +
+ inc/shortcuts_install.inc |  22 +++++++++++++---------
+ inc/sshd.inc              |   3 +++
+ tools/php-systemd.sh      | 190 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 213 insertions(+), 10 deletions(-)
+ create mode 100644 tools/php-systemd.sh
+
+regenerate /etc/ssl/private/pure-ftpd-dhparams.pem
+
+regenerating pure-ftpd self-signed ssl certificate
+Generating a 1024 bit RSA private key
+................++++++
+..............++++++
+writing new private key to '/etc/pki/pure-ftpd/pure-ftpd.pem'
+-----
+--------------------------------------------------------------------
+Memcached Server Admin Login File: /usr/local/nginx/html/memcache_e6b9b3b7c4fe33d9.php
+Memcached Server Admin Login: /memcache_e6b9b3b7c4fe33d9.php
+new memcached username: memadmin2nOJDiSQRZ8
+new memcached password: qx71dmaSIKthkshpBNL7NUVOlA
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
+PHP Info Login File: /usr/local/nginx/html/37fb8314_phpi.php
+PHP Info Login: /37fb8314_phpi.php
+PHP Info Login username: phpiadminjGxbutW8tzUteE8
+PHP Info Login password: R3rLh54nQ3loFkl3UVr6lbdpQ
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
+Generate mysql root password
+--------------------------------------------------------------------
+Previous MySQL root password:
+
+[client]
+user=root
+password=Jba538IU41gyfVKdAhb8nxTEXFt
+
+mysqladmin -u root -pJba538IU41gyfVKdAhb8nxTEXFt password NmtATq5mcrFGiROovi6AjXilIVe5
+
+--------------------------------------------------------------------
+New MySQL root user password: NmtATq5mcrFGiROovi6AjXilIVe5
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
+/root/.my.cnf updated
+--------------------------------------------------------------------
+
+[client]
+user=root
+password=NmtATq5mcrFGiROovi6AjXilIVe5
 ```
 
 ELRepo Linux 5.x mainline kernel

@@ -3,6 +3,10 @@
 # https://github.com/digitalocean/marketplace-partners/blob/master/marketplace_docs/build-an-image.md
 ############################################################
 
+if [ ! -d /opt/centminmod ]; then
+  mkdir -p /opt/centminmod
+fi
+
 msg() {
 echo "
 ===============================================================================
