@@ -179,6 +179,9 @@ if [[ "$INSTALL_BBR" = [yY] ]]; then
   echo "sysctl -n net.ipv4.tcp_congestion_control"
   sysctl -n net.ipv4.tcp_congestion_control
   echo
+  echo "sysctl -n net.core.default_qdisc"
+  sysctl -n net.core.default_qdisc
+  echo
   echo "sysctl -n net.ipv4.tcp_notsent_lowat"
   sysctl -n net.ipv4.tcp_notsent_lowat
   echo
