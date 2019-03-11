@@ -253,6 +253,8 @@ rm -rf /usr/local/nginxbackup/nginxdirbackup/*
 find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
 rm -f /etc/ssh/*key*
 history -c
+echo
+date
 
 # verify image readiness for digitalocean marketplace submission
 mkdir -p /root/tools
@@ -262,6 +264,8 @@ git clone https://github.com/digitalocean/marketplace-partners
 cd marketplace-partners/marketplace_validation
 ./img_check.sh
 rm -rf /root/tools/marketplace-partners
+echo
+date
 
 # clean history again
 history -c
