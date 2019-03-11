@@ -293,7 +293,7 @@ log_cleanup() {
   fi
   if [ -f /var/log/messages ]; then
     # remove packer snapshot image builder entries
-    sed -i '1,8d' /var/log/messages
+    sed -i '1,28d' /var/log/messages
   fi
   if [ -f /var/log/lfd.log ]; then
     # remove packer snapshot image builder entries
