@@ -311,6 +311,8 @@ log_cleanup() {
     # remove packer snapshot image builder entries
     sed -i '/127.0.0.1/{n;N;d}' /etc/csf/csf.ignore
   fi
+  rm -f /tmp/script_*
+  rm -f /home/script_*
 }
 
 service_checks() {

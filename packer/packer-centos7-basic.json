@@ -63,7 +63,8 @@
         "scripts/cmm-install.sh"
       ],
       "remote_folder": "/home",
-      "remote_file": "script_1.sh"
+      "remote_file": "script_1.sh",
+      "skip_clean": "true"
     }
   ]
 }
