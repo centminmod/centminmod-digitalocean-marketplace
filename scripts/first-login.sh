@@ -211,6 +211,12 @@ reset_mysqlroot() {
   fi
 }
 
+auditd_cleanup() {
+  if [ -f /var/log/audit/audit.log ]; then
+    find /var/log/audit/audit.log -mtime -1 -type f -exec truncate -s 0 {} \;
+  fi
+}
+
 reset_bashrc() {
   cp -f /etc/skel/.bashrc /root/.bashrc
 }
@@ -224,4 +230,5 @@ reset_pureftpd_params
 reset_memcache_admin
 reset_phpinfo
 reset_mysqlroot
+auditd_cleanup
 reset_bashrc

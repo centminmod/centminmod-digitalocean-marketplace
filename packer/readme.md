@@ -933,3 +933,477 @@ Being a benchmark & performance addict, might as well benchmark each packer crea
     digitalocean: 1.0.16,2,893.19,10.0021s,2.22,2.24,3.04,2.26
     digitalocean:
 ```
+
+# Example Build With Docker + Redis + ELRepo Linux 5.x Kernel
+
+For prebuilt image with options enabled to install docker & redis + elrepo Linux 5.x Kernel
+
+```
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic.json
+```
+
+Then using that image to create a new CentOS 7 droplet with Centmin Mod LEMP stack pre installed
+
+On First boot right now shows MOTD banner but eventually it will show first time initialisation prompts for users to setup their droplets i.e. hostname and regenerating passwords on first login.
+
+```
+===============================================================================
+ - Hostname......: centos7-packer-kernel-ml on CentOS Linux 7.6.1810
+ - Users.........: Currently 1 user(s) logged on (includes: root)
+===============================================================================
+ - CPU usage.....: 0.00, 0.02, 0.01 (1, 5, 15 min)
+ - Processes.....: 104 running
+ - System uptime.: 0 days 0 hours 10 minutes 13 seconds
+===============================================================================
+              total        used        free      shared  buff/cache   available
+Mem:            985         285         331          15         368         470
+Swap:          1023           0        1023
+===============================================================================
+Filesystem     Type      Size  Used Avail Use% Mounted on
+devtmpfs       devtmpfs  466M     0  466M   0% /dev
+tmpfs          tmpfs     493M     0  493M   0% /dev/shm
+tmpfs          tmpfs     493M   13M  480M   3% /run
+tmpfs          tmpfs     493M     0  493M   0% /sys/fs/cgroup
+/dev/vda1      xfs        25G  5.7G   20G  23% /
+tmpfs          tmpfs      99M     0   99M   0% /run/user/0
+
+===============================================================================
+# ! This server maybe running CSF Firewall !
+#   DO NOT run the below command or you  will lock yourself out of the server:
+#
+#   iptables -F
+
+
+===============================================================================
+* Getting Started Guide - https://centminmod.com/getstarted.html
+* Centmin Mod FAQ - https://centminmod.com/faq.html
+* Centmin Mod Config Files - https://centminmod.com/configfiles.html
+* Change Log - https://centminmod.com/changelog.html
+* Community Forums https://community.centminmod.com  [ << Register ]
+===============================================================================
+```
+
+ELRepo Linux 5.x mainline kernel
+
+```
+uname -r
+5.0.0-2.el7.elrepo.x86_64
+```
+
+Automatically enabled Google BBR when you choose ELRepo option install
+
+```
+sysctl net.ipv4.tcp_available_congestion_control
+net.ipv4.tcp_available_congestion_control = reno cubic bbr
+
+sysctl -n net.core.default_qdisc
+fq
+
+sysctl -n net.ipv4.tcp_congestion_control
+bbr
+
+lsmod | grep bbr
+tcp_bbr                20480  15
+```
+
+current Nginx build
+
+```
+nginx -V
+nginx version: nginx/1.15.9 (100319-151809-centos7-kvm)
+built by gcc 8.2.1 20180905 (Red Hat 8.2.1-3) (GCC) 
+built with OpenSSL 1.1.1b  26 Feb 2019
+TLS SNI support enabled
+```
+> configure arguments: --with-ld-opt='-Wl,-E -L/usr/local/zlib-cf/lib -L/usr/local/lib -ljemalloc -Wl,-z,relro -Wl,-rpath,/usr/local/zlib-cf/lib:/usr/local/lib' --with-cc-opt='-I/usr/local/zlib-cf/include -I/usr/local/include -m64 -march=x86-64 -mavx -mavx2 -mpclmul -msse4 -msse4.1 -msse4.2 -DTCP_FASTOPEN=23 -g -O3 -fstack-protector-strong -flto -fuse-ld=gold --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wimplicit-fallthrough=0 -fcode-hoisting -Wimplicit-fallthrough=0 -fcode-hoisting -Wno-cast-function-type -Wp,-D_FORTIFY_SOURCE=2' --sbin-path=/usr/local/sbin/nginx --conf-path=/usr/local/nginx/conf/nginx.conf --build=100319-151809-centos7-kvm --with-compat --with-http_stub_status_module --with-http_secure_link_module --with-http_flv_module --with-http_mp4_module --add-module=../nginx-rtmp-module --with-libatomic --with-http_gzip_static_module --with-http_sub_module --with-http_addition_module --with-http_image_filter_module=dynamic --with-http_geoip_module --with-stream_geoip_module --with-stream_realip_module --with-stream_ssl_preread_module --with-threads --with-stream --with-stream_ssl_module --with-http_slice_module --with-http_realip_module --add-dynamic-module=../ngx-fancyindex-0.4.2 --add-module=../ngx_cache_purge-2.5 --add-dynamic-module=../ngx_devel_kit-0.3.0 --add-dynamic-module=../set-misc-nginx-module-0.32 --add-dynamic-module=../echo-nginx-module-0.61 --add-module=../redis2-nginx-module-0.15 --add-module=../ngx_http_redis-0.3.7 --add-module=../memc-nginx-module-0.18 --add-module=../srcache-nginx-module-0.31 --add-dynamic-module=../headers-more-nginx-module-0.33 --with-pcre-jit --with-zlib=../zlib-cloudflare-1.3.0 --with-http_ssl_module --with-http_v2_module --with-openssl=../openssl-1.1.1b
+
+PHP-FPM
+
+```
+php -v
+PHP 7.2.16 (cli) (built: Mar 10 2019 15:26:19) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.2.16, Copyright (c) 1999-2018, by Zend Technologies
+```
+
+```
+php -m
+[PHP Modules]
+bcmath
+bz2
+calendar
+Core
+ctype
+curl
+date
+dom
+enchant
+exif
+fileinfo
+filter
+ftp
+gd
+geoip
+gettext
+gmp
+hash
+iconv
+igbinary
+imagick
+imap
+intl
+json
+ldap
+libxml
+lz4
+lzf
+mailparse
+mbstring
+mcrypt
+memcache
+memcached
+mysqli
+mysqlnd
+openssl
+pcntl
+pcre
+PDO
+pdo_mysql
+pdo_sqlite
+Phar
+posix
+pspell
+readline
+redis
+Reflection
+session
+shmop
+SimpleXML
+snmp
+soap
+sockets
+SPL
+sqlite3
+standard
+sysvmsg
+sysvsem
+sysvshm
+tidy
+tokenizer
+xml
+xmlreader
+xmlrpc
+xmlwriter
+xsl
+Zend OPcache
+zip
+zlib
+
+[Zend Modules]
+Zend OPcache
+```
+
+MariaDB 10.x MySQL Server
+
+```
+mysqladmin ver
+mysqladmin  Ver 9.1 Distrib 10.3.13-MariaDB, for Linux on x86_64
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Server version          10.3.13-MariaDB
+Protocol version        10
+Connection              Localhost via UNIX socket
+UNIX socket             /var/lib/mysql/mysql.sock
+Uptime:                 32 min 52 sec
+
+Threads: 4  Questions: 1  Slow queries: 0  Opens: 17  Flush tables: 1  Open tables: 11  Queries per second avg: 0.000
+```
+
+Redis Server
+
+```
+redis-cli info     
+# Server
+redis_version:5.0.3
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:5194991bde1f5722
+redis_mode:standalone
+os:Linux 5.0.0-2.el7.elrepo.x86_64 x86_64
+arch_bits:64
+multiplexing_api:epoll
+atomicvar_api:atomic-builtin
+gcc_version:4.8.5
+process_id:4550
+run_id:22f17d1aeaf34c0f85e10ceaa39eed45074faf48
+tcp_port:6379
+uptime_in_seconds:2
+uptime_in_days:0
+hz:10
+configured_hz:10
+lru_clock:8771074
+executable:/usr/bin/redis-server
+config_file:/etc/redis.conf
+
+# Clients
+connected_clients:1
+client_recent_max_input_buffer:4
+client_recent_max_output_buffer:0
+blocked_clients:0
+
+# Memory
+used_memory:853896
+used_memory_human:833.88K
+used_memory_rss:5173248
+used_memory_rss_human:4.93M
+used_memory_peak:853896
+used_memory_peak_human:833.88K
+used_memory_peak_perc:105.17%
+used_memory_overhead:840694
+used_memory_startup:791000
+used_memory_dataset:13202
+used_memory_dataset_perc:20.99%
+allocator_allocated:1128856
+allocator_active:1376256
+allocator_resident:3620864
+total_system_memory:1033334784
+total_system_memory_human:985.46M
+used_memory_lua:37888
+used_memory_lua_human:37.00K
+used_memory_scripts:0
+used_memory_scripts_human:0B
+number_of_cached_scripts:0
+maxmemory:0
+maxmemory_human:0B
+maxmemory_policy:noeviction
+allocator_frag_ratio:1.22
+allocator_frag_bytes:247400
+allocator_rss_ratio:2.63
+allocator_rss_bytes:2244608
+rss_overhead_ratio:1.43
+rss_overhead_bytes:1552384
+mem_fragmentation_ratio:6.37
+mem_fragmentation_bytes:4361360
+mem_not_counted_for_evict:0
+mem_replication_backlog:0
+mem_clients_slaves:0
+mem_clients_normal:49694
+mem_aof_buffer:0
+mem_allocator:jemalloc-5.1.0
+active_defrag_running:0
+lazyfree_pending_objects:0
+
+# Persistence
+loading:0
+rdb_changes_since_last_save:0
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1552274944
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:-1
+rdb_current_bgsave_time_sec:-1
+rdb_last_cow_size:0
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_last_write_status:ok
+aof_last_cow_size:0
+
+# Stats
+total_connections_received:1
+total_commands_processed:0
+instantaneous_ops_per_sec:0
+total_net_input_bytes:14
+total_net_output_bytes:0
+instantaneous_input_kbps:0.00
+instantaneous_output_kbps:0.00
+rejected_connections:0
+sync_full:0
+sync_partial_ok:0
+sync_partial_err:0
+expired_keys:0
+expired_stale_perc:0.00
+expired_time_cap_reached_count:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:0
+migrate_cached_sockets:0
+slave_expires_tracked_keys:0
+active_defrag_hits:0
+active_defrag_misses:0
+active_defrag_key_hits:0
+active_defrag_key_misses:0
+
+# Replication
+role:master
+connected_slaves:0
+master_replid:63b29331f459e86e6f117fb0b395ea4496898896
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+# CPU
+used_cpu_sys:0.008154
+used_cpu_user:0.001068
+used_cpu_sys_children:0.000000
+used_cpu_user_children:0.000000
+
+# Cluster
+cluster_enabled:0
+
+# Keyspace
+```
+
+Memcached Server
+
+```
+memcached -V
+memcached 1.5.12
+```
+
+```
+echo stats | nc 127.0.0.1 11211 
+STAT pid 4046
+STAT uptime 2042
+STAT time 1552274989
+STAT version 1.5.12
+STAT libevent 2.1.8-stable
+STAT pointer_size 64
+STAT rusage_user 0.175650
+STAT rusage_system 0.068732
+STAT max_connections 2048
+STAT curr_connections 1
+STAT total_connections 2
+STAT rejected_connections 0
+STAT connection_structures 2
+STAT reserved_fds 20
+STAT cmd_get 0
+STAT cmd_set 0
+STAT cmd_flush 0
+STAT cmd_touch 0
+STAT get_hits 0
+STAT get_misses 0
+STAT get_expired 0
+STAT get_flushed 0
+STAT delete_misses 0
+STAT delete_hits 0
+STAT incr_misses 0
+STAT incr_hits 0
+STAT decr_misses 0
+STAT decr_hits 0
+STAT cas_misses 0
+STAT cas_hits 0
+STAT cas_badval 0
+STAT touch_hits 0
+STAT touch_misses 0
+STAT auth_cmds 0
+STAT auth_errors 0
+STAT bytes_read 6
+STAT bytes_written 0
+STAT limit_maxbytes 8388608
+STAT accepting_conns 1
+STAT listen_disabled_num 0
+STAT time_in_listen_disabled_us 0
+STAT threads 4
+STAT conn_yields 0
+STAT hash_power_level 16
+STAT hash_bytes 524288
+STAT hash_is_expanding 0
+STAT slab_reassign_rescues 0
+STAT slab_reassign_chunk_rescues 0
+STAT slab_reassign_evictions_nomem 0
+STAT slab_reassign_inline_reclaim 0
+STAT slab_reassign_busy_items 0
+STAT slab_reassign_busy_deletes 0
+STAT slab_reassign_running 0
+STAT slabs_moved 0
+STAT lru_crawler_running 0
+STAT lru_crawler_starts 2040
+STAT lru_maintainer_juggles 2091
+STAT malloc_fails 0
+STAT log_worker_dropped 0
+STAT log_worker_written 0
+STAT log_watcher_skipped 0
+STAT log_watcher_sent 0
+STAT bytes 0
+STAT curr_items 0
+STAT total_items 0
+STAT slab_global_page_pool 0
+STAT expired_unfetched 0
+STAT evicted_unfetched 0
+STAT evicted_active 0
+STAT evictions 0
+STAT reclaimed 0
+STAT crawler_reclaimed 0
+STAT crawler_items_checked 0
+STAT lrutail_reflocked 0
+STAT moves_to_cold 0
+STAT moves_to_warm 0
+STAT moves_within_lru 0
+STAT direct_reclaims 0
+STAT lru_bumps_dropped 0
+END
+```
+
+Docker
+
+```
+docker info
+Containers: 0
+ Running: 0
+ Paused: 0
+ Stopped: 0
+Images: 0
+Server Version: 18.09.3
+Storage Driver: overlay2
+ Backing Filesystem: xfs
+ Supports d_type: true
+ Native Overlay Diff: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins:
+ Volume: local
+ Network: bridge host macvlan null overlay
+ Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+Swarm: inactive
+Runtimes: runc
+Default Runtime: runc
+Init Binary: docker-init
+containerd version: e6b3f5632f50dbc4e9cb6288d911bf4f5e95b18e
+runc version: 6635b4f0c6af3810594d2770f662f34ddc15b40d
+init version: fec3683
+Security Options:
+ seccomp
+  Profile: default
+Kernel Version: 5.0.0-2.el7.elrepo.x86_64
+Operating System: CentOS Linux 7 (Core)
+OSType: linux
+Architecture: x86_64
+CPUs: 1
+Total Memory: 985.5MiB
+Name: centos7-packer-kernel-ml
+ID: HBJP:BM7K:MSAL:W2DS:SKXQ:KKTR:S4QT:R2S4:V7LQ:ADB2:YWW3:OLZI
+Docker Root Dir: /var/lib/docker
+Debug Mode (client): false
+Debug Mode (server): false
+Registry: https://index.docker.io/v1/
+Labels:
+Experimental: false
+Insecure Registries:
+ 127.0.0.0/8
+Live Restore Enabled: false
+Product License: Community Engine
+
+WARNING: bridge-nf-call-iptables is disabled
+WARNING: bridge-nf-call-ip6tables is disabled
+```
