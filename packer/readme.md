@@ -1038,7 +1038,7 @@ here https://community.centminmod.com/threads/1513/
 It's usually something like host.domain.com
 --------------------------------------------------------------------
 
-Enter desired hostname for this VPS: do-test.com
+Enter desired hostname for this VPS: host.do-test.com
 
 
 --------------------------------------------------------------------
