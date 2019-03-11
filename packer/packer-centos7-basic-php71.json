@@ -43,8 +43,7 @@
     {
       "type": "shell",
       "inline": [
-        "chmod +x /opt/centminmod/first-login.sh",
-        "echo '/opt/centminmod/first-login.sh' >> /root/.bashrc"
+        "chmod +x /opt/centminmod/first-login.sh"
       ]
     },
     {

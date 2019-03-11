@@ -192,6 +192,14 @@ if [[ "$INSTALL_BBR" = [yY] ]]; then
   lsmod | grep bbr
 fi
 
+# setup first-login.sh
+if [ -f /opt/centminmod/first-login.sh ]; then
+  echo
+  echo "setup /opt/centminmod/first-login.sh"
+  echo '/opt/centminmod/first-login.sh' >> /root/.bashrc
+  echo
+fi
+
 # cleanup after centminmod install
 yum -y clean all
 yum-config-manager --disable rpmforge >/dev/null 2>&1
