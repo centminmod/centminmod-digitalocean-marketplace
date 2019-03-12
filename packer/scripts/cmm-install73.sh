@@ -288,6 +288,12 @@ echo
 echo "---------------------------------------------"
 echo "cminfo top"
 cminfo top
+
+echo
+echo "---------------------------------------------"
+echo "check /etc/fstab"
+cat /etc/fstab
+
 echo
 date
 
@@ -337,6 +343,7 @@ rm -f /svr-setup/wget-1.19.4.tar.gz
 rm -rf /usr/local/nginxbackup/confbackup/*
 rm -rf /usr/local/nginxbackup/nginxdirbackup/*
 find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
+rm -rf /home/packertmp
 rm -f /etc/ssh/*key*
 history -c
 echo

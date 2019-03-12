@@ -2,6 +2,10 @@
 ############################################################
 # https://github.com/digitalocean/marketplace-partners/blob/master/marketplace_docs/build-an-image.md
 ############################################################
+TOTALMEM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+TOTALMEM_T=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+TOTALMEM_SWAP=$(awk '/SwapFree/ {print $2}' /proc/meminfo)
+HOME_DFSIZE=$(df --output=avail /home | tail -1)
 
 if [ ! -d /opt/centminmod ]; then
   mkdir -p /opt/centminmod
@@ -344,6 +348,136 @@ reset_bashrc() {
   fi
 }
 
+tmpsetup() {
+  echo "CentOS 7 Setup /tmp"
+  echo "CentOS 7 + non-OpenVZ virtualisation detected"
+  systemctl is-enabled tmp.mount
+  # only mount /tmp on tmpfs if CentOS system
+  # total memory size is greater than ~15.25GB
+  # will give /tmp a size equal to 1/2 total memory
+  if [[ "$TOTALMEM" -ge '16000001' ]]; then
+     cp -ar /tmp /tmp_backup
+     #rm -rf /tmp
+     #mkdir -p /tmp
+     mount -t tmpfs -o rw,noexec,nosuid tmpfs /tmp
+     chmod 1777 /tmp
+     cp -ar /tmp_backup/* /tmp
+     echo "tmpfs /tmp tmpfs rw,noexec,nosuid 0 0" >> /etc/fstab
+     cp -ar /var/tmp /var/tmp_backup
+     ln -s /tmp /var/tmp
+     cp -ar /var/tmp_backup/* /tmp
+     rm -rf /tmp_backup
+     rm -rf /var/tmp_backup
+  elif [[ "$TOTALMEM" -ge '8100001' || "$TOTALMEM" -lt '16000000' ]]; then
+     # set on disk non-tmpfs /tmp to 6GB size
+     # if total memory is between 2GB and <8GB
+     cp -ar /tmp /tmp_backup
+     # rm -rf /tmp
+     if [[ "$HOME_DFSIZE" -le '15750000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=1048576
+     elif [[ "$HOME_DFSIZE" -gt '15750001' && "$HOME_DFSIZE" -le '20999000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=2097152
+     else
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=6291456
+     fi
+     echo Y | mkfs.ext4 /home/usertmp_donotdelete
+     # mkdir -p /tmp
+     mount -t ext4 -o loop,rw,noexec,nosuid /home/usertmp_donotdelete /tmp
+     chmod 1777 /tmp
+     cp -ar /tmp_backup/* /tmp
+     echo "/home/usertmp_donotdelete /tmp ext4 loop,rw,noexec,nosuid 0 0" >> /etc/fstab
+     cp -ar /var/tmp /var/tmp_backup
+     ln -s /tmp /var/tmp
+     cp -ar /var/tmp_backup/* /tmp
+     rm -rf /tmp_backup
+     rm -rf /var/tmp_backup
+  elif [[ "$TOTALMEM" -ge '2050061' || "$TOTALMEM" -lt '8100000' ]]; then
+     # set on disk non-tmpfs /tmp to 4GB size
+     # if total memory is between 2GB and <8GB
+     cp -ar /tmp /tmp_backup
+     # rm -rf /tmp
+     if [[ "$HOME_DFSIZE" -le '15750000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=1048576
+     elif [[ "$HOME_DFSIZE" -gt '15750001' && "$HOME_DFSIZE" -le '20999000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=2097152
+     else
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=4194304
+     fi
+     echo Y | mkfs.ext4 /home/usertmp_donotdelete
+     # mkdir -p /tmp
+     mount -t ext4 -o loop,rw,noexec,nosuid /home/usertmp_donotdelete /tmp
+     chmod 1777 /tmp
+     cp -ar /tmp_backup/* /tmp
+     echo "/home/usertmp_donotdelete /tmp ext4 loop,rw,noexec,nosuid 0 0" >> /etc/fstab
+     cp -ar /var/tmp /var/tmp_backup
+     ln -s /tmp /var/tmp
+     cp -ar /var/tmp_backup/* /tmp
+     rm -rf /tmp_backup
+     rm -rf /var/tmp_backup
+  elif [[ "$TOTALMEM" -ge '1153434' || "$TOTALMEM" -lt '2050060' ]]; then
+     # set on disk non-tmpfs /tmp to 2GB size
+     # if total memory is between 1.1-2GB
+     cp -ar /tmp /tmp_backup
+     # rm -rf /tmp
+     if [[ "$HOME_DFSIZE" -le '15750000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=1048576
+     elif [[ "$HOME_DFSIZE" -gt '15750001' && "$HOME_DFSIZE" -le '20999000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=2097152
+     else
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=3000000
+     fi
+     echo Y | mkfs.ext4 /home/usertmp_donotdelete
+     # mkdir -p /tmp
+     mount -t ext4 -o loop,rw,noexec,nosuid /home/usertmp_donotdelete /tmp
+     chmod 1777 /tmp
+     cp -ar /tmp_backup/* /tmp
+     echo "/home/usertmp_donotdelete /tmp ext4 loop,rw,noexec,nosuid 0 0" >> /etc/fstab
+     cp -ar /var/tmp /var/tmp_backup
+     ln -s /tmp /var/tmp
+     cp -ar /var/tmp_backup/* /tmp
+     rm -rf /tmp_backup
+     rm -rf /var/tmp_backup
+  elif [[ "$TOTALMEM" -le '1153433' ]]; then
+     # set on disk non-tmpfs /tmp to 1GB size
+     # if total memory is <1.1GB
+     cp -ar /tmp /tmp_backup
+     # rm -rf /tmp
+     if [[ "$HOME_DFSIZE" -le '15750000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=1048576
+     elif [[ "$HOME_DFSIZE" -gt '15750001' && "$HOME_DFSIZE" -le '20999000' ]]; then
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=2097152
+     else
+      dd if=/dev/zero of=/home/usertmp_donotdelete bs=1024 count=3000000
+     fi
+     echo Y | mkfs.ext4 /home/usertmp_donotdelete
+     # mkdir -p /tmp
+     mount -t ext4 -o loop,rw,noexec,nosuid /home/usertmp_donotdelete /tmp
+     chmod 1777 /tmp
+     cp -ar /tmp_backup/* /tmp
+     echo "/home/usertmp_donotdelete /tmp ext4 loop,rw,noexec,nosuid 0 0" >> /etc/fstab
+     cp -ar /var/tmp /var/tmp_backup
+     ln -s /tmp /var/tmp       
+     cp -ar /var/tmp_backup/* /tmp
+     rm -rf /tmp_backup
+     rm -rf /var/tmp_backup
+  fi
+}
+
+tmpfix() {
+  # digitalocean single / root partition doesn't require separate larger
+  # /tmp directory like bare metal where folks may partition /tmp too
+  # small for real world usage and run into problems.
+  # digitalocean VPS won't run into such issues due to /tmp mounted on 
+  # single / root partition
+  # echo
+  # echo "--------------------------------------------------------------------"
+  # echo "/tmp adjustment"
+  # echo "--------------------------------------------------------------------"
+  sed -i '/usertmp_donotdelete/d' /etc/fstab
+  rm -f /home/usertmp_donotdelete
+  mount -a
+}
+
 msg
 get_email
 set_hostname
@@ -356,5 +490,6 @@ reset_phpinfo
 reset_mysqlroot
 log_cleanup
 service_checks
+tmpfix
 reset_bashrc
 exit
