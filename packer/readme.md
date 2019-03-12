@@ -427,7 +427,14 @@ Build 'digitalocean' finished.
 
 # Using build-image.sh script
 
-Above manual steps can be automated using `build-image.sh` script
+Above manual steps can be automated using `build-image.sh` script or one of the variants below with different default options enabled
+
+* `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation
+* `packer/build-image-with-brotli.sh` - with ngx_brotli
+* `packer/build-image-with-docker.sh` - with docker
+* `packer/build-image-with-kernel-ml.sh` - with linux mainline kernel
+* `packer/build-image-with-phppgo.sh` - with PHP profile guided optimizations (PGO) ~5-30% faster PHP 7.x performance
+* `packer/build-image-with-zstd.sh` - with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
 
 ```
 export TOKEN='YOUR_DO_API_KEY'
