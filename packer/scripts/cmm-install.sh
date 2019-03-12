@@ -309,6 +309,18 @@ echo "check /etc/fstab"
 cat /etc/fstab
 
 echo
+echo "---------------------------------------------"
+echo "droplet metadata"
+droplet_id=$(curl -s http://169.254.169.254/metadata/v1/id)
+droplet_hostname=$(curl -s http://169.254.169.254/metadata/v1/hostname)
+droplet_region=$(curl -s http://169.254.169.254/metadata/v1/region)
+droplet_ip=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+echo "droplet_id=$droplet_id"
+echo "droplet_hostname=$droplet_hostname"
+echo "droplet_region=$droplet_region"
+echo "droplet_ip=$droplet_ip"
+
+echo
 date
 
 # cleanup after centminmod install

@@ -3,6 +3,8 @@
 # https://github.com/centminmod/centminmod-digitalocean-marketplace/tree/master/packer
 ###############################################
 dt=$(date +"%d%m%y-%H%M%S")
+snapshot_second='n'
+snapshot_second_count='1'
 
 build() {
   if [ ! -f /usr/bin/jq ]; then
@@ -29,6 +31,7 @@ build() {
     # build
     echo
     snapshot_new_name="centos7-packer-php72-phppgo-redis-systemd-${dt}"
+    snapshot_new_name_second="centos7-packer-php72-phppgo-redis-systemd-2-${dt}"
     export PACKER_LOG_PATH="packerlog-php72-phppgo-$(date +"%d%m%y-%H%M%S").log"
     echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'enable_phppgo=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
     time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'enable_phppgo=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
@@ -51,8 +54,17 @@ build() {
     echo
 
     # rename snapshot image description name
+    echo "rename snapshot"
     curl -sX PUT -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"name\":\"$snapshot_new_name\"}" "https://api.digitalocean.com/v2/images/${snapshot_id}" | jq -r .
     echo
+
+    if [[ "$snapshot_second" = [yY] ]]; then
+        # create second snapshot
+        echo "create 2nd snapshot"
+        droplet_id=$(awk -F '=' '/droplet_id=/ {print $2}' $PACKER_LOG_PATH)
+        curl -sX POST -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"type\":\"snapshot\",\"name\":\"$snapshot_new_name_second\"}" "https://api.digitalocean.com/v2/droplets/${droplet_id}/actions"
+        echo
+    fi
   else
     echo "/root/tools/centminmod-digitalocean-marketplace/packer does not exist"
     exit 1

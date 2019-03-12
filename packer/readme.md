@@ -440,6 +440,19 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
 * `packer/build-image-with-zstd.sh` - with `build-image.sh` defaults + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
 
+## Second droplet snapshot image
+
+All build image scripts also can now optionally create a second droplet snapshot by exporting environmental variable before runs. This maybe useful if you want to [transfer a snapshot to another DigitalOcean user account](https://www.digitalocean.com/docs/images/snapshots/how-to/change-owners/).
+
+```
+export snapshot_second=y
+export TOKEN='YOUR_DO_API_KEY'
+
+./build-image.sh
+```
+
+Example with `build-image.sh`
+
 ```
 export TOKEN='YOUR_DO_API_KEY'
 
