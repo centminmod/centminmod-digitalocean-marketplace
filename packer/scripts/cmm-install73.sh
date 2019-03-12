@@ -284,6 +284,11 @@ if [[ "$INSTALL_AUDITD" = [yY] ]]; then
   auditctl -l
   echo
 fi
+echo
+echo "---------------------------------------------"
+echo "cminfo top"
+cminfo top
+echo
 date
 
 # cleanup after centminmod install
