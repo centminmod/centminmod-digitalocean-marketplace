@@ -170,6 +170,7 @@ Variables available
 * install_redis - default = `n`
 * install_auditd - default = `n`
 * enable_brotli - default = `n`
+* enable_dualcerts - default = `n`
 * enable_phppgo - default = `n`
 * enable_logrotate_zstd - default = `n`
 * enable_phpfpm_systemd - default = `n`
@@ -434,6 +435,7 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation
 * `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
 * `packer/build-image-with-docker.sh` - with `build-image.sh` defaults + with docker
+* `packer/build-image-with-dualcerts.sh` - with `build-image.sh` defaults + with [dual RSA 2048bit + ECDSA 256bit](https://community.centminmod.com/threads/7449/) letsencrypt SSL certificate support in Nginx
 * `packer/build-image-with-kernel-ml.sh` - with `build-image.sh` defaults + with linux mainline kernel
 * `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
 * `packer/build-image-with-zstd.sh` - with `build-image.sh` defaults + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)

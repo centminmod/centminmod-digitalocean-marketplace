@@ -12,6 +12,7 @@
     "install_redis": "n",
     "install_auditd": "n",
     "enable_brotli": "n",
+    "enable_dualcerts": "n",
     "enable_phppgo": "n",
     "enable_logrotate_zstd": "n",
     "enable_phpfpm_systemd": "n"
@@ -58,6 +59,7 @@
         "INSTALL_ELREPO={{user `install_elrepo`}}",
         "INSTALL_BBR={{user `install_bbr`}}",
         "INSTALL_DOCKER={{user `install_docker`}}",
+        "INSTALL_DUALCERTS={{user `enable_dualcerts`}}",
         "INSTALL_REDIS={{user `install_redis`}}",
         "INSTALL_AUDITD={{user `install_auditd`}}",
         "INSTALL_BROTLI={{user `enable_brotli`}}",

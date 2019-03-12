@@ -4,6 +4,9 @@
 mkdir -p /etc/centminmod
 touch /etc/centminmod/custom_config.inc
 echo "LETSENCRYPT_DETECT='y'" >> /etc/centminmod/custom_config.inc
+if [[ "$INSTALL_DUALCERTS" = [yY] ]]; then
+  echo "DUALCERTS='y'" >> /etc/centminmod/custom_config.inc
+fi
 if [[ "$INSTALL_PHPFPMSYSTEMD" = [yY] ]]; then
   echo "SWITCH_PHPFPM_SYSTEMD='y'" >> /etc/centminmod/custom_config.inc
 fi
