@@ -443,10 +443,10 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 
 ## Second droplet snapshot image
 
-All build image scripts also can now optionally create a second droplet snapshot by exporting environmental variable before runs. This maybe useful if you want to [transfer a snapshot to another DigitalOcean user account](https://www.digitalocean.com/docs/images/snapshots/how-to/change-owners/).
+All build image scripts also can now optionally create a second droplet snapshot by exporting environmental variable `extra_snapshot=y` before runs. This maybe useful if you want to [transfer a snapshot to another DigitalOcean user account](https://www.digitalocean.com/docs/images/snapshots/how-to/change-owners/).
 
 ```
-export snapshot_second=y
+export extra_snapshot=y
 export TOKEN='YOUR_DO_API_KEY'
 
 ./build-image.sh
