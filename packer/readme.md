@@ -429,12 +429,13 @@ Build 'digitalocean' finished.
 
 Above manual steps can be automated using `build-image.sh` script or one of the variants below with different default options enabled
 
-* `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation
-* `packer/build-image-with-brotli.sh` - with ngx_brotli
-* `packer/build-image-with-docker.sh` - with docker
-* `packer/build-image-with-kernel-ml.sh` - with linux mainline kernel
-* `packer/build-image-with-phppgo.sh` - with PHP profile guided optimizations (PGO) ~5-30% faster PHP 7.x performance
-* `packer/build-image-with-zstd.sh` - with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
+* `packer/build-image.sh` - with additional redis option and [PHP-FPM systemd statistics support](https://community.centminmod.com/threads/centos-7-proper-php-fpm-systemd-service-file.16511/#post-70380)
+* `packer/build-image-all.sh` - with `build-image.sh` defaults + enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation
+* `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
+* `packer/build-image-with-docker.sh` - with `build-image.sh` defaults + with docker
+* `packer/build-image-with-kernel-ml.sh` - with `build-image.sh` defaults + with linux mainline kernel
+* `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
+* `packer/build-image-with-zstd.sh` - with `build-image.sh` defaults + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
 
 ```
 export TOKEN='YOUR_DO_API_KEY'
@@ -1163,6 +1164,13 @@ PHP 7.2.16 (cli) (built: Mar 10 2019 15:26:19) ( NTS )
 Copyright (c) 1997-2018 The PHP Group
 Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
     with Zend OPcache v7.2.16, Copyright (c) 1999-2018, by Zend Technologies
+```
+
+PHP-FPM via systemd supported statistics
+
+```
+fpmstats
+Processes active: 0, idle: 0, Requests: 0, slow: 0, Traffic: 0req/sec
 ```
 
 ```
