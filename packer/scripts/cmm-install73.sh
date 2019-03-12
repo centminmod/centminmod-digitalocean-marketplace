@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# 2nd snapshot detection
+if [[ "$extra_snapshot" = [yY] ]]; then
+    snapshot_second='y'
+    echo "snapshot_second=$snapshot_second"
+    echo
+fi
+
 # setup persistent config settings to override centminmod defaults
 mkdir -p /etc/centminmod
 touch /etc/centminmod/custom_config.inc
