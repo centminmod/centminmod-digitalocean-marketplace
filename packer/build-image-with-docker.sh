@@ -3,7 +3,6 @@
 # https://github.com/centminmod/centminmod-digitalocean-marketplace/tree/master/packer
 ###############################################
 dt=$(date +"%d%m%y-%H%M%S")
-snapshot_second='n'
 snapshot_second_count='1'
 
 build() {
@@ -45,24 +44,22 @@ build() {
     snapshot_name=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $10}' | sed -e "s|'||g" -e 's|)||g')
     snapshot_id=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $12}' | sed -e "s|'||g" -e 's|)||g')
     snapshot_region=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $15}' | sed -e "s|'||g" -e 's|)||g')
-    echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
     
-    # snapshot info query API by snapshot id
-    # https://developers.digitalocean.com/documentation/v2/#retrieve-an-existing-snapshot-by-id
-    echo
-    curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
-    echo
+    if [ "${snapshot_id}" ]; then
+        echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
+        # snapshot info query API by snapshot id
+        # https://developers.digitalocean.com/documentation/v2/#retrieve-an-existing-snapshot-by-id
+        echo
+        curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
+        echo
 
-    # rename snapshot image description name
-    echo "rename snapshot"
-    curl -sX PUT -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"name\":\"$snapshot_new_name\"}" "https://api.digitalocean.com/v2/images/${snapshot_id}" | jq -r .
-    echo
-
-    if [[ "$extra_snapshot" = [yY] ]]; then
-        snapshot_second='y'
+        # rename snapshot image description name
+        echo "rename snapshot"
+        curl -sX PUT -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"name\":\"$snapshot_new_name\"}" "https://api.digitalocean.com/v2/images/${snapshot_id}" | jq -r .
+        echo
     fi
 
-    if [[ "$snapshot_second" = [yY] ]]; then
+    if [[ "${droplet_id}" && "$snapshot_second" = [yY] ]]; then
         # create second snapshot
         echo "create 2nd snapshot"
         droplet_id=$(awk -F '=' '/droplet_id=/ {print $2}' $PACKER_LOG_PATH)
