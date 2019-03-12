@@ -205,6 +205,17 @@ if [ -f /opt/centminmod/first-login.sh ]; then
   date
 fi
 
+# meltdown & spectre checks
+if [ -d /root/tools ]; then
+  echo
+  echo "---------------------------------------------"
+  echo "Spectre & Meltdown Checks"
+  echo "---------------------------------------------"
+  wget -O /root/tools/spectre-meltdown-checker.sh https://github.com/speed47/spectre-meltdown-checker/raw/master/spectre-meltdown-checker.sh
+  chmod +x /root/tools/spectre-meltdown-checker.sh
+  /root/tools/spectre-meltdown-checker.sh
+fi
+
 # checklist
 echo
 echo "---------------------------------------------"
