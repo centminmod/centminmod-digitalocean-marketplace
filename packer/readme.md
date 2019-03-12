@@ -10,6 +10,7 @@
 * [Example Build With Docker + Redis + ELRepo Linux 5.x Kernel](#example-build-with-docker--redis--elrepo-linux-5x-kernel)
   * [first boot MOTD](#first-boot-motd)
   * [first boot prompts](#first-boot-prompts)
+  * [Spectre & Meldown Checks](#spectre--meltdown-checks)
 
 # packer.io install
 
@@ -1554,7 +1555,7 @@ WARNING: bridge-nf-call-iptables is disabled
 WARNING: bridge-nf-call-ip6tables is disabled
 ```
 
-Spectre & Meltdown Checks
+## Spectre & Meltdown Checks
 
 ```
 /root/tools/spectre-meltdown-checker.sh --explain
