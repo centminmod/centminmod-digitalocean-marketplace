@@ -205,6 +205,64 @@ if [ -f /opt/centminmod/first-login.sh ]; then
   date
 fi
 
+# checklist
+echo
+echo "---------------------------------------------"
+echo "checking installed software"
+echo "---------------------------------------------"
+echo "nginx -V"
+nginx -V
+echo
+echo "php -v"
+php -v
+echo
+echo "csf -V"
+csf -V
+echo
+echo "mysqladmin ver"
+mysqladmin ver
+echo
+echo "nprestart"
+nprestart
+echo
+echo "mysqlrestart"
+mysqlrestart
+echo
+echo "memcachedrestart"
+memcachedrestart
+echo
+echo "service redis restart"
+service redis restart
+echo
+echo "service postfix restart"
+service postfix restart
+echo
+echo "service memcached status"
+service memcached status
+echo
+echo "service nginx status"
+service nginx status
+echo
+echo "service redis status"
+service redis status
+echo
+echo "service postfix status"
+service postfix status
+echo
+echo "service csf status"
+service csf status
+echo
+echo "service lfd status"
+service lfd status
+echo
+echo "fpmstatus"
+fpmstatus
+echo
+echo "fpmstats"
+fpmstats
+echo
+date
+
 # cleanup after centminmod install
 yum -y clean all
 yum-config-manager --disable rpmforge >/dev/null 2>&1
