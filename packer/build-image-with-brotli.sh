@@ -28,10 +28,10 @@ build() {
 
     # build
     echo
-    snapshot_new_name="centos7-packer-php72-redis-systemd-${dt}"
-    export PACKER_LOG_PATH="packerlog-php72-redis-systemd-$(date +"%d%m%y-%H%M%S").log"
-    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
-    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
+    snapshot_new_name="centos7-packer-php72-brotli-redis-systemd-${dt}"
+    export PACKER_LOG_PATH="packerlog-php72-brotli-$(date +"%d%m%y-%H%M%S").log"
+    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'enable_brotli=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
+    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'enable_brotli=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
     echo
     date
