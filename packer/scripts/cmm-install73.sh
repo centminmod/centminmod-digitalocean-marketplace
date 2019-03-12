@@ -213,54 +213,77 @@ echo "---------------------------------------------"
 echo "nginx -V"
 nginx -V
 echo
+echo "---------------------------------------------"
 echo "php -v"
 php -v
 echo
+echo "---------------------------------------------"
 echo "csf -V"
 csf -V
 echo
+echo "---------------------------------------------"
 echo "mysqladmin ver"
 mysqladmin ver
 echo
+echo "---------------------------------------------"
 echo "nprestart"
 nprestart
 echo
+echo "---------------------------------------------"
 echo "mysqlrestart"
 mysqlrestart
 echo
+echo "---------------------------------------------"
 echo "memcachedrestart"
 memcachedrestart
 echo
+echo "---------------------------------------------"
 echo "service redis restart"
 service redis restart
 echo
+echo "---------------------------------------------"
 echo "service postfix restart"
 service postfix restart
 echo
+echo "---------------------------------------------"
 echo "service memcached status"
 service memcached status
 echo
+echo "---------------------------------------------"
 echo "service nginx status"
 service nginx status
 echo
+echo "---------------------------------------------"
 echo "service redis status"
 service redis status
 echo
+echo "---------------------------------------------"
 echo "service postfix status"
 service postfix status
 echo
+echo "---------------------------------------------"
 echo "service csf status"
 service csf status
 echo
+echo "---------------------------------------------"
 echo "service lfd status"
 service lfd status
 echo
+echo "---------------------------------------------"
 echo "fpmstatus"
 fpmstatus
 echo
+echo "---------------------------------------------"
 echo "fpmstats"
 fpmstats
 echo
+if [[ "$INSTALL_AUDITD" = [yY] ]]; then
+  service auditd restart
+  service auditd status
+  echo "check auditd rules"
+  auditctl -l
+  echo
+fi
 date
 
 # cleanup after centminmod install
