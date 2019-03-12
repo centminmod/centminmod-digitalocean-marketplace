@@ -5,6 +5,7 @@
 * [Example validation & inspection](#example-validation--inspection)
 * [Example start of packer build run](#example-start-of-packer-build-run)
 * [Using build-image.sh script](#using-build-imagesh-script)
+  * [Second droplet snapshot image](#second-droplet-snapshot-image)
 * [DigitalOcean Marketplace img_check.sh compatibility](#digitalocean-marketplace-img_checksh-compatibility)
 * [Updated packer builds with benchmarks](#updated-packer-builds-with-benchmarks)
 * [Example Build With Docker + Redis + ELRepo Linux 5.x Kernel](#example-build-with-docker--redis--elrepo-linux-5x-kernel)
