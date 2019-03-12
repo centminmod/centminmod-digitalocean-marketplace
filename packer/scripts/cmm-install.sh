@@ -213,7 +213,7 @@ if [ -d /root/tools ]; then
   echo "---------------------------------------------"
   wget -O /root/tools/spectre-meltdown-checker.sh https://github.com/speed47/spectre-meltdown-checker/raw/master/spectre-meltdown-checker.sh
   chmod +x /root/tools/spectre-meltdown-checker.sh
-  /root/tools/spectre-meltdown-checker.sh
+  /root/tools/spectre-meltdown-checker.sh --explain
 fi
 
 # checklist

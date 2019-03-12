@@ -1557,7 +1557,7 @@ WARNING: bridge-nf-call-ip6tables is disabled
 Spectre & Meltdown Checks
 
 ```
-/root/tools/spectre-meltdown-checker.sh
+/root/tools/spectre-meltdown-checker.sh --explain
 Spectre and Meltdown mitigation detection tool v0.40
 
 Checking for vulnerabilities on current system
@@ -1633,10 +1633,14 @@ CVE-2018-3640 aka 'Variant 3a, rogue system register read'
 * CPU microcode mitigates the vulnerability:  NO 
 > STATUS:  VULNERABLE  (an up-to-date CPU microcode is needed to mitigate this vulnerability)
 
+> How to fix: The microcode of your CPU needs to be upgraded to mitigate this vulnerability. This is usually done at boot time by your kernel (the upgrade is not persistent across reboots which is why it's done at each boot). If you're using a distro, make sure you are up to date, as microcode updates are usually shipped alongside with the distro kernel. Availability of a microcode update for you CPU model depends on your CPU vendor. You can usually find out online if a microcode update is available for your CPU by searching for your CPUID (indicated in the Hardware Check section). The microcode update is enough, there is no additional OS, kernel or software change needed.
+
 CVE-2018-3639 aka 'Variant 4, speculative store bypass'
 * Mitigated according to the /sys interface:  NO  (Vulnerable)
 * Kernel supports speculation store bypass:  YES  (found in /proc/self/status)
 > STATUS:  VULNERABLE  (Your CPU doesn't support SSBD)
+
+> How to fix: Your kernel is recent enough to use the CPU microcode features for mitigation, but your CPU microcode doesn't actually provide the necessary features for the kernel to use. The microcode of your CPU hence needs to be upgraded. This is usually done at boot time by your kernel (the upgrade is not persistent across reboots which is why it's done at each boot). If you're using a distro, make sure you are up to date, as microcode updates are usually shipped alongside with the distro kernel. Availability of a microcode update for you CPU model depends on your CPU vendor. You can usually find out online if a microcode update is available for your CPU by searching for your CPUID (indicated in the Hardware Check section).
 
 CVE-2018-3615 aka 'Foreshadow (SGX), L1 terminal fault'
 * CPU microcode mitigates the vulnerability:  N/A 
@@ -1662,6 +1666,5 @@ CVE-2018-3646 aka 'Foreshadow-NG (VMM), L1 terminal fault'
 
 > SUMMARY: CVE-2017-5753:OK CVE-2017-5715:OK CVE-2017-5754:OK CVE-2018-3640:KO CVE-2018-3639:KO CVE-2018-3615:OK CVE-2018-3620:OK CVE-2018-3646:OK
 
-Need more detailed information about mitigation options? Use --explain
 A false sense of security is worse than no security at all, see --disclaimer
 ```
