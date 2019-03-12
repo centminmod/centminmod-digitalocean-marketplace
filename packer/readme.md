@@ -427,7 +427,7 @@ Build 'digitalocean' finished.
 
 # Using build-image.sh script
 
-Above manual steps can be automated using `build-image.sh` script or one of the variants below with different default options enabled
+The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot images can be automated using `build-image.sh` script or one of the variants below with different default options enabled.
 
 * `packer/build-image.sh` - with additional redis option and [PHP-FPM systemd statistics support](https://community.centminmod.com/threads/centos-7-proper-php-fpm-systemd-service-file.16511/#post-70380)
 * `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation

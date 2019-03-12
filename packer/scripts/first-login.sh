@@ -85,7 +85,6 @@ whitelistip() {
   csf -a ${ssh_user_ip} # do-firstlogin-ip-whitelisting
   echo "${ssh_user_ip}" >> /etc/csf/csf.ignore
   csf -ra >/dev/null 2>&1
-  echo
 }
 
 set_hostname() {
@@ -108,6 +107,8 @@ set_hostname() {
   echo $IPADDR $yourhostname >> /etc/hosts
   if [ -f /usr/local/nginx/conf/conf.d/virtual.conf ]; then
     sed -i "s|server_name .*|server_name ${yourhostname};|" /usr/local/nginx/conf/conf.d/virtual.conf
+    echo "updated main hostname nginx vhost at"
+    echo "/usr/local/nginx/conf/conf.d/virtual.conf"
   fi
 }
 
@@ -138,8 +139,12 @@ cmm_update() {
 reset_pureftpd_params() {
   echo
   echo "--------------------------------------------------------------------"
-  echo "regenerate /etc/ssl/private/pure-ftpd-dhparams.pem"
+  echo "regenerate pure-ftpd ssl cert /etc/ssl/private/pure-ftpd-dhparams.pem"
+  echo "please wait..."
   echo "--------------------------------------------------------------------"
+  if [ -f /etc/ssl/private/pure-ftpd-dhparams.pem ]; then
+    rm -f /etc/ssl/private/pure-ftpd-dhparams.pem
+  fi
   openssl dhparam -out /etc/ssl/private/pure-ftpd-dhparams.pem 2048 >/dev/null 2>&1
 
   echo
@@ -147,6 +152,9 @@ reset_pureftpd_params() {
   echo "regenerating pure-ftpd self-signed ssl certificate"
   echo "--------------------------------------------------------------------"
   CNIP=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+  if [ -f /etc/pki/pure-ftpd/pure-ftpd.pem ]; then
+    rm -f /etc/pki/pure-ftpd/pure-ftpd.pem
+  fi
   openssl req -x509 -days 7300 -sha256 -nodes -subj "/C=US/ST=California/L=Los Angeles/O=Default Company Ltd/CN==$CNIP" -newkey rsa:1024 -keyout /etc/pki/pure-ftpd/pure-ftpd.pem -out /etc/pki/pure-ftpd/pure-ftpd.pem
   chmod 600 /etc/pki/pure-ftpd/*.pem
 }
@@ -207,7 +215,6 @@ reset_phpinfo() {
   echo "PHP Info Login username: ${PHPIUSER}"
   echo "PHP Info Login password: ${PHPIPASS}"
   echo "--------------------------------------------------------------------"
-  echo
   } 2>&1 | tee /opt/centminmod/php-info-password.txt
 }
 
@@ -243,7 +250,6 @@ reset_opcache() {
   echo "Username: $OPUSER" >> /root/centminlogs/zendopcache_passfile.txt
   echo "Password: $OPPASS" >> /root/centminlogs/zendopcache_passfile.txt
   echo "-------------------------------------------------------" >> /root/centminlogs/zendopcache_passfile.txt
-  echo "" >> /root/centminlogs/zendopcache_passfile.txt
 
   /usr/local/nginx/conf/htpasswd.sh create /usr/local/nginx/conf/htpasswd_opcache $OPUSER $OPPASS
 
