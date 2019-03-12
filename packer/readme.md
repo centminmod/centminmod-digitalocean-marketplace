@@ -430,7 +430,7 @@ Build 'digitalocean' finished.
 Above manual steps can be automated using `build-image.sh` script or one of the variants below with different default options enabled
 
 * `packer/build-image.sh` - with additional redis option and [PHP-FPM systemd statistics support](https://community.centminmod.com/threads/centos-7-proper-php-fpm-systemd-service-file.16511/#post-70380)
-* `packer/build-image-all.sh` - with `build-image.sh` defaults + enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation
+* `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation
 * `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
 * `packer/build-image-with-docker.sh` - with `build-image.sh` defaults + with docker
 * `packer/build-image-with-kernel-ml.sh` - with `build-image.sh` defaults + with linux mainline kernel
