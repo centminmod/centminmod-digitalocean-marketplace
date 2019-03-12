@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # 2nd snapshot detection
-if [[ "$extra_snapshot" = [yY] ]]; then
-    snapshot_second='y'
+if [[ "$snapshot_second" = [yY] ]]; then
     echo "snapshot_second=$snapshot_second"
     echo
 fi
