@@ -1553,3 +1553,115 @@ Product License: Community Engine
 WARNING: bridge-nf-call-iptables is disabled
 WARNING: bridge-nf-call-ip6tables is disabled
 ```
+
+Spectre & Meltdown Checks
+
+```
+/root/tools/spectre-meltdown-checker.sh
+Spectre and Meltdown mitigation detection tool v0.40
+
+Checking for vulnerabilities on current system
+Kernel is Linux 5.0.1-1.el7.elrepo.x86_64 #1 SMP Sun Mar 10 10:09:55 EDT 2019 x86_64
+CPU is Intel(R) Xeon(R) CPU E5-2650L v3 @ 1.80GHz
+
+Hardware check
+* Hardware support (CPU microcode) for mitigation techniques
+  * Indirect Branch Restricted Speculation (IBRS)
+    * SPEC_CTRL MSR is available:  NO 
+    * CPU indicates IBRS capability:  NO 
+  * Indirect Branch Prediction Barrier (IBPB)
+    * PRED_CMD MSR is available:  NO 
+    * CPU indicates IBPB capability:  NO 
+  * Single Thread Indirect Branch Predictors (STIBP)
+    * SPEC_CTRL MSR is available:  NO 
+    * CPU indicates STIBP capability:  NO 
+  * Speculative Store Bypass Disable (SSBD)
+    * CPU indicates SSBD capability:  NO 
+  * L1 data cache invalidation
+    * FLUSH_CMD MSR is available:  NO 
+    * CPU indicates L1D flush capability:  NO 
+  * Enhanced IBRS (IBRS_ALL)
+    * CPU indicates ARCH_CAPABILITIES MSR availability:  NO 
+    * ARCH_CAPABILITIES MSR advertises IBRS_ALL capability:  NO 
+  * CPU explicitly indicates not being vulnerable to Meltdown (RDCL_NO):  NO 
+  * CPU explicitly indicates not being vulnerable to Variant 4 (SSB_NO):  NO 
+  * CPU/Hypervisor indicates L1D flushing is not necessary on this system:  NO 
+  * Hypervisor indicates host CPU might be vulnerable to RSB underflow (RSBA):  NO 
+  * CPU supports Software Guard Extensions (SGX):  NO 
+  * CPU microcode is known to cause stability problems:  NO  (model 0x3f family 0x6 stepping 0x2 ucode 0x1 cpuid 0x306f2)
+  * CPU microcode is the latest known available version:  NO  (latest version is 0x3d dated 2018/04/20 according to builtin MCExtractor DB v96 - 2019/01/15)
+* CPU vulnerability to the speculative execution attack variants
+  * Vulnerable to CVE-2017-5753 (Spectre Variant 1, bounds check bypass):  YES 
+  * Vulnerable to CVE-2017-5715 (Spectre Variant 2, branch target injection):  YES 
+  * Vulnerable to CVE-2017-5754 (Variant 3, Meltdown, rogue data cache load):  YES 
+  * Vulnerable to CVE-2018-3640 (Variant 3a, rogue system register read):  YES 
+  * Vulnerable to CVE-2018-3639 (Variant 4, speculative store bypass):  YES 
+  * Vulnerable to CVE-2018-3615 (Foreshadow (SGX), L1 terminal fault):  NO 
+  * Vulnerable to CVE-2018-3620 (Foreshadow-NG (OS), L1 terminal fault):  YES 
+  * Vulnerable to CVE-2018-3646 (Foreshadow-NG (VMM), L1 terminal fault):  YES 
+
+CVE-2017-5753 aka 'Spectre Variant 1, bounds check bypass'
+* Mitigated according to the /sys interface:  YES  (Mitigation: __user pointer sanitization)
+* Kernel has array_index_mask_nospec:  YES  (1 occurrence(s) found of x86 64 bits array_index_mask_nospec())
+* Kernel has the Red Hat/Ubuntu patch:  NO 
+* Kernel has mask_nospec64 (arm64):  NO 
+> STATUS:  NOT VULNERABLE  (Mitigation: __user pointer sanitization)
+
+CVE-2017-5715 aka 'Spectre Variant 2, branch target injection'
+* Mitigated according to the /sys interface:  YES  (Mitigation: Full generic retpoline, STIBP: disabled, RSB filling)
+* Mitigation 1
+  * Kernel is compiled with IBRS support:  YES 
+    * IBRS enabled and active:  NO 
+  * Kernel is compiled with IBPB support:  YES 
+    * IBPB enabled and active:  NO 
+* Mitigation 2
+  * Kernel has branch predictor hardening (arm):  NO 
+  * Kernel compiled with retpoline option:  YES 
+    * Kernel compiled with a retpoline-aware compiler:  YES  (kernel reports full retpoline compilation)
+> STATUS:  NOT VULNERABLE  (Full retpoline is mitigating the vulnerability)
+IBPB is considered as a good addition to retpoline for Variant 2 mitigation, but your CPU microcode doesn't support it
+
+CVE-2017-5754 aka 'Variant 3, Meltdown, rogue data cache load'
+* Mitigated according to the /sys interface:  YES  (Mitigation: PTI)
+* Kernel supports Page Table Isolation (PTI):  YES 
+  * PTI enabled and active:  YES 
+  * Reduced performance impact of PTI:  YES  (CPU supports INVPCID, performance impact of PTI will be greatly reduced)
+* Running as a Xen PV DomU:  NO 
+> STATUS:  NOT VULNERABLE  (Mitigation: PTI)
+
+CVE-2018-3640 aka 'Variant 3a, rogue system register read'
+* CPU microcode mitigates the vulnerability:  NO 
+> STATUS:  VULNERABLE  (an up-to-date CPU microcode is needed to mitigate this vulnerability)
+
+CVE-2018-3639 aka 'Variant 4, speculative store bypass'
+* Mitigated according to the /sys interface:  NO  (Vulnerable)
+* Kernel supports speculation store bypass:  YES  (found in /proc/self/status)
+> STATUS:  VULNERABLE  (Your CPU doesn't support SSBD)
+
+CVE-2018-3615 aka 'Foreshadow (SGX), L1 terminal fault'
+* CPU microcode mitigates the vulnerability:  N/A 
+> STATUS:  NOT VULNERABLE  (your CPU vendor reported your CPU model as not vulnerable)
+
+CVE-2018-3620 aka 'Foreshadow-NG (OS), L1 terminal fault'
+* Mitigated according to the /sys interface:  YES  (Mitigation: PTE Inversion)
+* Kernel supports PTE inversion:  YES  (found in kernel image)
+* PTE inversion enabled and active:  YES 
+> STATUS:  NOT VULNERABLE  (Mitigation: PTE Inversion)
+
+CVE-2018-3646 aka 'Foreshadow-NG (VMM), L1 terminal fault'
+* Information from the /sys interface: VMX: conditional cache flushes, SMT disabled
+* This system is a host running a hypervisor:  YES 
+* Mitigation 1 (KVM)
+  * EPT is disabled:  NO 
+* Mitigation 2
+  * L1D flush is supported by kernel:  YES  (found flush_l1d in kernel image)
+  * L1D flush enabled:  YES  (conditional flushes)
+  * Hardware-backed L1D flush supported:  NO  (flush will be done in software, this is slower)
+  * Hyper-Threading (SMT) is enabled:  NO 
+> STATUS:  NOT VULNERABLE  (L1D flushing is enabled and mitigates the vulnerability)
+
+> SUMMARY: CVE-2017-5753:OK CVE-2017-5715:OK CVE-2017-5754:OK CVE-2018-3640:KO CVE-2018-3639:KO CVE-2018-3615:OK CVE-2018-3620:OK CVE-2018-3646:OK
+
+Need more detailed information about mitigation options? Use --explain
+A false sense of security is worse than no security at all, see --disclaimer
+```
