@@ -55,7 +55,7 @@ build() {
 
         # rename snapshot image description name
         echo "rename snapshot"
-        curl -sX PUT -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"name\":\"$snapshot_new_name\"}" "https://api.digitalocean.com/v2/images/${snapshot_id}" | jq -r .
+        curl -sX PUT -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"name\":\"${snapshot_id}-${snapshot_new_name}\"}" "https://api.digitalocean.com/v2/images/${snapshot_id}" | jq -r .
         echo
     fi
 
@@ -63,7 +63,7 @@ build() {
         # create second snapshot
         echo "create 2nd snapshot"
         droplet_id=$(awk -F '=' '/droplet_id=/ {print $2}' $PACKER_LOG_PATH)
-        curl -sX POST -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"type\":\"snapshot\",\"name\":\"$snapshot_new_name_second\"}" "https://api.digitalocean.com/v2/droplets/${droplet_id}/actions" | jq -r .
+        curl -sX POST -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"type\":\"snapshot\",\"name\":\"${snapshot_id}-${snapshot_new_name_second}\"}" "https://api.digitalocean.com/v2/droplets/${droplet_id}/actions" | jq -r .
         echo
     fi
   else
