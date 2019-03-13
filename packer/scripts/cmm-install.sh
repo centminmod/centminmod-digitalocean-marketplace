@@ -321,10 +321,14 @@ droplet_id=$(curl -s http://169.254.169.254/metadata/v1/id)
 droplet_hostname=$(curl -s http://169.254.169.254/metadata/v1/hostname)
 droplet_region=$(curl -s http://169.254.169.254/metadata/v1/region)
 droplet_ip=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+droplet_anchor_ip=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/anchor_ipv4/address)
+droplet_floating_ip=$(curl -s http://169.254.169.254/metadata/v1/floating_ip/ipv4/ip_address)
 echo "droplet_id=$droplet_id"
 echo "droplet_hostname=$droplet_hostname"
 echo "droplet_region=$droplet_region"
 echo "droplet_ip=$droplet_ip"
+echo "droplet_anchor_ip=$droplet_anchor_ip"
+echo "droplet_floating_ip=$droplet_floating_ip"
 
 echo
 date
