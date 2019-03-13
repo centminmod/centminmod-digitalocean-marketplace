@@ -47,8 +47,6 @@ echo "creating new droplet vps server using image: $DO_IMAGE"
 echo
 # Get droplet option
 DO_OPTION=$(tr -d '\n' < ./create_droplet.json | tr -d ' ')
-#DO_OPTION=${DO_OPTION/'$DO_HOSTNAME'/$DO_HOSTNAME}
-#DO_OPTION=${DO_OPTION/'$DO_IMAGE'/$DO_IMAGE}
 
 # Create droplet
 curl -sX POST -H "Content-Type: application/json" \
