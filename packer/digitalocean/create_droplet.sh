@@ -53,7 +53,7 @@ DO_OPTION=$(tr -d '\n' < ./create_droplet.json | tr -d ' ')
 curl -sX POST -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN" \
   -d $DO_OPTION \
-  "https://api.digitalocean.com/v2/droplets" | jq -r . | tee $DROPLET_DATAFILE
+  "https://api.digitalocean.com/v2/droplets" | jq -r . | tee "$DROPLET_DATAFILE"
 
 droplet_id=$(cat $DROPLET_DATAFILE | jq -r '.droplet.id')
 droplet_name=$(cat $DROPLET_DATAFILE | jq -r '.droplet.name')
@@ -85,5 +85,7 @@ echo "droplet_links_actions_id=${droplet_links_actions_id}"
 echo
 }
 
+{
 do_template
 do_create
+} 2>&1 | tee "created-${DROPLET_DATAFILE}"
