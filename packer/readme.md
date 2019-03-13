@@ -44,7 +44,9 @@ Available commands are:
 
 # packer explained
 
-Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-1gb) with CentOS 7 64bit OS and install Centmin Mod 123.09beta01 and then clean up after itself and create a DigitalOcean snapshot image and then automatically detroy and remove that temporary droplet. You can see the associated cost of my test Packer Centmin Mod DigitalOcean temporary droplets below:
+Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-1gb) with CentOS 7 64bit OS and install Centmin Mod 123.09beta01 and then clean up after itself and create a DigitalOcean snapshot image and then automatically detroy and remove that temporary droplet. Using the below proces or build image scripts, the resulting snapshot image id will be provided. You can then use snapshot image to create a new droplet via DigitalOcean web gui control panel or via the DigitalOcean API. An example of using the API and `create_droplet.sh` script outlined [here](https://github.com/centminmod/centminmod-digitalocean-marketplace/tree/master/packer/digitalocean).
+
+You can see the associated cost of my test Packer Centmin Mod DigitalOcean temporary droplets below:
 
 ![packer droplet costs](/packer/images/packer-droplet-costs-01.png)
 
