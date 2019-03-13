@@ -1,20 +1,26 @@
 # Create droplet via DigitalOcean API
 
-## step 1. get your SSHKEY ID from API Query
+## step 1. 
+
+Get your SSHKEY ID from API Query
 
 ```
 curl -sX GET -H "Content-Type: application/json" \ 
              -H "Authorization: Bearer $TOKEN" \ 
              "https://api.digitalocean.com/v2/account/keys" | jq -r .
 ```
-## step 2. export your SSHKEY ID and DO API Token. 
+## step 2. 
+
+Export your SSHKEY ID and DO API Token. 
 
 ```
 export TOKEN=your_do_api_token
 export YOUR_SSHKEY_ID=your_ssh_key_id
 ```
 
-## step 3. edit `create_droplet.sh` within `do_template` function's region, size & droplet parameters you want to use first
+## step 3. 
+
+Edit `create_droplet.sh` within `do_template` function's region, size & droplet parameters you want to use first
 
 ```
 do_template() {
@@ -36,7 +42,9 @@ EOF
 }
 ```
 
-## step 4. creating a new droplet server from snapshot image id by running script passing desired hostname `host.domain.com` and snapshot image id i.e. `446XXXXX`
+## step 4. 
+
+Creating a new droplet server from snapshot image id by running script passing desired hostname `host.domain.com` and snapshot image id i.e. `446XXXXX`
 
 ```
 ./create_droplet.sh host.domain.com 446XXXXX
