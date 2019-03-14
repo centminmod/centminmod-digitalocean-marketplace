@@ -112,8 +112,8 @@ date
 
 # cleanup after centminmod install
 yum -y clean all
-yum-config-manager --disable rpmforge >/dev/null 2>&1
-ccache -C
+# yum-config-manager --disable rpmforge >/dev/null 2>&1
+# ccache -C
 rm -rf /tmp/* /var/tmp/*
 unset HISTFILE
 rm -rf /var/log/*.gz /var/log/*.[0-9] /var/log/*-????????
@@ -159,7 +159,7 @@ find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
 rm -rf /home/packertmp
 rm -rf /root/tools
 rm -f /etc/ssh/*key*
-history -c
+# history -c
 echo
 date
 
