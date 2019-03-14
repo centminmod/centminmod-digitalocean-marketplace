@@ -43,6 +43,123 @@ Available commands are:
     version     Prints the Packer version
 ```
 
+# doctl install
+
+Also install [doctl](https://github.com/digitalocean/doctl) API command line tool - explained [here](https://www.digitalocean.com/community/tutorials/how-to-use-doctl-the-official-digitalocean-command-line-client).
+
+```
+mkdir -p /root/tools
+cd /root/tools
+doctl_version=1.14.0
+wget https://github.com/digitalocean/doctl/releases/download/v${doctl_version}/doctl-${doctl_version}-linux-amd64.tar.gz
+tar xvzf doctl-${doctl_version}-linux-amd64.tar.gz -C /usr/local/bin
+rm -f doctl-${doctl_version}-linux-amd64.tar.gz
+doctl version
+doctl
+doctl auth init
+```
+
+```
+doctl version
+doctl version 1.14.0-release
+Git commit hash: 8bd69cda
+```
+```
+doctl
+doctl is a command line interface for the DigitalOcean API.
+
+Usage:
+  doctl [command]
+
+Available Commands:
+  account     account commands
+  auth        auth commands
+  compute     compute commands
+  help        Help about any command
+  projects    projects commands
+  version     show the current version
+
+Flags:
+  -t, --access-token string   API V2 Access Token
+  -u, --api-url string        Override default API V2 endpoint
+  -c, --config string         config file (default is $HOME/.config/doctl/config.yaml)
+      --context string        authentication context name
+  -h, --help                  help for doctl
+  -o, --output string         output format [text|json] (default "text")
+      --trace                 trace api access
+  -v, --verbose               verbose output
+
+Use "doctl [command] --help" for more information about a command.
+```
+
+## doctl examples
+
+List droplets
+
+```
+doctl compute droplet list
+```
+
+SSH connections to droplets
+
+```
+doctl compute ssh droplet_name --ssh-port 22
+```
+```
+doctl compute ssh droplet_id --ssh-port 22
+```
+```
+doctl compute ssh --ssh-private-ip droplet_private_ip --ssh-port 22
+```
+execute command once SSH connection established
+```
+doctl compute ssh --ssh-port 22 --ssh-command command
+```
+
+List snapshots
+```
+doctl compute snapshot list
+```
+
+Get snapshot info from `snapshot_ID`
+```
+doctl compute snapshot get snapshot_ID
+```
+
+Create snapshot from droplet id = `droplet_ID`
+```
+doctl compute droplet-action snapshot droplet_ID creates a Snapshot from a Droplet.
+```
+
+List all images
+```
+doctl compute image list --public
+```
+List all available distribution images
+```
+doctl compute image list-distribution --public
+```
+List all available One-Click Applications.
+```
+doctl compute image list-application --public
+```
+List all user-created images.
+```
+doctl compute image list-user
+```
+Get an Image by ID.
+```
+doctl compute image get image_id
+```
+Update Image's name. Name is mandatory.
+```
+doctl compute image update image_id --name image_name
+```
+Delete an Image by ID.
+```
+doctl compute image delete image_id
+```
+
 # packer explained
 
 Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-1gb) with CentOS 7 64bit OS and install Centmin Mod 123.09beta01 and then clean up after itself and create a DigitalOcean snapshot image and then automatically detroy and remove that temporary droplet. Using the below proces or build image scripts, the resulting snapshot image id will be provided. You can then use snapshot image to create a new droplet via DigitalOcean web gui control panel or via the DigitalOcean API. An example of using the API and `create_droplet.sh` script outlined [here](https://github.com/centminmod/centminmod-digitalocean-marketplace/tree/master/packer/digitalocean).
