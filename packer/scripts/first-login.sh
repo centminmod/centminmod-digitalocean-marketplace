@@ -879,6 +879,12 @@ autotune_mysql() {
   fi  
 }
 
+autotune_cpu() {
+  # tune-adm
+  # tuned-adm list
+  tuned-adm profile latency-performance  >/devnull 2>&1
+}
+
 autotune() {
   echo
   echo "--------------------------------------------------------------------"
@@ -888,6 +894,7 @@ autotune() {
   autotune_nginx
   autotune_php
   autotune_mysql
+  autotune_cpu
   echo
 }
 
