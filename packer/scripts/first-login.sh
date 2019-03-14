@@ -6,6 +6,7 @@ TOTALMEM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 TOTALMEM_T=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 TOTALMEM_SWAP=$(awk '/SwapFree/ {print $2}' /proc/meminfo)
 HOME_DFSIZE=$(df --output=avail /home | tail -1)
+CONFIGSCANDIR='/etc/centminmod/php.d'
 
 if [ ! -d /opt/centminmod ]; then
   mkdir -p /opt/centminmod
@@ -141,7 +142,7 @@ cmm_update() {
 }
 
 reset_pureftpd_params() {
-  echo
+  # echo
   echo "--------------------------------------------------------------------"
   echo "regenerate pure-ftpd ssl cert /etc/ssl/private/pure-ftpd-dhparams.pem"
   echo "please wait..."
@@ -478,11 +479,424 @@ tmpfix() {
   mount -a
 }
 
+autotune_nginx() {
+if [ -f /usr/local/nginx/conf/nginx.conf ]; then
+  echo "auto tune nginx"
+
+NOCPUS=$(grep "processor" /proc/cpuinfo |wc -l)
+NGINXCONFCPU='/usr/local/nginx/conf/nginx.conf'
+WORKERCHECKA=$(grep 'worker_processes  1;' $NGINXCONFCPU)
+WORKERCHECKB=$(grep 'worker_processes 1;' $NGINXCONFCPU)
+
+if [[ "$NOCPUS" -le "2" ]]; then
+        NOCPUS=$NOCPUS
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le 4 && "$NOCPUS" -gt 2 ]]; then    
+        NOCPUS=$(echo "$NOCPUS"/2 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "6" && "$NOCPUS" -gt "4" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [ "$NOCPUS" = "7" ]; then
+        NOCPUS=$(echo "$NOCPUS"/2.333 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [ "$NOCPUS" = "8" ]; then
+        NOCPUS=$(echo "$NOCPUS"/2 | bc)
+
+        echo
+  if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  fi
+fi
+if [[ "$NOCPUS" -le "10" && "$NOCPUS" -gt "8" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2 | bc)
+
+        echo
+  if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  fi
+fi
+if [ "$NOCPUS" = "11" ]; then
+        NOCPUS=$(echo "$NOCPUS"/2 | bc)
+
+        echo
+  if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  fi
+fi
+if [ "$NOCPUS" = "12" ]; then
+        NOCPUS=$(echo "$NOCPUS"/2 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "15" && "$NOCPUS" -ge "13" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2.1 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "16" && "$NOCPUS" -gt "12" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "23" && "$NOCPUS" -ge "17" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2.1 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "31" && "$NOCPUS" -ge "24" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2.4 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "47" && "$NOCPUS" -ge "32" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2.6 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "64" && "$NOCPUS" -ge "48" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/2.666 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "127" && "$NOCPUS" -ge "65" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/4.7083 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+if [[ "$NOCPUS" -le "191" && "$NOCPUS" -ge "128" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/6.4 +10 | bc)
+
+        echo
+  if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  fi
+fi
+if [[ "$NOCPUS" -le "256" && "$NOCPUS" -ge "192" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/6.4 +10 | bc)
+
+        echo
+  if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+    sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+  fi
+fi
+if [[ "$NOCPUS" -ge "257" ]]; then
+        NOCPUS=$(echo "$NOCPUS"/6.5 +10 | bc)
+
+        echo
+    if [[ ! -z "$WORKERCHECKA" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*;/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    elif [[ ! -z "$WORKERCHECKB" ]]; then
+        #echo "set cpu worker_processes to $NOCPUS"
+        sed -i "s/worker_processes .*/worker_processes $NOCPUS;/g" $NGINXCONFCPU
+    fi
+fi
+
+fi
+}
+
+autotune_php() {
+    echo "auto tune php"
+    TOTALMEM_T=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+    TOTALMEM_SWAP=$(awk '/SwapFree/ {print $2}' /proc/meminfo)
+    PHPINICUSTOM='a_customphp.ini'
+    CUSTOMPHPINIFILE="${CONFIGSCANDIR}/${PHPINICUSTOM}"
+
+    if [[ "$CENTOS_SIX" = '6' ]]; then
+      if [[ ! -f /proc/user_beancounters && -f /usr/bin/numactl ]]; then
+        # account for multiple cpu socket numa based memory
+        # https://community.centminmod.com/posts/48189/
+        GETCPUNODE_COUNT=$(numactl --hardware | awk '/available: / {print $2}')
+        if [[ "$GETCPUNODE_COUNT" -ge '2' ]]; then
+          FREEMEM_NUMANODE=$(($(numactl --hardware | awk '/free:/ {print $4}' | sort -r | head -n1)*1024))
+          FREEMEMCACHED=$(egrep '^Buffers|^Cached' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+          FREEMEM=$(($FREEMEM_NUMANODE+$FREEMEMCACHED))
+        else
+          FREEMEM=$(egrep '^MemFree|^Buffers|^Cached' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+        fi
+      elif [[ -f /proc/user_beancounters ]]; then
+        FREEMEMOPENVZ=$(grep '^MemFree' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+        FREEMEMCACHED=$(egrep '^Buffers|^Cached' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+        FREEMEM=$(($FREEMEMOPENVZ+$FREEMEMCACHED))
+      else
+        FREEMEM=$(egrep '^MemFree|^Buffers|^Cached' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+      fi
+    elif [[ "$CENTOS_SEVEN" = '7' ]]; then
+      if [[ ! -f /proc/user_beancounters && -f /usr/bin/numactl ]]; then
+        # account for multiple cpu socket numa based memory
+        # https://community.centminmod.com/posts/48189/
+        GETCPUNODE_COUNT=$(numactl --hardware | awk '/available: / {print $2}')
+        if [[ "$GETCPUNODE_COUNT" -ge '2' ]]; then
+          FREEMEM_NUMANODE=$(($(numactl --hardware | awk '/free:/ {print $4}' | sort -r | head -n1)*1024))
+          FREEMEMCACHED=$(egrep '^Buffers|^Cached' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+          FREEMEM=$(($FREEMEM_NUMANODE+$FREEMEMCACHED))
+        else
+          FREEMEM=$(cat /proc/meminfo | grep MemAvailable | awk '{print $2}')
+        fi
+      elif [[ -f /proc/user_beancounters ]]; then
+        FREEMEMOPENVZ=$(grep '^MemFree' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+        FREEMEMCACHED=$(egrep '^Buffers|^Cached' /proc/meminfo | awk '{summ+=$2} END {print summ}' | head -n1)
+        FREEMEM=$(($FREEMEMOPENVZ+$FREEMEMCACHED))
+      else
+        FREEMEM=$(cat /proc/meminfo | grep MemAvailable | awk '{print $2}')
+      fi
+    fi
+    TOTALMEM_PHP=$FREEMEM
+
+    if [[ ! -f "${CUSTOMPHPINIFILE}" ]]; then
+        touch ${CUSTOMPHPINIFILE}
+    else
+        \cp -a ${CUSTOMPHPINIFILE} ${CUSTOMPHPINIFILE}-bak_$DT
+        rm -rf $CUSTOMPHPINIFILE
+        rm -rf ${CONFIGSCANDIR}/custom_php.ini
+        echo "" > ${CUSTOMPHPINIFILE}
+    fi
+
+    if [[ "$(date +"%Z")" = 'EST' ]]; then
+        echo "date.timezone = Australia/Brisbane" >> ${CUSTOMPHPINIFILE}
+    else
+        echo "date.timezone = UTC" >> ${CUSTOMPHPINIFILE}
+    fi
+
+    # dynamic PHP memory_limit calculation
+    if [[ "$TOTALMEM_PHP" -le '262144' ]]; then
+        ZOLIMIT='32'
+        PHP_MEMORYLIMIT='48M'
+        PHP_UPLOADLIMIT='48M'
+        PHP_REALPATHLIMIT='512k'
+        PHP_REALPATHTTL='14400'
+    elif [[ "$TOTALMEM_PHP" -gt '262144' && "$TOTALMEM_PHP" -le '393216' ]]; then
+        ZOLIMIT='80'
+        PHP_MEMORYLIMIT='96M'
+        PHP_UPLOADLIMIT='96M'
+        PHP_REALPATHLIMIT='640k'
+        PHP_REALPATHTTL='21600'
+    elif [[ "$TOTALMEM_PHP" -gt '393216' && "$TOTALMEM_PHP" -le '524288' ]]; then
+        ZOLIMIT='112'
+        PHP_MEMORYLIMIT='128M'
+        PHP_UPLOADLIMIT='128M'
+        PHP_REALPATHLIMIT='768k'
+        PHP_REALPATHTTL='28800'
+    elif [[ "$TOTALMEM_PHP" -gt '524288' && "$TOTALMEM_PHP" -le '1049576' ]]; then
+        ZOLIMIT='144'
+        PHP_MEMORYLIMIT='160M'
+        PHP_UPLOADLIMIT='160M'
+        PHP_REALPATHLIMIT='768k'
+        PHP_REALPATHTTL='28800'
+    elif [[ "$TOTALMEM_PHP" -gt '1049576' && "$TOTALMEM_PHP" -le '2097152' ]]; then
+        ZOLIMIT='160'
+        PHP_MEMORYLIMIT='320M'
+        PHP_UPLOADLIMIT='320M'
+        PHP_REALPATHLIMIT='1536k'
+        PHP_REALPATHTTL='28800'
+    elif [[ "$TOTALMEM_PHP" -gt '2097152' && "$TOTALMEM_PHP" -le '3145728' ]]; then
+        ZOLIMIT='192'
+        PHP_MEMORYLIMIT='384M'
+        PHP_UPLOADLIMIT='384M'
+        PHP_REALPATHLIMIT='2048k'
+        PHP_REALPATHTTL='43200'
+    elif [[ "$TOTALMEM_PHP" -gt '3145728' && "$TOTALMEM_PHP" -le '4194304' ]]; then
+        ZOLIMIT='224'
+        PHP_MEMORYLIMIT='512M'
+        PHP_UPLOADLIMIT='512M'
+        PHP_REALPATHLIMIT='3072k'
+        PHP_REALPATHTTL='43200'
+    elif [[ "$TOTALMEM_PHP" -gt '4194304' && "$TOTALMEM_PHP" -le '8180000' ]]; then
+        ZOLIMIT='288'
+        PHP_MEMORYLIMIT='640M'
+        PHP_UPLOADLIMIT='640M'
+        PHP_REALPATHLIMIT='4096k'
+        PHP_REALPATHTTL='43200'
+    elif [[ "$TOTALMEM_PHP" -gt '8180000' && "$TOTALMEM_PHP" -le '16360000' ]]; then
+        ZOLIMIT='320'
+        PHP_MEMORYLIMIT='800M'
+        PHP_UPLOADLIMIT='800M'
+        PHP_REALPATHLIMIT='4096k'
+        PHP_REALPATHTTL='43200'
+    elif [[ "$TOTALMEM_PHP" -gt '16360000' && "$TOTALMEM_PHP" -le '32400000' ]]; then
+        ZOLIMIT='480'
+        PHP_MEMORYLIMIT='1024M'
+        PHP_UPLOADLIMIT='1024M'
+        PHP_REALPATHLIMIT='4096k'
+        PHP_REALPATHTTL='43200'
+    elif [[ "$TOTALMEM_PHP" -gt '32400000' && "$TOTALMEM_PHP" -le '64800000' ]]; then
+        ZOLIMIT='600'
+        PHP_MEMORYLIMIT='1280M'
+        PHP_UPLOADLIMIT='1280M'
+        PHP_REALPATHLIMIT='4096k'
+        PHP_REALPATHTTL='43200'
+    elif [[ "$TOTALMEM_PHP" -gt '64800000' ]]; then
+        ZOLIMIT='800'
+        PHP_MEMORYLIMIT='2048M'
+        PHP_UPLOADLIMIT='2048M'
+        PHP_REALPATHLIMIT='8192k'
+        PHP_REALPATHTTL='86400'
+    fi
+
+    echo "max_execution_time = 60" >> ${CUSTOMPHPINIFILE}
+    echo "short_open_tag = On" >> ${CUSTOMPHPINIFILE}
+    echo "realpath_cache_size = $PHP_REALPATHLIMIT" >> ${CUSTOMPHPINIFILE}
+    echo "realpath_cache_ttl = $PHP_REALPATHTTL" >> ${CUSTOMPHPINIFILE}
+    echo "upload_max_filesize = $PHP_UPLOADLIMIT" >> ${CUSTOMPHPINIFILE}
+    echo "memory_limit = $PHP_MEMORYLIMIT" >> ${CUSTOMPHPINIFILE}
+    echo "post_max_size = $PHP_UPLOADLIMIT" >> ${CUSTOMPHPINIFILE}
+    echo "expose_php = Off" >> ${CUSTOMPHPINIFILE}
+    echo "mail.add_x_header = Off" >> ${CUSTOMPHPINIFILE}
+    echo "max_input_nesting_level = 128" >> ${CUSTOMPHPINIFILE}
+    echo "max_input_vars = 10000" >> ${CUSTOMPHPINIFILE}
+    echo "mysqlnd.net_cmd_buffer_size = 16384" >> ${CUSTOMPHPINIFILE}
+    echo "mysqlnd.collect_memory_statistics = Off" >> ${CUSTOMPHPINIFILE}
+    echo "mysqlnd.mempool_default_size = 16000" >> ${CUSTOMPHPINIFILE}
+    echo "always_populate_raw_post_data=-1" >> ${CUSTOMPHPINIFILE}
+
+    if [ -f "${CONFIGSCANDIR}/zendopcache.ini" ]; then
+      sed -i "s|opcache.memory_consumption=.*|opcache.memory_consumption=$ZOLIMIT|" "${CONFIGSCANDIR}/zendopcache.ini"
+    fi
+    echo "contents of ${CUSTOMPHPINIFILE}"
+    cat "${CUSTOMPHPINIFILE}"
+}
+
+autotune_mysql() {
+  # https://community.centminmod.com/posts/25691/
+  if [ -f /usr/local/src/centminmod/tools/setio.sh ]; then
+    echo
+    echo "auto tune mysql"
+      /usr/local/src/centminmod/tools/setio.sh set
+      mysqlrestart >/devnull 2>&1
+  fi  
+}
+
+autotune() {
+  echo
+  echo "--------------------------------------------------------------------"
+  echo "auto tune Centmin Mod LEMP stack settings"
+  echo "based on detected server environment"
+  echo "--------------------------------------------------------------------"
+  autotune_nginx
+  autotune_php
+  autotune_mysql
+  echo
+}
+
 msg
 get_email
 set_hostname
 whitelistip
 cmm_update
+autotune
 reset_pureftpd_params
 reset_memcache_admin
 reset_opcache
