@@ -12,6 +12,7 @@
   * [first boot MOTD](#first-boot-motd)
   * [first boot prompts](#first-boot-prompts)
   * [Spectre & Meldown Checks](#spectre--meltdown-checks)
+* [build-centos7-only-image.sh Example](#build-centos7-only-imagesh-example)
 
 # packer.io install
 
@@ -1855,10 +1856,10 @@ export TOKEN='YOUR_DO_API_KEY'
 packer validate packer-centos7-basic.json
 packer inspect packer-centos7-basic.json
 export PACKER_LOG_PATH="packerlog-php72-$(date +"%d%m%y-%H%M%S").log"
-time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_image=446XXXXXX' packer-centos7-basic.json
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_image=446XXXXXX' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
 # with debug mode
-# time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_image=446XXXXXX' -debug packer-centos7-basic.json
+# time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_image=446XXXXXX' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' -debug packer-centos7-basic.json
 
 # parse PACKER_LOG_PATH
 snapshot_name=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $10}' | sed -e "s|'||g" -e 's|)||g')
