@@ -1,0 +1,39 @@
+{
+  "variables": {
+    "do_token": "{{env `TOKEN`}}",
+    "do_image_name": "centos7-only-packer-{{timestamp}}",
+    "do_image": "centos-7-x64",
+    "do_region": "sfo2",
+    "do_size": "s-1vcpu-1gb",
+    "do_tags": "cmm-centos7",
+    "install_elrepo": "n",
+    "install_bbr": "n"
+  },
+  "builders": [
+    {
+      "type": "digitalocean",
+      "api_token": "{{user `do_token`}}",
+      "image": "{{user `do_image`}}",
+      "region": "{{user `do_region`}}",
+      "size": "{{user `do_size`}}",
+      "ssh_username": "root",
+      "snapshot_name": "{{user `do_image_name`}}",
+      "tags": "{{user `do_tags`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [
+        "INSTALL_ELREPO={{user `install_elrepo`}}",
+        "INSTALL_BBR={{user `install_bbr`}}"
+      ],
+      "scripts": [
+        "scripts/centos76-only-install.sh"
+      ],
+      "remote_folder": "/home",
+      "remote_file": "script_1.sh",
+      "skip_clean": "false"
+    }
+  ]
+}
