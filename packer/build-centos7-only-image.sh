@@ -45,12 +45,6 @@ build() {
     snapshot_id=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $12}' | sed -e "s|'||g" -e 's|)||g')
     snapshot_region=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $15}' | sed -e "s|'||g" -e 's|)||g')
 
-    if [ -f /usr/local/bin/doctl ]; then
-        echo
-        doctl compute image list-user | grep 'packer' | egrep 'Distribution|snapshot'
-        echo
-    fi
-    
     if [ "${snapshot_id}" ]; then
         echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
         # snapshot info query API by snapshot id
@@ -70,6 +64,11 @@ build() {
         echo "create 2nd snapshot"
         droplet_id=$(awk -F '=' '/droplet_id=/ {print $2}' $PACKER_LOG_PATH)
         curl -sX POST -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "{\"type\":\"snapshot\",\"name\":\"${snapshot_id}-${snapshot_new_name_second}\"}" "https://api.digitalocean.com/v2/droplets/${droplet_id}/actions" | jq -r .
+        echo
+    fi
+    if [ -f /usr/local/bin/doctl ]; then
+        echo
+        doctl compute image list-user | grep 'packer' | egrep 'Distribution|snapshot'
         echo
     fi
   else
