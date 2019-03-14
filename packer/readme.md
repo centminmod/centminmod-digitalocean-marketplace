@@ -292,6 +292,9 @@ Variables available
 * install_docker - default = `n`
 * install_redis - default = `n`
 * install_auditd - default = `n`
+* install_go - default = `n`
+* install_nodejs - default = `n`
+* install_customcurl - default = `n`
 * enable_brotli - default = `n`
 * enable_dualcerts - default = `n`
 * enable_phppgo - default = `n`
@@ -464,13 +467,17 @@ Optional variables and their defaults:
   do_tags               = cmm
   do_token              = {{env `TOKEN`}}
   enable_brotli         = n
+  enable_dualcerts      = n
   enable_logrotate_zstd = n
   enable_phpfpm_systemd = n
   enable_phppgo         = n
   install_auditd        = n
   install_bbr           = n
+  install_customcurl    = n
   install_docker        = n
   install_elrepo        = n
+  install_go            = n
+  install_nodejs        = n
   install_redis         = n
 
 Builders:
@@ -479,6 +486,10 @@ Builders:
 
 Provisioners:
 
+  shell
+  file
+  file
+  shell
   shell
 
 Note: If your build names contain user variables or template
@@ -555,11 +566,13 @@ Build 'digitalocean' finished.
 The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot images can be automated using `build-image.sh` script or one of the variants below with different default options enabled. If you are using the `build-image.sh` scripts, the resulting snapshot image name is renamed after packer creates the snapshot image in the format: `snapshot_id-centos7-packer-php72-redis-systemd-${dt}` where `${dt}` is date timestamp and snapshot_id of the snapshot is prefixed for easier indentification.
 
 * `packer/build-image.sh` - with additional redis option and [PHP-FPM systemd statistics support](https://community.centminmod.com/threads/centos-7-proper-php-fpm-systemd-service-file.16511/#post-70380)
-* `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation
+* `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation, golang, nodejs and customcurl
 * `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
 * `packer/build-image-with-docker.sh` - with `build-image.sh` defaults + with docker
 * `packer/build-image-with-dualcerts.sh` - with `build-image.sh` defaults + with [dual RSA 2048bit + ECDSA 256bit](https://community.centminmod.com/threads/7449/) letsencrypt SSL certificate support in Nginx
 * `packer/build-image-with-kernel-ml.sh` - with `build-image.sh` defaults + with linux mainline kernel
+* `packer/build-image-with-go-nodejs.sh` - with `build-image.sh` defaults + with golang + nodejs
+* `packer/build-image-with-customcurl.sh` - with `build-image.sh` defaults + with customcurl
 * `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
 * `packer/build-image-with-zstd.sh` - with `build-image.sh` defaults + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
 * `build-centos7-only-image.sh` - this doesn't install Centmin Mod but rather builds a CentOS 7.x image with latest updates so you can use resulting image as a base for above build image script runs with override variable `-var 'do_image=YOUR_IMAGE_ID'` where `YOUR_IMAGE_ID` is the snapshot image id for the resulting image build with `build-centos7-only-image.sh`
