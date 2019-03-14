@@ -1690,3 +1690,183 @@ CVE-2018-3646 aka 'Foreshadow-NG (VMM), L1 terminal fault'
 
 A false sense of security is worse than no security at all, see --disclaimer
 ```
+
+# build-centos7-only-image.sh Example
+
+Example CentOS 7 only image build with latest yum updates and no Centmin Mod preinstalled via `build-centos7-only-image.sh` where the resulting snapshot image created had snapshot id = `446XXXXXX` and renamed snapshot image name = `446XXXXXX-centos7-latest-only-packer-140319-065051`
+
+```
+./build-centos7-only-image.sh 
+
+packer validate packer-centos7-only.json
+Template validated successfully.
+
+packer inspect packer-centos7-only.json
+Optional variables and their defaults:
+
+  do_image       = centos-7-x64
+  do_image_name  = centos7-only-packer-{{timestamp}}
+  do_region      = sfo2
+  do_size        = s-1vcpu-1gb
+  do_tags        = cmm-centos7
+  do_token       = {{env `TOKEN`}}
+  install_bbr    = n
+  install_elrepo = n
+
+Builders:
+
+  digitalocean
+
+Provisioners:
+
+  shell
+
+Note: If your build names contain user variables or template
+functions such as 'timestamp', these are processed at build time,
+and therefore only show in their raw form here.
+
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build packer-centos7-only.json
+digitalocean output will be in this color.
+
+==> digitalocean: Creating temporary ssh key for droplet...
+==> digitalocean: Creating droplet...
+==> digitalocean: Waiting for droplet to become active...
+==> digitalocean: Using ssh communicator to connect: 68.XXX.XXX.XXX
+==> digitalocean: Waiting for SSH to become available...
+==> digitalocean: Connected to SSH!
+==> digitalocean: Provisioning with shell script: scripts/centos76-only-install.sh
+    digitalocean:
+    digitalocean: hostname: packer-5c89f9cd-0b9b-e9ea-e9d7-2976d799bbba
+    digitalocean:
+    digitalocean: Architecture:          x86_64
+    digitalocean: CPU op-mode(s):        32-bit, 64-bit
+    digitalocean: Byte Order:            Little Endian
+    digitalocean: CPU(s):                1
+    digitalocean: On-line CPU(s) list:   0
+    digitalocean: Thread(s) per core:    1
+    digitalocean: Core(s) per socket:    1
+    digitalocean: Socket(s):             1
+    digitalocean: NUMA node(s):          1
+    digitalocean: Vendor ID:             GenuineIntel
+    digitalocean: CPU family:            6
+    digitalocean: Model:                 79
+    digitalocean: Model name:            Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz
+    digitalocean: Stepping:              1
+    digitalocean: CPU MHz:               2199.998
+    digitalocean: BogoMIPS:              4399.99
+    digitalocean: Virtualization:        VT-x
+    digitalocean: Hypervisor vendor:     KVM
+    digitalocean: Virtualization type:   full
+    digitalocean: L1d cache:             32K
+    digitalocean: L1i cache:             32K
+    digitalocean: L2 cache:              256K
+    digitalocean: L3 cache:              30720K
+    digitalocean: NUMA node0 CPU(s):     0
+    digitalocean: Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl eagerfpu pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+```
+end part
+```
+    digitalocean: ---------------------------------------------
+    digitalocean: droplet metadata
+    digitalocean: droplet_id=1363xxxxx
+    digitalocean: droplet_hostname=packer-5c89f9cd-0b9b-e9ea-e9d7-2976d799bbba
+    digitalocean: droplet_region=sfo2
+    digitalocean: droplet_ip=68.XXX.XXX.XXX
+    digitalocean: droplet_anchor_ip=10.XXX.XXX.XXX
+    digitalocean: droplet_floating_ip=
+    digitalocean:
+    digitalocean: Thu Mar 14 06:57:30 UTC 2019
+    digitalocean: Loaded plugins: fastestmirror
+    digitalocean: Cleaning repos: base extras updates
+    digitalocean: Cleaning up list of fastest mirrors
+    digitalocean:
+    digitalocean: Thu Mar 14 06:57:30 UTC 2019
+==> digitalocean: Gracefully shutting down droplet...
+==> digitalocean: Creating snapshot: centos7-only-packer-1552xxxxxx
+==> digitalocean: Waiting for snapshot to complete...
+==> digitalocean: Destroying droplet...
+==> digitalocean: Deleting temporary ssh key...
+Build 'digitalocean' finished.
+
+==> Builds finished. The artifacts of successful builds are:
+--> digitalocean: A snapshot was created: 'centos7-only-packer-1552xxxxxx' (ID: 446XXXXXX) in regions 'sfo2'
+
+real    8m28.513s
+user    0m2.610s
+sys     0m1.040s
+
+Thu Mar 14 06:59:21 UTC 2019
+
+get snapshot id
+snapshot name: centos7-only-packer-1552xxxxxx (446XXXXXX) in sfo2 created
+
+{
+  "snapshot": {
+    "id": "446XXXXXX",
+    "name": "centos7-only-packer-1552xxxxxx",
+    "regions": [
+      "sfo2"
+    ],
+    "created_at": "2019-03-14T06:57:40Z",
+    "resource_id": "1363xxxxx",
+    "resource_type": "droplet",
+    "min_disk_size": 25,
+    "size_gigabytes": 1.81
+  }
+}
+
+rename snapshot
+{
+  "image": {
+    "id": 446XXXXXX,
+    "name": "446XXXXXX-centos7-latest-only-packer-140319-065051",
+    "distribution": "CentOS",
+    "slug": null,
+    "public": false,
+    "regions": [
+      "sfo2"
+    ],
+    "created_at": "2019-03-14T06:57:40Z",
+    "min_disk_size": 25,
+    "type": "snapshot",
+    "size_gigabytes": 1.81,
+    "description": null,
+    "tags": [],
+    "status": "available",
+    "error_message": ""
+  }
+}
+```
+
+Then you can use this new CentOS 7 latest base snapshot id = `446XXXXXX` to build a Centmin Mod preinstalled image from with override variable -var 'do_image=YOUR_IMAGE_ID' where YOUR_IMAGE_ID is the snapshot image id = `446XXXXXX`
+
+```
+mkdir -p /home/packertmp
+mkdir -p /root/tools/packer/scripts
+chmod 1777 /home/packertmp
+export TMPDIR=/home/packertmp
+
+cd /root/tools
+git clone https://github.com/centminmod/centminmod-digitalocean-marketplace
+cd centminmod-digitalocean-marketplace/packer
+
+export TOKEN='YOUR_DO_API_KEY'
+
+packer validate packer-centos7-basic.json
+packer inspect packer-centos7-basic.json
+export PACKER_LOG_PATH="packerlog-php72-$(date +"%d%m%y-%H%M%S").log"
+time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_image=446XXXXXX' packer-centos7-basic.json
+
+# with debug mode
+# time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'do_image=446XXXXXX' -debug packer-centos7-basic.json
+
+# parse PACKER_LOG_PATH
+snapshot_name=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $10}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_id=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $12}' | sed -e "s|'||g" -e 's|)||g')
+snapshot_region=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $15}' | sed -e "s|'||g" -e 's|)||g')
+echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
+
+# snapshot info query API by snapshot id
+# https://developers.digitalocean.com/documentation/v2/#retrieve-an-existing-snapshot-by-id
+curl -sX GET -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" "https://api.digitalocean.com/v2/snapshots/${snapshot_id}" | jq -r .
+```
