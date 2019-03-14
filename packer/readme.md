@@ -444,6 +444,7 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-with-kernel-ml.sh` - with `build-image.sh` defaults + with linux mainline kernel
 * `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
 * `packer/build-image-with-zstd.sh` - with `build-image.sh` defaults + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
+* `build-centos7-only-image.sh` - this doesn't install Centmin Mod but rather builds a CentOS 7.x image with latest updates so you can use resulting image as a base for above build image script runs with override variable `-var 'do_image=YOUR_IMAGE_ID'` where `YOUR_IMAGE_ID` is the snapshot image id for the resulting image build with `build-centos7-only-image.sh`
 
 ## Second droplet snapshot image
 
