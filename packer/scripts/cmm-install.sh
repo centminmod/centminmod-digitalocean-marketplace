@@ -106,6 +106,39 @@ if [[ "$INSTALL_AUDITD" = [yY] ]]; then
   /usr/local/src/centminmod/tools/auditd.sh setup
 fi
 
+# install go
+echo "INSTALL_GO=$INSTALL_GO"
+
+if [[ "$INSTALL_GO" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "golang install"
+  echo "---------------------------------------------"
+  /usr/local/src/centminmod/addons/golang.sh install
+fi
+
+# install nodejs
+echo "INSTALL_NODEJS=$INSTALL_NODEJS"
+
+if [[ "$INSTALL_NODEJS" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "nodejs install"
+  echo "---------------------------------------------"
+  /usr/local/src/centminmod/addons/nodejs.sh install
+fi
+
+# install custom curl
+echo "INSTALL_CURL=$INSTALL_CURL"
+
+if [[ "$INSTALL_CURL" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "custom curl install"
+  echo "---------------------------------------------"
+  /usr/local/src/centminmod/addons/customcurl.sh
+fi
+
 # might as well do some quick benchmarks to test the temp droplets performance
 # http/2 https benchmarks
 echo
