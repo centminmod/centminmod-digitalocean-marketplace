@@ -46,6 +46,12 @@ build() {
     snapshot_name=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $10}' | sed -e "s|'||g" -e 's|)||g')
     snapshot_id=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $12}' | sed -e "s|'||g" -e 's|)||g')
     snapshot_region=$(cat $PACKER_LOG_PATH | grep 'digitalocean: A snapshot was created:' | awk '{print $15}' | sed -e "s|'||g" -e 's|)||g')
+
+    if [ -f /usr/local/bin/doctl ]; then
+        echo
+        doctl compute image list-user | grep 'packer' | egrep 'Distribution|snapshot'
+        echo
+    fi
     
     if [ "${snapshot_id}" ]; then
         echo "snapshot name: $snapshot_name ($snapshot_id) in $snapshot_region created"
