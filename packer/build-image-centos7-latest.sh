@@ -4,7 +4,7 @@
 # ./build-centos7-only-image.sh IMAGE_ID
 ###############################################
 dt=$(date +"%d%m%y-%H%M%S")
-DO_IMAGE=${1:-"centos-7-x64"}
+do_imageid=${1:-"centos-7-x64"}
 snapshot_second_count='1'
 
 build() {
@@ -34,8 +34,8 @@ build() {
     snapshot_new_name="centos7-packer-php72-redis-systemd-${dt}"
     snapshot_new_name_second="centos7-packer-php72-redis-systemd-2-${dt}"
     export PACKER_LOG_PATH="packerlog-php72-redis-systemd-$(date +"%d%m%y-%H%M%S").log"
-    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$DO_IMAGE" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
-    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$DO_IMAGE" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
+    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
+    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
     echo
     date
