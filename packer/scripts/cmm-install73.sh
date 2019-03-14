@@ -337,6 +337,23 @@ if [[ "$INSTALL_AUDITD" = [yY] ]]; then
   auditctl -l
   echo
 fi
+if [[ "$INSTALL_GO" = [yY] ]]; then
+  echo "go version"
+  go version
+  echo
+fi
+if [[ "$INSTALL_NODEJS" = [yY] ]]; then
+  echo "node -v"
+  node -v
+  echo "npm --version"
+  npm --version
+  echo
+fi
+if [[ "$INSTALL_CUSTOMCURL" = [yY] ]]; then
+  echo "curl -V"
+  curl -V
+  echo
+fi
 echo
 echo "---------------------------------------------"
 echo "cminfo top"
