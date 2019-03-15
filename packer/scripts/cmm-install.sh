@@ -37,6 +37,9 @@ fi
 if [[ "$INSTALL_ARGON" = [yY] ]]; then
   echo "PHP_ARGON='y'" >> /etc/centminmod/custom_config.inc
 fi
+if [[ "$INSTALL_MONGODB" = [yY] ]]; then
+  echo "PHPMONGODB='y'" >> /etc/centminmod/custom_config.inc
+fi
 echo "MARIADB_INSTALLTENTHREE='y'" >> /etc/centminmod/custom_config.inc
 cat /etc/centminmod/custom_config.inc
 echo
@@ -95,6 +98,38 @@ if [[ "$INSTALL_REDIS" = [yY] ]]; then
   cd centminmod-redis
   ./redis-install.sh install
   redis-cli info
+fi
+
+# install mongodb
+echo "INSTALL_MONGODB=$INSTALL_MONGODB"
+
+if [[ "$INSTALL_MONGODB" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "mongodb install"
+  echo "---------------------------------------------"
+cat > /etc/yum.repos.d/mongodb-org-4.0.repo <<EOF
+[mongodb-org-4.0]
+name=MongoDB Repository
+#baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/
+baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
+EOF
+  yum -y install mongodb-org
+  mongo_err=$?
+  if [[ "$mongo_err" -ne '0' ]]; then
+    rm -f /etc/yum.repos.d/mongodb-org-4.0.repo
+  else
+    service mongod start
+    echo
+    service mongod status
+    echo
+    chkconfig mongod on
+    echo
+    mongo --version
+  fi
 fi
 
 # install auditd
@@ -333,6 +368,27 @@ echo "---------------------------------------------"
 echo "fpmstats"
 fpmstats
 echo
+if [[ "$INSTALL_ARGON" = [yY] ]]; then
+  echo "---------------------------------------------"
+  echo "PHP Argon2 Checks"
+  echo
+  php --ri sodium
+  echo
+  php -r 'print_r(get_defined_constants());' | grep -i argon
+  echo
+fi
+if [[ "$INSTALL_MONGODB" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "mongodb"
+  mongo --version
+  echo
+  echo "php --ri mongodb"
+  php --ri mongodb
+  echo
+  service mongod status
+  echo
+fi
 if [[ "$INSTALL_AUDITD" = [yY] ]]; then
   service auditd restart
   service auditd status

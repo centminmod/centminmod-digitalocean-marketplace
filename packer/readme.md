@@ -293,6 +293,7 @@ Variables available
 * install_bbr - default = `n`
 * install_docker - default = `n`
 * install_redis - default = `n`
+* install_mongodb - default = `n`
 * install_auditd - default = `n`
 * install_go - default = `n`
 * install_nodejs - default = `n`
@@ -577,6 +578,8 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-with-go-nodejs.sh` - with `build-image.sh` defaults + with golang + nodejs
 * `packer/build-image-with-customcurl.sh` - with `build-image.sh` defaults + with customcurl
 * `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
+* `packer/build-image-with-mongodb.sh` - with `build-image.sh` defaults + mongodb server and PHP extension
+* `packer/build-image-php73-with-mongodb.sh` - with `build-image.sh` defaults + PHP 7.3 default + mongodb server and PHP extension
 * `packer/build-image-php73.sh` - with `build-image.sh` defaults + PHP 7.3 default + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
 * `packer/build-image-all-php73.sh` - with `build-image.sh` defaults + with PHP 7.3 default + enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation, golang, nodejs and customcurl
 * `packer/build-image-with-kernel-ml-php73.sh` - with `build-image.sh` defaults + with PHP 7.3 default + with linux mainline kernel

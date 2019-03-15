@@ -30,11 +30,11 @@ build() {
 
     # build
     echo
-    snapshot_new_name="centos7-packer-php73-all-redis-systemd-${dt}"
-    snapshot_new_name_second="centos7-packer-php73-all-redis-systemd-2-${dt}"
-    export PACKER_LOG_PATH="packerlog-php73-all-$(date +"%d%m%y-%H%M%S").log"
-    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_go=y' -var 'install_nodejs=y' -var 'install_customcurl=y' -var 'install_docker=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' -var 'enable_phppgo=y' -var 'install_elrepo=y' -var 'install_bbr=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic-php73.json"
-    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_go=y' -var 'install_nodejs=y' -var 'install_customcurl=y' -var 'install_docker=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' -var 'enable_phppgo=y' -var 'install_elrepo=y' -var 'install_bbr=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic-php73.json
+    snapshot_new_name="centos7-packer-php73-mongodb-redis-systemd-${dt}"
+    snapshot_new_name_second="centos7-packer-php73-mongodb-redis-systemd-2-${dt}"
+    export PACKER_LOG_PATH="packerlog-php73-mongodb-redis-systemd-$(date +"%d%m%y-%H%M%S").log"
+    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic-php73.json"
+    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic-php73.json
 
     echo
     date
