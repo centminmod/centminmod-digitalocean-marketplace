@@ -347,6 +347,7 @@ reset_bashrc() {
   if [ -f /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh ]; then
     rm -f /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh
   fi
+  chown -R nginx:nginx /usr/local/nginx/html
 }
 
 tmpsetup() {
