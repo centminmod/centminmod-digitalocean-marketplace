@@ -20,6 +20,7 @@
 yum -y install jq
 mkdir -p /root/tools
 cd /root/tools
+# packer_version=$(curl -s "https://api.github.com/repos/hashicorp/packer/tags?per_page=500" | jq -r '.[].name' | egrep -iv 'alpha|beta|rc' | grep 'v' | head -n1 | sed -e 's|v||')
 packer_version=1.3.5
 wget https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
 unzip packer_${packer_version}_linux_amd64.zip -df /usr/local/bin
@@ -50,6 +51,7 @@ Also install [doctl](https://github.com/digitalocean/doctl) API command line too
 ```
 mkdir -p /root/tools
 cd /root/tools
+# doctl_version=$(curl -s "https://api.github.com/repos/digitalocean/doctl/tags?per_page=500" | jq -r '.[].name' | egrep -iv 'alpha|beta|rc' | grep 'v' | head -n1 | sed -e 's|v||')
 doctl_version=1.14.0
 wget https://github.com/digitalocean/doctl/releases/download/v${doctl_version}/doctl-${doctl_version}-linux-amd64.tar.gz
 tar xvzf doctl-${doctl_version}-linux-amd64.tar.gz -C /usr/local/bin
@@ -576,6 +578,18 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
 * `packer/build-image-with-zstd.sh` - with `build-image.sh` defaults + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
 * `build-centos7-only-image.sh` - this doesn't install Centmin Mod but rather builds a CentOS 7.x image with latest updates so you can use resulting image as a base for above build image script runs with override variable `-var 'do_image=YOUR_IMAGE_ID'` where `YOUR_IMAGE_ID` is the snapshot image id for the resulting image build with `build-centos7-only-image.sh`
+
+## Build Image Alias Shortcuts
+
+For convenience sake, I also created some command alias shorts to build specific droplet snapshot images with Centmin Mod LEMP stack preinstalled. Just replace, `YOUR_IMAGE_ID` with your base snpashot image ID, either snpashot id created from `build-centos7-only-image.sh` or the default distro image id/slug = `centos-7-x64`. You can place these command aliases in your `/root/.bashrc` file.
+
+```
+alias buildall='buildimg; buildimgall; buildimgkernel'
+alias buildimg='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image.sh YOUR_IMAGE_ID'
+alias buildimgall='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image-all.sh YOUR_IMAGE_ID'
+alias buildimgkernel='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image-with-kernel-ml.sh YOUR_IMAGE_ID'
+alias cdmp='cd /root/tools/centminmod-digitalocean-marketplace/packer/; git stash; git pull; ls -lah;'
+```
 
 ## Second droplet snapshot image
 
