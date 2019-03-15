@@ -12,7 +12,7 @@ if [ ! -d /opt/centminmod ]; then
   mkdir -p /opt/centminmod
 fi
 
-msg() {
+bookmark() {
 echo "
 ===============================================================================
 * Getting Started Guide - https://centminmod.com/getstarted.html
@@ -24,6 +24,10 @@ echo "
 "
 
 echo
+}
+
+msg() {
+bookmark
 echo "Below are a number of tasks required to initially setup your server"
 sleep 2
 updatedb
@@ -914,4 +918,5 @@ log_cleanup
 service_checks
 tmpfix
 reset_bashrc
+bookmark
 exit
