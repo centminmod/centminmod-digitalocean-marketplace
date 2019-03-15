@@ -33,8 +33,8 @@ build() {
     snapshot_new_name="centos7-packer-php72-zstd-redis-systemd-${dt}"
     snapshot_new_name_second="centos7-packer-php72-zstd-redis-systemd-2-${dt}"
     export PACKER_LOG_PATH="packerlog-php72-zstd-$(date +"%d%m%y-%H%M%S").log"
-    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var 'enable_logrotate_zstd=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
-    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var 'enable_logrotate_zstd=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
+    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "enable_argon=y" -var 'enable_logrotate_zstd=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
+    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "enable_argon=y" -var 'enable_logrotate_zstd=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
     echo
     date

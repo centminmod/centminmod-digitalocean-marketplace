@@ -468,6 +468,7 @@ Optional variables and their defaults:
   do_size               = c-2
   do_tags               = cmm
   do_token              = {{env `TOKEN`}}
+  enable_argon          = n
   enable_brotli         = n
   enable_dualcerts      = n
   enable_logrotate_zstd = n
@@ -567,7 +568,7 @@ Build 'digitalocean' finished.
 
 The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot images can be automated using `build-image.sh` script or one of the variants below with different default options enabled. If you are using the `build-image.sh` scripts, the resulting snapshot image name is renamed after packer creates the snapshot image in the format: `snapshot_id-centos7-packer-php72-redis-systemd-${dt}` where `${dt}` is date timestamp and snapshot_id of the snapshot is prefixed for easier indentification.
 
-* `packer/build-image.sh` - with additional redis option and [PHP-FPM systemd statistics support](https://community.centminmod.com/threads/centos-7-proper-php-fpm-systemd-service-file.16511/#post-70380)
+* `packer/build-image.sh` - with additional redis option, enable PHP 7.2 Argon2 support and [PHP-FPM systemd statistics support](https://community.centminmod.com/threads/centos-7-proper-php-fpm-systemd-service-file.16511/#post-70380)
 * `packer/build-image-all.sh` - enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation, golang, nodejs and customcurl
 * `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
 * `packer/build-image-with-docker.sh` - with `build-image.sh` defaults + with docker
@@ -624,6 +625,7 @@ Optional variables and their defaults:
   do_size               = c-2
   do_tags               = cmm
   do_token              = {{env `TOKEN`}}
+  enable_argon          = n
   enable_brotli         = n
   enable_logrotate_zstd = n
   enable_phppgo         = n

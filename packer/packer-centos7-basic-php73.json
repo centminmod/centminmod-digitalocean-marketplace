@@ -14,6 +14,7 @@
     "install_go": "n",
     "install_nodejs": "n",
     "install_customcurl": "n",
+    "enable_argon": "n",
     "enable_brotli": "n",
     "enable_dualcerts": "n",
     "enable_phppgo": "n",
@@ -59,6 +60,7 @@
     {
       "type": "shell",
       "environment_vars": [
+        "INSTALL_ARGON={{user `enable_argon`}}",
         "INSTALL_ELREPO={{user `install_elrepo`}}",
         "INSTALL_BBR={{user `install_bbr`}}",
         "INSTALL_DOCKER={{user `install_docker`}}",

@@ -34,6 +34,9 @@ if [[ "$INSTALL_INSTALL_LOGROTATEZSTD" = [yY] ]]; then
   echo "ZSTD_LOGROTATE_NGINX='y'" >> /etc/centminmod/custom_config.inc
   echo "ZSTD_LOGROTATE_PHPFPM='y'" >> /etc/centminmod/custom_config.inc
 fi
+if [[ "$INSTALL_ARGON" = [yY] ]]; then
+  echo "PHP_ARGON='y'" >> /etc/centminmod/custom_config.inc
+fi
 echo "MARIADB_INSTALLTENTHREE='y'" >> /etc/centminmod/custom_config.inc
 cat /etc/centminmod/custom_config.inc
 echo
