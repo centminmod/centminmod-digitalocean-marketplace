@@ -384,6 +384,7 @@ echo
 date
 
 # cleanup after centminmod install
+yum -y update --disableplugin=priorities --enablerepo=remi
 yum -y clean all
 yum-config-manager --disable rpmforge >/dev/null 2>&1
 ccache -C
