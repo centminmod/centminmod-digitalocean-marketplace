@@ -12,7 +12,7 @@
   * [first boot MOTD](#first-boot-motd)
   * [first boot prompts](#first-boot-prompts)
   * [Spectre & Meldown Checks](#spectre--meltdown-checks)
-  * [DigitalOcean Spaces & s3cmd setup]()
+  * [DigitalOcean Spaces & s3cmd setup](#digitalocean-spaces--s3cmd-setup)
 * [build-centos7-only-image.sh Example](#build-centos7-only-imagesh-example)
 
 # packer.io install
