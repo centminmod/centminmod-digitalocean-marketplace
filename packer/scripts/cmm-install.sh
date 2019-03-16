@@ -1,10 +1,98 @@
 #!/bin/bash
 
+CENTOSVER=$(awk '{ print $3 }' /etc/redhat-release)
+
+if [ "$CENTOSVER" == 'release' ]; then
+    CENTOSVER=$(awk '{ print $4 }' /etc/redhat-release | cut -d . -f1,2)
+    if [[ "$(cat /etc/redhat-release | awk '{ print $4 }' | cut -d . -f1)" = '7' ]]; then
+        CENTOS_SEVEN='7'
+    fi
+fi
+
+if [[ "$(cat /etc/redhat-release | awk '{ print $3 }' | cut -d . -f1)" = '6' ]]; then
+    CENTOS_SIX='6'
+fi
+
+# Check for Redhat Enterprise Linux 7.x
+if [ "$CENTOSVER" == 'Enterprise' ]; then
+    CENTOSVER=$(awk '{ print $7 }' /etc/redhat-release)
+    if [[ "$(awk '{ print $1,$2 }' /etc/redhat-release)" = 'Red Hat' && "$(awk '{ print $7 }' /etc/redhat-release | cut -d . -f1)" = '7' ]]; then
+        CENTOS_SEVEN='7'
+        REDHAT_SEVEN='y'
+    fi
+fi
+
+if [[ -f /etc/system-release && "$(awk '{print $1,$2,$3}' /etc/system-release)" = 'Amazon Linux AMI' ]]; then
+    CENTOS_SIX='6'
+fi
+
 # 2nd snapshot detection
 if [[ "$snapshot_second" = [yY] ]]; then
     echo "snapshot_second=$snapshot_second"
     echo
 fi
+
+pip_updates() {
+  # for glances and psutil as glances is installed via outdated EPEL
+  # yum repo but there's a new version available
+  if [[ ! -f /usr/bin/python-config ]]; then
+    yum -q -y install python-devel
+  fi
+  if [[ "$CENTOS_SEVEN" -eq '7' && ! -f /usr/bin/pip ]] || [[ "$CENTOS_SIX" -eq '6' &&  ! -f /usr/bin/pip2.7 ]]; then
+    if [[ "$CENTOS_SEVEN" -eq '7' ]]; then
+      yum -q -y install python2-pip >/dev/null 2>&1
+      yum -q -y versionlock python2-pip >/dev/null 2>&1
+      export CC='gcc'
+      PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install -qqq --upgrade pip
+    else
+      yum -q -y install python-pip >/dev/null 2>&1
+      yum -q -y versionlock python-pip >/dev/null 2>&1
+      export CC='gcc'
+      PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install -qqq --upgrade pip
+      if [[ "$CENTOS_SIX" -eq '6' && -f "/usr/local/src/centminmod/addons/python27_install.sh" && ! -f /usr/bin/pip2.7 ]]; then
+        "/usr/local/src/centminmod/addons/python27_install.sh" install
+        PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip2.7 install -qqq --upgrade pip
+        PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip2.7 install -qqq --upgrade psutil
+        PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip2.7 install -qqq --upgrade glances
+        echo
+        echo "CentOS 6 python 2.7 compatibility updates completed"
+        echo
+      fi
+    fi
+  elif [[ "$CENTOS_SIX" -eq '6' && -f /usr/bin/pip2.7 ]]; then
+    CHECK_PIPVER=$(PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip show pip 2>&1 | awk '/^Version: / {print $2}' | sed -e 's|\.|0|g')
+    if [[ "$CHECK_PIPVER" -lt '1801' ]]; then
+      PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip2.7 install -qqq --upgrade pip
+    fi
+  elif [[ "$CENTOS_SEVEN" -eq '7' && -f /usr/bin/pip ]]; then
+    CHECK_PIPVER=$(PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip show pip 2>&1 | awk '/^Version: / {print $2}' | sed -e 's|\.||g')
+    if [[ "$CHECK_PIPVER" -lt '901' ]]; then
+      PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install -qqq --upgrade pip
+    fi
+  fi
+  if [[ "$CENTOS_SEVEN" -eq '7' && -f /usr/bin/pip && -f /usr/bin/python-config ]]; then
+    CHECK_PIPALL_UPDATES=$(PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip list -o --format columns)
+    CHECK_PIPUPDATE=$(echo "$CHECK_PIPALL_UPDATES" | grep -o pip)
+    CHECK_PSUTILUPDATE=$(echo "$CHECK_PIPALL_UPDATES" | grep -o psutil)
+    CHECK_GLANCESUPDATE=$(echo "$CHECK_PIPALL_UPDATES" | grep -io glances)
+    if [[ "$CHECK_PIPUPDATE" = 'pip' ]]; then
+      export CC='gcc'
+      PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install -qqq --upgrade pip
+      yum -q -y versionlock python2-pip >/dev/null 2>&1
+    fi
+    if [[ "$CHECK_PSUTILUPDATE" = 'psutil' ]]; then
+      export CC='gcc'
+      if [[ "$(rpm -qa python2-psutil | grep -o python2-psutil)" = 'python2-psutil' ]]; then
+        yum -q -y remove python2-psutil >/dev/null 2>&1
+      fi
+      PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install -qqq --upgrade psutil
+    fi
+    if [[ "$CHECK_GLANCESUPDATE" = 'Glances' ]]; then
+      export CC='gcc'
+      PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install -qqq --upgrade glances
+    fi
+  fi
+}
 
 # setup persistent config settings to override centminmod defaults
 mkdir -p /etc/centminmod
@@ -284,6 +372,8 @@ if [ -f /opt/centminmod/first-login.sh ]; then
   echo
   date
 fi
+
+pip_updates
 
 # meltdown & spectre checks
 if [ -d /root/tools ]; then
