@@ -12,6 +12,7 @@
   * [first boot MOTD](#first-boot-motd)
   * [first boot prompts](#first-boot-prompts)
   * [Spectre & Meldown Checks](#spectre--meltdown-checks)
+  * [DigitalOcean Spaces & s3cmd setup]()
 * [build-centos7-only-image.sh Example](#build-centos7-only-imagesh-example)
 
 # packer.io install
@@ -1842,6 +1843,48 @@ CVE-2018-3646 aka 'Foreshadow-NG (VMM), L1 terminal fault'
 > SUMMARY: CVE-2017-5753:OK CVE-2017-5715:OK CVE-2017-5754:OK CVE-2018-3640:KO CVE-2018-3639:KO CVE-2018-3615:OK CVE-2018-3620:OK CVE-2018-3646:OK
 
 A false sense of security is worse than no security at all, see --disclaimer
+```
+
+## DigitalOcean Spaces & s3cmd setup
+
+There's also option prompt for end users to setup DigitalOcean Spaces and s3cmd setup for the droplet as well
+
+```
+--------------------------------------------------------------------
+setup DigitalOcean Spaces + s3cmd
+https://www.digitalocean.com/docs/spaces/resources/s3cmd/
+--------------------------------------------------------------------
+
+Do you want to setup DigitalOcean Spaces & s3cdm ? [y/n]: y
+
+installing s3cmd via yum
+please wait...
+
+success: s3cmd installed
+
+setup s3cmd --configure options for DO Spaces
+s3cmd configuration will be saved to /root/.s3cfg
+
+will need on hand the following details
+
+1. DO Spaces Access Key
+2. DO Spaces Secret Key
+3. DO Spaces Endpoint i.e. sfo2.digitaloceanspaces.com
+4. Desired s3cmd Encryption password you want to set
+
+Enter your DO Spaces Access Key : XXXX
+
+Enter your DO Spaces Secret Key : XXXXXX
+
+Enter your DO Spaces Endpoin : sfo2.digitaloceanspaces.com
+
+Enter desired Encryption password : XXXXXXXX
+
+test s3cmd credentials
+list DO Spaces
+
+s3cmd ls
+2019-03-16 12:37  s3://DO_SPACES_NAME
 ```
 
 # build-centos7-only-image.sh Example

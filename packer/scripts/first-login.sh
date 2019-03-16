@@ -903,6 +903,142 @@ autotune() {
   echo
 }
 
+do_spaces_setup() {
+  echo
+  echo "--------------------------------------------------------------------"
+  echo "setup DigitalOcean Spaces + s3cmd"
+  echo "https://www.digitalocean.com/docs/spaces/resources/s3cmd/"
+  echo "--------------------------------------------------------------------"
+  echo
+  read -ep "Do you want to setup DigitalOcean Spaces & s3cdm ? [y/n]: " setup_spaces
+  echo
+  if [[ "$setup_spaces" = [yY] ]]; then
+    echo "installing s3cmd via yum"
+    echo "please wait..."
+    yum -y -q install s3cmd >/dev/null 2>&1
+    spaces_err=$?
+    if [[ "$spaces_err" -ne '0' ]]; then
+      echo "error: s3cmd failed to install"
+    elif [[ "$spaces_err" -eq '0' ]]; then
+      echo
+      echo "success: s3cmd installed"
+      echo
+      echo "setup s3cmd --configure options for DO Spaces"
+      echo "s3cmd configuration will be saved to /root/.s3cfg"
+      echo
+      echo "will need on hand the following details"
+      echo 
+      echo "1. DO Spaces Access Key"
+      echo "2. DO Spaces Secret Key"
+      echo "3. DO Spaces Endpoint i.e. sfo2.digitaloceanspaces.com"
+      echo "4. Desired s3cmd Encryption password you want to set"
+      echo
+      read -ep "Enter your DO Spaces Access Key : " do_spaces_accesskey
+      echo
+      read -ep "Enter your DO Spaces Secret Key : " do_spaces_secretkey
+      echo
+      read -ep "Enter your DO Spaces Endpoint : " do_spaces_endpoint
+      echo
+      read -ep "Enter desired Encryption password : " do_spaces_passphrase
+      echo
+
+cat > /root/.s3cfg <<EOFF
+[default]
+access_key = $do_spaces_accesskey
+access_token = 
+add_encoding_exts = 
+add_headers = 
+bucket_location = US
+ca_certs_file = 
+cache_file = 
+check_ssl_certificate = True
+check_ssl_hostname = True
+cloudfront_host = cloudfront.amazonaws.com
+content_disposition = 
+content_type = 
+default_mime_type = binary/octet-stream
+delay_updates = False
+delete_after = False
+delete_after_fetch = False
+delete_removed = False
+dry_run = False
+enable_multipart = True
+encrypt = False
+expiry_date = 
+expiry_days = 
+expiry_prefix = 
+follow_symlinks = False
+force = False
+get_continue = False
+gpg_command = /bin/gpg
+gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_encrypt = %(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_passphrase = $do_spaces_passphrase
+guess_mime_type = True
+host_base = ${do_spaces_endpoint}
+host_bucket = %(bucket)s.${do_spaces_endpoint}
+human_readable_sizes = False
+invalidate_default_index_on_cf = False
+invalidate_default_index_root_on_cf = True
+invalidate_on_cf = False
+kms_key = 
+limit = -1
+limitrate = 0
+list_md5 = False
+log_target_prefix = 
+long_listing = False
+max_delete = -1
+mime_type = 
+multipart_chunk_size_mb = 15
+multipart_max_chunks = 10000
+preserve_attrs = True
+progress_meter = True
+proxy_host = 
+proxy_port = 0
+put_continue = False
+recursive = False
+recv_chunk = 65536
+reduced_redundancy = False
+requester_pays = False
+restore_days = 1
+restore_priority = Standard
+secret_key = $do_spaces_secretkey
+send_chunk = 65536
+server_side_encryption = False
+signature_v2 = False
+signurl_use_https = False
+simpledb_host = sdb.amazonaws.com
+skip_existing = False
+socket_timeout = 300
+stats = False
+stop_on_error = False
+storage_class = 
+throttle_max = 100
+upload_id = 
+urlencoding_mode = normal
+use_http_expect = False
+use_https = True
+use_mime_magic = True
+verbosity = WARNING
+website_endpoint = http://%(bucket)s.s3-website-%(location)s.amazonaws.com/
+website_error = 
+website_index = index.html
+EOFF
+        echo "test s3cmd credentials"
+        echo "list DO Spaces"
+        echo
+        echo "s3cmd ls"
+        s3cmd ls
+        echo
+    fi
+else
+    echo "skipping DigitalOcean Spaces & s3cmd setup"
+  fi
+  echo
+}
+
+#########################################################
+
 msg
 get_email
 set_hostname
@@ -918,5 +1054,6 @@ log_cleanup
 service_checks
 tmpfix
 reset_bashrc
+do_spaces_setup
 bookmark
 exit
