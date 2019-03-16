@@ -490,8 +490,13 @@ if [ -f /usr/local/nginx/conf/nginx.conf ]; then
 
 NOCPUS=$(grep "processor" /proc/cpuinfo |wc -l)
 NGINXCONFCPU='/usr/local/nginx/conf/nginx.conf'
-WORKERCHECKA=$(grep 'worker_processes  1;' $NGINXCONFCPU)
-WORKERCHECKB=$(grep 'worker_processes 1;' $NGINXCONFCPU)
+if [[ "$(grep 'worker_processes' $NGINXCONFCPU | grep -o 2)" -eq '2' ]]; then
+  WORKERCHECKA=$(grep 'worker_processes  2;' $NGINXCONFCPU)
+  WORKERCHECKB=$(grep 'worker_processes 2;' $NGINXCONFCPU)
+else
+  WORKERCHECKA=$(grep 'worker_processes  1;' $NGINXCONFCPU)
+  WORKERCHECKB=$(grep 'worker_processes 1;' $NGINXCONFCPU)
+fi
 
 if [[ "$NOCPUS" -le "2" ]]; then
         NOCPUS=$NOCPUS
