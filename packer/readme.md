@@ -1876,7 +1876,7 @@ Enter your DO Spaces Access Key : XXXX
 
 Enter your DO Spaces Secret Key : XXXXXX
 
-Enter your DO Spaces Endpoin : sfo2.digitaloceanspaces.com
+Enter your DO Spaces Endpoint : sfo2.digitaloceanspaces.com
 
 Enter desired Encryption password : XXXXXXXX
 
@@ -1885,6 +1885,35 @@ list DO Spaces
 
 s3cmd ls
 2019-03-16 12:37  s3://DO_SPACES_NAME
+```
+
+Also can optionally upload all the regenerated passwords to your DigitalOcean Spaces account at `s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/` where `DO_SPACES_NAME` is DO Spaces name and directory `opt-centminmod-host.domain.com` is suffixed with your set droplet server hostname.
+
+```
+test s3cmd credentials
+list DO Spaces
+
+s3cmd ls
+2019-03-16 12:37  s3://DO_SPACES_NAME
+
+Do you want to upload regenerated passwords to DO Spaces ?
+Upload passwords to s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/ ? [y/n]: y
+
+s3cmd put *.txt s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/
+upload: 'memcache-admin-login.txt' -> 's3://DO_SPACES_NAME/opt-centminmod-host.domain.com/memcache-admin-login.txt'  [1 of 4]
+ 381 of 381   100% in    0s     7.29 kB/s  done
+upload: 'mysql-root-password.txt' -> 's3://DO_SPACES_NAME/opt-centminmod-host.domain.com/mysql-root-password.txt'  [2 of 4]
+ 57 of 57   100% in    0s   358.78 B/s  done
+upload: 'php-info-password.txt' -> 's3://DO_SPACES_NAME/opt-centminmod-host.domain.com/php-info-password.txt'  [3 of 4]
+ 335 of 335   100% in    0s     4.17 kB/s  done
+upload: 'zend-opcache-admin-login.txt' -> 's3://DO_SPACES_NAME/opt-centminmod-host.domain.com/zend-opcache-admin-login.txt'  [4 of 4]
+ 355 of 355   100% in    0s  1441.35 B/s  done
+
+s3cmd ls s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/ -r
+2019-03-16 13:50       381   s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/memcache-admin-login.txt
+2019-03-16 13:50        57   s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/mysql-root-password.txt
+2019-03-16 13:50       335   s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/php-info-password.txt
+2019-03-16 13:50       355   s3://DO_SPACES_NAME/opt-centminmod-host.domain.com/zend-opcache-admin-login.txt
 ```
 
 # build-centos7-only-image.sh Example

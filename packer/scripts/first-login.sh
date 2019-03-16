@@ -1029,6 +1029,33 @@ EOFF
         echo
         echo "s3cmd ls"
         s3cmd ls
+        cmd_err=$?
+        if [[ "$cmd_err" -eq '0' ]]; then
+          space_name=$(s3cmd ls | head -n1 |awk '{print $3}')
+          echo
+          echo "Do you want to upload regenerated passwords to DO Spaces ?"
+          read -ep "Upload passwords to ${space_name}/opt-centminmod-$(hostname)/ ? [y/n]: " upload_passwords
+          echo
+          if [[ "$upload_passwords" = [yY] ]]; then
+            cd /opt/centminmod
+            echo "s3cmd put *.txt ${space_name}/opt-centminmod-$(hostname)/"
+            s3cmd put *.txt ${space_name}/opt-centminmod-$(hostname)/
+            uploadcmd_err=$?
+            if [[ "$uploadcmd_err" -eq '0' ]]; then
+              echo
+              echo "s3cmd ls ${space_name}/opt-centminmod-$(hostname)/ -r"
+              s3cmd ls ${space_name}/opt-centminmod-$(hostname)/ -r
+            else
+              echo
+              echo "error: upload failed"
+            fi
+          else
+            echo "skip uploading regenerated passwords to DO Spaces"
+          fi
+        else
+          echo
+          echo "error: s3cmd ls failed..."
+        fi
         echo
     fi
 else
