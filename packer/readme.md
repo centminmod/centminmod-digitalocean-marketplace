@@ -12,6 +12,7 @@
   * [first boot MOTD](#first-boot-motd)
   * [first boot prompts](#first-boot-prompts)
   * [Spectre & Meldown Checks](#spectre--meltdown-checks)
+  * [Enable PHP-FPM Statistics & Status Output]()
   * [DigitalOcean Spaces & s3cmd setup](#digitalocean-spaces--s3cmd-setup)
 * [build-centos7-only-image.sh Example](#build-centos7-only-imagesh-example)
 
@@ -1843,6 +1844,59 @@ CVE-2018-3646 aka 'Foreshadow-NG (VMM), L1 terminal fault'
 > SUMMARY: CVE-2017-5753:OK CVE-2017-5715:OK CVE-2017-5754:OK CVE-2018-3640:KO CVE-2018-3639:KO CVE-2018-3615:OK CVE-2018-3620:OK CVE-2018-3646:OK
 
 A false sense of security is worse than no security at all, see --disclaimer
+```
+
+## Enable PHP-FPM Statistics & Status Output
+
+Optionally prompt users on first SSH login as to whether PHP-FPM status output should be enabled for localhost only.
+
+```
+--------------------------------------------------------------------
+enable php-fpm status for localhost only ?
+as per https://centminmod.com/phpfpm.html#phpstatus
+--------------------------------------------------------------------
+Do you want to enable php-fpm status page ? [y/n]: y
+
+php-fpm status enabled
+
+curl -s localhost/phpstatus
+pool:                 www
+process manager:      ondemand
+start time:           17/Mar/2019:13:31:40 +0000
+start since:          1
+accepted conn:        1
+listen queue:         0
+max listen queue:     0
+listen queue len:     511
+idle processes:       0
+active processes:     1
+total processes:      1
+max active processes: 1
+max children reached: 0
+slow requests:        0
+
+shortcut command = fpmstats
+```
+
+Once enabled, php-fpm stats shortcut command would display the PHP-FPM status output along with statistics info provided by php-fpm systemd.
+
+```
+fpmstats
+Processes active: 0, idle: 0, Requests: 1, slow: 0, Traffic: 0req/sec
+pool:                 www
+process manager:      ondemand
+start time:           17/Mar/2019:13:31:40 +0000
+start since:          100
+accepted conn:        3
+listen queue:         0
+max listen queue:     0
+listen queue len:     511
+idle processes:       0
+active processes:     1
+total processes:      1
+max active processes: 1
+max children reached: 0
+slow requests:        0
 ```
 
 ## DigitalOcean Spaces & s3cmd setup
