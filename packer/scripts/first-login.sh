@@ -1050,6 +1050,9 @@ EOFF
               echo
               echo "s3cmd ls ${space_name}/opt-centminmod-$(hostname)/ -r"
               s3cmd ls ${space_name}/opt-centminmod-$(hostname)/ -r
+              echo
+              echo "to delete uploaded files you can run command:"
+              echo "s3cmd del ${space_name}/opt-centminmod-$(hostname) -r"
             else
               echo
               echo "error: upload failed"
