@@ -925,6 +925,27 @@ autotune() {
   echo
 }
 
+enable_phpstatus() {
+  echo
+  echo "--------------------------------------------------------------------"
+  echo "enable php-fpm status for localhost only ?"
+  echo "as per https://centminmod.com/phpfpm.html#phpstatus"
+  echo "--------------------------------------------------------------------"
+  read -ep "Do you want to enable php-fpm status page ? [y/n]: " enablephpstatus
+  echo
+  if [[ "$enablephpstatus" = [yY] ]]; then
+    sed -i 's|^#include /usr/local/nginx/conf/phpstatus.conf;|include /usr/local/nginx/conf/phpstatus.conf;|' /usr/local/nginx/conf/conf.d/virtual.conf
+    nprestart >/dev/null 2>&1
+    echo "php-fpm status enabled"
+    echo
+    echo "curl -s localhost/phpstatus"
+    curl -s localhost/phpstatus
+    echo
+    sleep 3
+    echo "shortcut command = fpmstats"
+  fi
+}
+
 do_spaces_setup() {
   echo
   echo "--------------------------------------------------------------------"
@@ -1106,6 +1127,7 @@ reset_mysqlroot
 log_cleanup
 service_checks
 tmpfix
+enable_phpstatus
 reset_bashrc
 do_spaces_setup
 bookmark
