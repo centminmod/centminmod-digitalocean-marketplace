@@ -29,7 +29,7 @@ echo
 
 msg() {
 bookmark
-echo "Below are a number of tasks required to initially setup your server"
+echo "Running a number of tasks required to initially setup your server"
 sleep 2
 updatedb
 echo
@@ -941,7 +941,7 @@ enable_phpstatus() {
     echo "curl -s localhost/phpstatus"
     curl -s localhost/phpstatus
     echo
-    sleep 3
+    # sleep 3
     echo "shortcut command = fpmstats"
   fi
 }
