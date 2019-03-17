@@ -35,6 +35,16 @@ updatedb
 echo
 }
 
+yum_updates() {
+  echo
+  echo "--------------------------------------------------------------------"
+  echo "Ensure yum packages are up to date"
+  echo
+  yum -y update --enablerepo=remi
+  echo
+  echo "--------------------------------------------------------------------"
+}
+
 get_email() {
   echo
   echo "--------------------------------------------------------------------"
@@ -1086,6 +1096,7 @@ get_email
 set_hostname
 whitelistip
 cmm_update
+yum_updates
 autotune
 reset_pureftpd_params
 reset_memcache_admin
