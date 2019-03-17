@@ -360,15 +360,28 @@ if [[ "$INSTALL_BBR" = [yY] ]]; then
   lsmod | grep bbr
 fi
 
-# setup first-login.sh
+# check first-login.sh
 if [ -f /opt/centminmod/first-login.sh ]; then
   echo
-  echo "setup /opt/centminmod/first-login.sh"
-  # echo '/opt/centminmod/first-login.sh' >> /root/.bashrc
-# cat >> /root/.bashrc <<EOF
-# if [ -f /opt/centminmod/first-login-run ]; then /opt/centminmod/first-login.sh; fi
-# EOF
-  # touch /opt/centminmod/first-login-run
+  echo "check /opt/centminmod/first-login.sh"
+  ls -lAh /opt/centminmod/first-login.sh
+  echo
+  date
+else
+  echo "error: /opt/centminmod/first-login.sh does not exist"
+  echo
+  date
+fi
+
+# check /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh
+if [ -f /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh ]; then
+  echo
+  echo "check /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh"
+  ls -lAh /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh
+  echo
+  date
+else
+  echo "error: /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh does not exist"
   echo
   date
 fi
