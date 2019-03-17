@@ -1878,7 +1878,7 @@ slow requests:        0
 shortcut command = fpmstats
 ```
 
-Once enabled, php-fpm stats shortcut command would display the PHP-FPM status output along with statistics info provided by php-fpm systemd.
+Once enabled, php-fpm stats shortcut command would display the PHP-FPM status output along with statistics info provided by php-fpm systemd (made possible via [switch to php-fpm systemd service file](https://community.centminmod.com/threads/centos-7-proper-php-fpm-systemd-service-file.16511/#post-70380))
 
 ```
 fpmstats
