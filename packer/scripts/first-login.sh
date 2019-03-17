@@ -2,6 +2,7 @@
 ############################################################
 # https://github.com/digitalocean/marketplace-partners/blob/master/marketplace_docs/build-an-image.md
 ############################################################
+VER=0.1
 TOTALMEM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 TOTALMEM_T=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 TOTALMEM_SWAP=$(awk '/SwapFree/ {print $2}' /proc/meminfo)
@@ -347,6 +348,12 @@ reset_bashrc() {
   # sed -i '/first-login.sh/d' /usr/local/bin/dmotd
   if [ -f /opt/centminmod/first-login-run ]; then
     rm -f /opt/centminmod/first-login-run
+  fi
+  if [ -f /opt/centminmod/first-login.sh ]; then
+    rm -f /opt/centminmod/first-login.sh
+  fi
+  if [ -f /opt/centminmod/first-login.sh-prebuilt ]; then
+    rm -f /opt/centminmod/first-login.sh-prebuilt
   fi
   if [ -f /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh ]; then
     rm -f /var/lib/cloud/scripts/per-instance/01-setup-first-login.sh
