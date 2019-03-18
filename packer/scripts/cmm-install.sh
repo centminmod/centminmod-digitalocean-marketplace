@@ -128,7 +128,11 @@ fi
 if [[ "$INSTALL_MONGODB" = [yY] ]]; then
   echo "PHPMONGODB='y'" >> /etc/centminmod/custom_config.inc
 fi
-echo "MARIADB_INSTALLTENTHREE='y'" >> /etc/centminmod/custom_config.inc
+if [[ "$INSTALL_MARIADBTENFOUR" = [yY] ]]; then
+  echo "MARIADB_INSTALLTENFOUR='y'" >> /etc/centminmod/custom_config.inc
+else
+  echo "MARIADB_INSTALLTENTHREE='y'" >> /etc/centminmod/custom_config.inc
+fi
 cat /etc/centminmod/custom_config.inc
 echo
 
