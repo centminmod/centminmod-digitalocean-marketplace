@@ -300,6 +300,7 @@ Variables available
 * install_auditd - default = `n`
 * install_go - default = `n`
 * install_nodejs - default = `n`
+* install_newergit - default = `n`
 * install_customcurl - default = `n`
 * enable_brotli - default = `n`
 * enable_dualcerts - default = `n`

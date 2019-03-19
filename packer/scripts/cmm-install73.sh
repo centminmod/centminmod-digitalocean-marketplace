@@ -258,6 +258,17 @@ if [[ "$INSTALL_NODEJS" = [yY] ]]; then
   /usr/local/src/centminmod/addons/nodejs.sh install
 fi
 
+# install newer git 1.8.3 upgrade to 2.16
+echo "INSTALL_NEWERGIT=$INSTALL_NEWERGIT"
+
+if [[ "$INSTALL_NEWERGIT" = [yY] ]]; then
+  echo
+  echo "---------------------------------------------"
+  echo "git 2.16+ install"
+  echo "---------------------------------------------"
+  /usr/local/src/centminmod/addons/git2_install.sh
+fi
+
 # install custom curl
 echo "INSTALL_CURL=$INSTALL_CURL"
 
