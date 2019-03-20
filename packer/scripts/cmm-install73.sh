@@ -614,15 +614,15 @@ echo
 date
 
 # verify image readiness for digitalocean marketplace submission
-# mkdir -p /root/tools
-# cd /root/tools
-# rm -rf marketplace-partners
-# git clone https://github.com/digitalocean/marketplace-partners
-# cd marketplace-partners/marketplace_validation
-# ./img_check.sh
-# rm -rf /root/tools/marketplace-partners
-# echo
-# date
+mkdir -p /root/tools
+cd /root/tools
+rm -rf marketplace-partners
+git clone https://github.com/digitalocean/marketplace-partners
+cd marketplace-partners/marketplace_validation
+./img_check.sh
+rm -rf /root/tools/marketplace-partners
+echo
+date
 
 # clean history again
 history -c
