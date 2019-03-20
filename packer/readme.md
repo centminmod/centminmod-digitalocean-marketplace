@@ -706,6 +706,8 @@ digitalocean output will be in this color.
 
 # DigitalOcean Marketplace img_check.sh compatibility
 
+**Update:** img_check.sh fixes have been merged now https://github.com/digitalocean/marketplace-partners/pull/35
+
 Unfortunately, DigitalOcean Marketplace's img_check.sh script isn't 100% compatible with CentOS systems due to false assumptions the script makes about CentOS 6/7 systems. See details at https://github.com/digitalocean/marketplace-partners/pull/35 and my DO idea submission at https://ideas.digitalocean.com/ideas/DO-I-2983.
 
 * CSF Firewall compatibility if not using firewalld https://github.com/digitalocean/marketplace-partners/issues/32
