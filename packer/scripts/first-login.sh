@@ -160,7 +160,7 @@ reset_pureftpd_params() {
   # echo
   echo "--------------------------------------------------------------------"
   echo "regenerate pure-ftpd ssl cert /etc/ssl/private/pure-ftpd-dhparams.pem"
-  echo "please wait..."
+  echo "please wait... can take a few minutes depending on speed of server"
   echo "--------------------------------------------------------------------"
   if [ -f /etc/ssl/private/pure-ftpd-dhparams.pem ]; then
     rm -f /etc/ssl/private/pure-ftpd-dhparams.pem
