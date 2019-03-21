@@ -626,5 +626,7 @@ rm -rf /root/tools/*
 echo
 date
 
+# clear mail log for root user
+truncate -s 0 /var/mail/root
 # clean history again
 history -c
