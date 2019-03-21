@@ -621,6 +621,7 @@ git clone https://github.com/digitalocean/marketplace-partners
 cd marketplace-partners/marketplace_validation
 ./img_check.sh
 rm -rf /root/tools/marketplace-partners
+rm -rf /root/tools/*
 echo
 date
 
