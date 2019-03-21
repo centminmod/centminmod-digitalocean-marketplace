@@ -1110,6 +1110,17 @@ else
   echo
 }
 
+cleanup() {
+  reset_memcache_admin
+  reset_opcache
+  reset_phpinfo
+  reset_mysqlroot
+  log_cleanup
+  tmpfix
+  reset_bashrc
+}
+
+trap cleanup SIGHUP SIGINT SIGTERM
 #########################################################
 
 msg
