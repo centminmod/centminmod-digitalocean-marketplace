@@ -619,6 +619,7 @@ cd /root/tools
 rm -rf marketplace-partners
 git clone https://github.com/digitalocean/marketplace-partners
 cd marketplace-partners/marketplace_validation
+truncate -s 0 /var/log/lfd.log
 ./img_check.sh
 rm -rf /root/tools/marketplace-partners
 rm -rf /root/tools/*
