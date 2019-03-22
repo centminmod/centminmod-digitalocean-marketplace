@@ -21,6 +21,7 @@ echo "
 * Centmin Mod Config Files - https://centminmod.com/configfiles.html
 * Change Log - https://centminmod.com/changelog.html
 * Community Forums https://community.centminmod.com  [ << Register ]
+* Cloudflare with Centmin Mod Nginx https://centminmod.com/nginx_configure_cloudflare.html
 ===============================================================================
 "
 
