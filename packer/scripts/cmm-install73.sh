@@ -614,6 +614,7 @@ echo
 date
 
 # verify image readiness for digitalocean marketplace submission
+sleep 20
 mkdir -p /root/tools
 cd /root/tools
 rm -rf marketplace-partners
@@ -623,6 +624,7 @@ cd marketplace-partners/marketplace_validation
 # systemctl stop csf lfd
 # sleep 20
 truncate -s 0 /var/log/lfd.log
+echo "cat /var/log/lfd.log"
 cat /var/log/lfd.log
 echo
 ./img_check.sh
