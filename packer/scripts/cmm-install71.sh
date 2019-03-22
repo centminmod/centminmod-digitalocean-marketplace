@@ -619,8 +619,18 @@ cd /root/tools
 rm -rf marketplace-partners
 git clone https://github.com/digitalocean/marketplace-partners
 cd marketplace-partners/marketplace_validation
+
+systemctl stop csf lfd
+sleep 20
 truncate -s 0 /var/log/lfd.log
+cat /var/log/lfd.log
+echo
 ./img_check.sh
+echo
+systemctl start csf lfd
+sleep 20
+truncate -s 0 /var/log/lfd.log
+
 rm -rf /root/tools/marketplace-partners
 rm -rf /root/tools/*
 echo
@@ -628,5 +638,6 @@ date
 
 # clear mail log for root user
 truncate -s 0 /var/mail/root
+find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
 # clean history again
 history -c
