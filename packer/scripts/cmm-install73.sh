@@ -620,15 +620,15 @@ rm -rf marketplace-partners
 git clone https://github.com/digitalocean/marketplace-partners
 cd marketplace-partners/marketplace_validation
 
-systemctl stop csf lfd
-sleep 20
+# systemctl stop csf lfd
+# sleep 20
 truncate -s 0 /var/log/lfd.log
 cat /var/log/lfd.log
 echo
 ./img_check.sh
 echo
-systemctl start csf lfd
-sleep 20
+# systemctl start csf lfd
+# sleep 20
 truncate -s 0 /var/log/lfd.log
 
 rm -rf /root/tools/marketplace-partners
