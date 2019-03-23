@@ -454,6 +454,11 @@ echo "---------------------------------------------"
 echo "service postfix restart"
 service postfix restart
 echo
+echo
+echo "---------------------------------------------"
+echo "service pure-ftpd restart"
+service pure-ftpd restart
+echo
 echo "---------------------------------------------"
 echo "service memcached status"
 service memcached status
@@ -469,6 +474,14 @@ echo
 echo "---------------------------------------------"
 echo "service postfix status"
 service postfix status
+echo
+echo "---------------------------------------------"
+echo "service pure-ftpd status"
+service pure-ftpd status
+echo
+echo "check pure-ftpd config /etc/pure-ftpd/pure-ftpd.conf"
+echo "cat /etc/pure-ftpd/pure-ftpd.conf | egrep 'UnixAuthentication|VerboseLog|PureDB |CreateHomeDir|TLS|PassivePortRange|TLSCipherSuite|MaxClientsNumber|MaxClientsPerIP|NoAnonymous|Umask' | grep -v '#'"
+cat /etc/pure-ftpd/pure-ftpd.conf | egrep 'UnixAuthentication|VerboseLog|PureDB |CreateHomeDir|TLS|PassivePortRange|TLSCipherSuite|MaxClientsNumber|MaxClientsPerIP|NoAnonymous|Umask' | grep -v '#'
 echo
 echo "---------------------------------------------"
 echo "service csf status"
