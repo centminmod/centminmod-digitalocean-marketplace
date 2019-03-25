@@ -337,14 +337,24 @@ echo "---------------------------------------------"
 multi=" -multi $(nproc)"
 echo
 opensslbin='openssl'
-ciphers='rsa2048 rsa4096 ecdsap256 sha256 sha1 md5 rc4 aes-256-cbc aes-128-cbc';  $opensslbin speed${multi} $ciphers 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|";
+ciphers='rsa2048 rsa4096 ecdsap256 sha256 sha1 md5 rc4 aes-256-cbc aes-128-cbc';
+echo "$opensslbin speed${multi} $ciphers"
+$opensslbin speed${multi} $ciphers 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|";
 echo
-ciphers='aes-128-cbc aes-256-cbc aes-128-gcm aes-256-gcm chacha20'; for c in $ciphers; do $opensslbin speed${multi} -evp $c 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|"; done
+ciphers='aes-128-cbc aes-256-cbc aes-128-gcm aes-256-gcm'; for c in $ciphers; do 
+    echo "$opensslbin speed${multi} -evp $c";
+    $opensslbin speed${multi} -evp $c 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|";
+  done
 echo
 opensslbin='/opt/openssl/bin/openssl'
-ciphers='rsa2048 rsa4096 ecdsap256 sha256 sha1 md5 rc4 aes-256-cbc aes-128-cbc';  $opensslbin speed${multi} $ciphers 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|";
+ciphers='rsa2048 rsa4096 ecdsap256 sha256 sha1 md5 rc4 aes-256-cbc aes-128-cbc';
+echo "$opensslbin speed${multi} $ciphers"
+$opensslbin speed${multi} $ciphers 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|";
 echo
-ciphers='aes-128-cbc aes-256-cbc aes-128-gcm aes-256-gcm chacha20'; for c in $ciphers; do $opensslbin speed${multi} -evp $c 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|"; done
+ciphers='aes-128-cbc aes-256-cbc aes-128-gcm aes-256-gcm chacha20'; for c in $ciphers; do 
+    echo "$opensslbin speed${multi} -evp $c";
+    $opensslbin speed${multi} -evp $c 2>&1 | egrep -iv '\+|Fork' 2>&1 | sed -e "s|evp|evp $c|";
+  done
 echo
 
 # install elrepo kernel-ml
