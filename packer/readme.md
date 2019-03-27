@@ -296,6 +296,7 @@ Variables available
 * install_docker - default = `n`
 * install_redis - default = `n`
 * install_mariadbtenfour - default = `n`
+* install_mariadbtentwo - default = `n`
 * install_mongodb - default = `n`
 * install_auditd - default = `n`
 * install_go - default = `n`
@@ -588,6 +589,8 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-all-php73.sh` - with `build-image.sh` defaults + with PHP 7.3 default + enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation, golang, nodejs and customcurl
 * `packer/build-image-with-kernel-ml-php73.sh` - with `build-image.sh` defaults + with PHP 7.3 default + with linux mainline kernel
 * `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
+* `packer/build-image-with-mariadb10.2.sh` - with `build-image.sh` defaults + with MariaDB 10.2 default
+* `packer/build-image-with-kernel-ml-with-mariadb10.2.sh` - with `build-image.sh` defaults + with linux mainline kernel + with MariaDB 10.2 default
 * `packer/build-image-with-mariadb10.4.sh` - with `build-image.sh` defaults + with MariaDB 10.4 default
 * `packer/build-image-with-kernel-ml-with-mariadb10.4.sh` - with `build-image.sh` defaults + with linux mainline kernel + with MariaDB 10.4 default
 * `build-centos7-only-image.sh` - this doesn't install Centmin Mod but rather builds a CentOS 7.x image with latest updates so you can use resulting image as a base for above build image script runs with override variable `-var 'do_image=YOUR_IMAGE_ID'` where `YOUR_IMAGE_ID` is the snapshot image id for the resulting image build with `build-centos7-only-image.sh`

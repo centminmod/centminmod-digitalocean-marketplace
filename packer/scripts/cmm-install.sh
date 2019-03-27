@@ -130,8 +130,10 @@ if [[ "$INSTALL_MONGODB" = [yY] ]]; then
 fi
 if [[ "$INSTALL_MARIADBTENFOUR" = [yY] ]]; then
   echo "MARIADB_INSTALLTENFOUR='y'" >> /etc/centminmod/custom_config.inc
-else
+elif [[ "$INSTALL_MARIADBTENTHREE" = [yY] ]]; then
   echo "MARIADB_INSTALLTENTHREE='y'" >> /etc/centminmod/custom_config.inc
+elif [[ "$INSTALL_MARIADBTENTWO" = [yY] ]]; then
+  echo "MARIADB_INSTALLTENTWO='y'" >> /etc/centminmod/custom_config.inc
 fi
 cat /etc/centminmod/custom_config.inc
 echo
