@@ -615,7 +615,7 @@ git pull
 ./build-image.sh YOUR_IMAGE_ID s-1vcpu-1gb
 ```
 
-All build image scripts also support override variable `-var "do_region=API_DO_REGION"` where `API_DO_REGION` is the droplet region  which is either `sfo2` or set to `nyc3` used together with `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size from DigitalOcean API which is either `c-2` or set to `s-1vcpu-1gb`
+All build image scripts also support override variable `-var "do_region=API_DO_REGION"` where `API_DO_REGION` is the droplet region  which is either `sfo2` or set to `nyc3` or one of the other regions `ams3`, `lon1`, `sgp1` and used together with `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size from DigitalOcean API which is either `c-2` or set to `s-1vcpu-1gb`
 
 ```
 cd /root/tools/centminmod-digitalocean-marketplace/packer
