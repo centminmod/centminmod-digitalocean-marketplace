@@ -5,6 +5,7 @@
 dt=$(date +"%d%m%y-%H%M%S")
 do_imageid=${1:-"centos-7-x64"}
 do_size=${2:-"c-2"}
+do_region=${3:-"sfo2"}
 snapshot_second_count='1'
 
 build() {
@@ -34,8 +35,8 @@ build() {
     snapshot_new_name="centos7-packer-php72-mariadb102-redis-systemd-${dt}"
     snapshot_new_name_second="centos7-packer-php72-mariadb102-redis-systemd-2-${dt}"
     export PACKER_LOG_PATH="packerlog-php72-mariadb102-redis-systemd-$(date +"%d%m%y-%H%M%S").log"
-    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var 'install_mariadbtentwo=y' -var "enable_argon=y" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
-    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var 'install_mariadbtentwo=y' -var "enable_argon=y" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
+    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var "do_region=$do_region" -var 'install_mariadbtentwo=y' -var "enable_argon=y" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
+    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var "do_region=$do_region" -var 'install_mariadbtentwo=y' -var "enable_argon=y" -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
     echo
     date

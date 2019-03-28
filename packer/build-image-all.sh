@@ -5,6 +5,7 @@
 dt=$(date +"%d%m%y-%H%M%S")
 do_imageid=${1:-"centos-7-x64"}
 do_size=${2:-"c-2"}
+do_region=${3:-"sfo2"}
 snapshot_second_count='1'
 
 build() {
@@ -34,8 +35,8 @@ build() {
     snapshot_new_name="centos7-packer-php72-all-redis-systemd-${dt}"
     snapshot_new_name_second="centos7-packer-php72-all-redis-systemd-2-${dt}"
     export PACKER_LOG_PATH="packerlog-php72-all-$(date +"%d%m%y-%H%M%S").log"
-    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var "install_newergit=y" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_go=y' -var 'install_nodejs=y' -var 'install_customcurl=y' -var 'install_docker=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' -var 'enable_phppgo=y' -var 'install_elrepo=y' -var 'install_bbr=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
-    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var "install_newergit=y" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_go=y' -var 'install_nodejs=y' -var 'install_customcurl=y' -var 'install_docker=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' -var 'enable_phppgo=y' -var 'install_elrepo=y' -var 'install_bbr=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
+    echo "time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var "do_region=$do_region" -var "install_newergit=y" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_go=y' -var 'install_nodejs=y' -var 'install_customcurl=y' -var 'install_docker=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' -var 'enable_phppgo=y' -var 'install_elrepo=y' -var 'install_bbr=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json"
+    time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var "do_image=$do_imageid" -var "do_size=$do_size" -var "do_region=$do_region" -var "install_newergit=y" -var "install_mongodb=y" -var "enable_argon=y" -var 'install_go=y' -var 'install_nodejs=y' -var 'install_customcurl=y' -var 'install_docker=y' -var 'install_auditd=y' -var 'enable_brotli=y' -var 'enable_logrotate_zstd=y' -var 'enable_phppgo=y' -var 'install_elrepo=y' -var 'install_bbr=y' -var 'install_redis=y' -var 'enable_phpfpm_systemd=y' packer-centos7-basic.json
 
     echo
     date

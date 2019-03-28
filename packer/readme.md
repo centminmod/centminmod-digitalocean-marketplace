@@ -615,6 +615,15 @@ git pull
 ./build-image.sh YOUR_IMAGE_ID s-1vcpu-1gb
 ```
 
+All build image scripts also support override variable `-var "do_region=API_DO_REGION"` where `API_DO_REGION` is the droplet region  which is either `sfo2` or set to `nyc3` used together with `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size from DigitalOcean API which is either `c-2` or set to `s-1vcpu-1gb`
+
+```
+cd /root/tools/centminmod-digitalocean-marketplace/packer
+git stash
+git pull
+./build-image.sh YOUR_IMAGE_ID s-1vcpu-1gb nyc3
+```
+
 ## Build Image Alias Shortcuts
 
 For convenience sake, I also created some command alias shorts to build specific droplet snapshot images with Centmin Mod LEMP stack preinstalled. Just replace, `YOUR_IMAGE_ID` with your base snpashot image ID, either snpashot id created from `build-centos7-only-image.sh` or the default distro image id/slug = `centos-7-x64`. You can place these command aliases in your `/root/.bashrc` file.
@@ -624,6 +633,10 @@ alias buildall='buildimg; buildimgall; buildimgkernel'
 alias buildimg='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image.sh YOUR_IMAGE_ID'
 alias buildimgall='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image-all.sh YOUR_IMAGE_ID'
 alias buildimgkernel='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image-with-kernel-ml.sh YOUR_IMAGE_ID'
+alias buildall-small='buildimg-small; buildimgall-small; buildimgkernel-small'
+alias buildimg-small='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image.sh YOUR_IMAGE_ID s-1vcpu-1gb'
+alias buildimgall-small='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image-all.sh YOUR_IMAGE_ID s-1vcpu-1gb'
+alias buildimgkernel-small='cd /root/tools/centminmod-digitalocean-marketplace/packer; git stash; git pull; ./build-image-with-kernel-ml.sh YOUR_IMAGE_ID s-1vcpu-1gb'
 alias cdmp='cd /root/tools/centminmod-digitalocean-marketplace/packer/; git stash; git pull; ls -lah;'
 ```
 
