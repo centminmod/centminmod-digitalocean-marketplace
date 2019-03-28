@@ -595,6 +595,26 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-with-kernel-ml-with-mariadb10.4.sh` - with `build-image.sh` defaults + with linux mainline kernel + with MariaDB 10.4 default
 * `build-centos7-only-image.sh` - this doesn't install Centmin Mod but rather builds a CentOS 7.x image with latest updates so you can use resulting image as a base for above build image script runs with override variable `-var 'do_image=YOUR_IMAGE_ID'` where `YOUR_IMAGE_ID` is the snapshot image id for the resulting image build with `build-centos7-only-image.sh`
 
+Note: 
+
+All build image scripts now also support the override variable `-var 'do_image=YOUR_IMAGE_ID'` where `YOUR_IMAGE_ID` is the snapshot image id for the resulting image build with `build-centos7-only-image.sh` so you can pass the `YOUR_IMAGE_ID` on the command line:
+
+```
+cd /root/tools/centminmod-digitalocean-marketplace/packer
+git stash
+git pull
+./build-image.sh YOUR_IMAGE_ID
+```
+
+All build image scripts also support override variable `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size name from DigitalOcean API which is either `c-2` or set to `s-1vcpu-1gb`
+
+```
+cd /root/tools/centminmod-digitalocean-marketplace/packer
+git stash
+git pull
+./build-image.sh YOUR_IMAGE_ID s-1vcpu-1gb
+```
+
 ## Build Image Alias Shortcuts
 
 For convenience sake, I also created some command alias shorts to build specific droplet snapshot images with Centmin Mod LEMP stack preinstalled. Just replace, `YOUR_IMAGE_ID` with your base snpashot image ID, either snpashot id created from `build-centos7-only-image.sh` or the default distro image id/slug = `centos-7-x64`. You can place these command aliases in your `/root/.bashrc` file.
