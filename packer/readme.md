@@ -624,6 +624,23 @@ git pull
 ./build-image.sh YOUR_IMAGE_ID s-1vcpu-1gb nyc3
 ```
 
+Note the `YOUR_IMAGE_ID` snapshot image needs to be available in the region you choose otherwise you get error like below:
+
+```
+digitalocean output will be in this color.
+
+==> digitalocean: Creating temporary ssh key for droplet...
+==> digitalocean: Creating droplet...
+==> digitalocean: Error creating droplet: POST https://api.digitalocean.com/v2/droplets: 422 The image you specified is not available in the selected region, you can transfer it to this region from the images pages.
+==> digitalocean: Deleting temporary ssh key...
+Build 'digitalocean' errored: Error creating droplet: POST https://api.digitalocean.com/v2/droplets: 422 The image you specified is not available in the selected region, you can transfer it to this region from the images pages.
+
+==> Some builds didn't complete successfully and had errors:
+--> digitalocean: Error creating droplet: POST https://api.digitalocean.com/v2/droplets: 422 The image you specified is not available in the selected region, you can transfer it to this region from the images pages.
+
+==> Builds finished but no artifacts were created.
+```
+
 ## Build Image Alias Shortcuts
 
 For convenience sake, I also created some command alias shorts to build specific droplet snapshot images with Centmin Mod LEMP stack preinstalled. Just replace, `YOUR_IMAGE_ID` with your base snpashot image ID, either snpashot id created from `build-centos7-only-image.sh` or the default distro image id/slug = `centos-7-x64`. You can place these command aliases in your `/root/.bashrc` file.
