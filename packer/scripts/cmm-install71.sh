@@ -167,7 +167,13 @@ if [[ "$INSTALL_DOCKER" = [yY] ]]; then
   mkdir -p /etc/systemd/system/docker.service.d
   touch /etc/systemd/system/docker.service.d/docker.conf
   mkdir -p /etc/docker
-  wget -O /etc/docker/daemon.json https://gist.githubusercontent.com/centminmod/e79bca8d3ef56d4d7272663f755e830d/raw/daemon.json
+  # wget -O /etc/docker/daemon.json https://gist.githubusercontent.com/centminmod/e79bca8d3ef56d4d7272663f755e830d/raw/daemon.json
+cat > /etc/docker/daemon.json <<EOF
+{
+    "dns": ["8.8.8.8", "8.8.4.4"]
+}
+EOF
+  cat /etc/docker/daemon.json
   systemctl daemon-reload
   systemctl start docker
   systemctl enable docker
