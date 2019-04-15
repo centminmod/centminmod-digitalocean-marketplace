@@ -388,6 +388,12 @@ if [[ "$INSTALL_ELREPO" = [yY] ]]; then
   grub2-set-default 0
   grub2-mkconfig -o /boot/grub2/grub.cfg
   echo
+  echo "cat /etc/default/grub"
+  cat /etc/default/grub
+  echo
+  echo "grub2-editenv list"
+  grub2-editenv list
+  echo
   echo "sysctl net.ipv4.tcp_available_congestion_control"
   sysctl net.ipv4.tcp_available_congestion_control
   echo
