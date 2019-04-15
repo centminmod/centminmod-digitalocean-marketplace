@@ -321,7 +321,7 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic.json
 ```
 
-or install docker & redis + elrepo Linux 5.x Kernel
+or install docker & redis + elrepo Linux 5.x Kernel ([/usr/local/binx/kernel-update script added for kernel-ml updates](https://github.com/centminmod/centminmod-digitalocean-marketplace/blob/master/packer/scripts/kernel-update.sh))
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic.json
@@ -371,7 +371,7 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php73.json
 ```
 
-or install docker & redis + elrepo Linux 5.x Kernel
+or install docker & redis + elrepo Linux 5.x Kernel ([/usr/local/binx/kernel-update script added for kernel-ml updates](https://github.com/centminmod/centminmod-digitalocean-marketplace/blob/master/packer/scripts/kernel-update.sh))
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic-php73.json
@@ -421,7 +421,7 @@ or install docker & redis
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' packer-centos7-basic-php71.json
 ```
 
-or install docker & redis + elrepo Linux 5.x Kernel
+or install docker & redis + elrepo Linux 5.x Kernel ([/usr/local/binx/kernel-update script added for kernel-ml updates](https://github.com/centminmod/centminmod-digitalocean-marketplace/blob/master/packer/scripts/kernel-update.sh))
 
 ```
 time TMPDIR=/home/packertmp PACKER_LOG=1 packer build -var 'install_docker=y' -var 'install_redis=y' -var 'install_elrepo=y' -var 'install_bbr=y' packer-centos7-basic-php71.json
@@ -579,7 +579,7 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
 * `packer/build-image-with-docker.sh` - with `build-image.sh` defaults + with docker
 * `packer/build-image-with-dualcerts.sh` - with `build-image.sh` defaults + with [dual RSA 2048bit + ECDSA 256bit](https://community.centminmod.com/threads/7449/) letsencrypt SSL certificate support in Nginx
-* `packer/build-image-with-kernel-ml.sh` - with `build-image.sh` defaults + with linux mainline kernel
+* `packer/build-image-with-kernel-ml.sh` - with `build-image.sh` defaults + with linux mainline kernel ([/usr/local/binx/kernel-update script added for kernel-ml updates](https://github.com/centminmod/centminmod-digitalocean-marketplace/blob/master/packer/scripts/kernel-update.sh))
 * `packer/build-image-with-go-nodejs.sh` - with `build-image.sh` defaults + with golang + nodejs
 * `packer/build-image-with-customcurl.sh` - with `build-image.sh` defaults + with customcurl
 * `packer/build-image-with-phppgo.sh` - with `build-image.sh` defaults + with PHP profile guided optimizations (PGO) [~5-30% faster PHP 7.x performance](https://community.centminmod.com/threads/php-7-3-vs-7-2-vs-7-1-vs-7-0-php-fpm-benchmarks.16090/)
@@ -587,12 +587,12 @@ The above manual steps for building Centmin Mod LEMP stack DigitalOcean snapshot
 * `packer/build-image-php73-with-mongodb.sh` - with `build-image.sh` defaults + PHP 7.3 default + mongodb server and PHP extension
 * `packer/build-image-php73.sh` - with `build-image.sh` defaults + PHP 7.3 default + with zstd compressed nginx & php-fpm logrotation (smaller compressed rotated logs)
 * `packer/build-image-all-php73.sh` - with `build-image.sh` defaults + with PHP 7.3 default + enable all options for ngx_brotli, docker, redis, auditd, linux mainline kernel + Google BBR, PHP profile guided optimizations (PGO), zstd compressed nginx & php-fpm logrotation, golang, nodejs and customcurl
-* `packer/build-image-with-kernel-ml-php73.sh` - with `build-image.sh` defaults + with PHP 7.3 default + with linux mainline kernel
+* `packer/build-image-with-kernel-ml-php73.sh` - with `build-image.sh` defaults + with PHP 7.3 default + with linux mainline kernel ([/usr/local/binx/kernel-update script added for kernel-ml updates](https://github.com/centminmod/centminmod-digitalocean-marketplace/blob/master/packer/scripts/kernel-update.sh))
 * `packer/build-image-with-brotli.sh` - with `build-image.sh` defaults + with ngx_brotli
 * `packer/build-image-with-mariadb10.2.sh` - with `build-image.sh` defaults + with MariaDB 10.2 default
-* `packer/build-image-with-kernel-ml-with-mariadb10.2.sh` - with `build-image.sh` defaults + with linux mainline kernel + with MariaDB 10.2 default
+* `packer/build-image-with-kernel-ml-with-mariadb10.2.sh` - with `build-image.sh` defaults + with linux mainline kernel ([/usr/local/binx/kernel-update script added for kernel-ml updates](https://github.com/centminmod/centminmod-digitalocean-marketplace/blob/master/packer/scripts/kernel-update.sh)) + with MariaDB 10.2 default
 * `packer/build-image-with-mariadb10.4.sh` - with `build-image.sh` defaults + with MariaDB 10.4 default
-* `packer/build-image-with-kernel-ml-with-mariadb10.4.sh` - with `build-image.sh` defaults + with linux mainline kernel + with MariaDB 10.4 default
+* `packer/build-image-with-kernel-ml-with-mariadb10.4.sh` - with `build-image.sh` defaults + with linux mainline kernel ([/usr/local/binx/kernel-update script added for kernel-ml updates](https://github.com/centminmod/centminmod-digitalocean-marketplace/blob/master/packer/scripts/kernel-update.sh)) + with MariaDB 10.4 default
 * `build-centos7-only-image.sh` - this doesn't install Centmin Mod but rather builds a CentOS 7.x image with latest updates so you can use resulting image as a base for above build image script runs with override variable `-var 'do_image=YOUR_IMAGE_ID'` where `YOUR_IMAGE_ID` is the snapshot image id for the resulting image build with `build-centos7-only-image.sh`
 
 Note: 
