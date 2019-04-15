@@ -399,6 +399,15 @@ if [[ "$INSTALL_ELREPO" = [yY] ]]; then
   echo
   echo "sysctl -n net.ipv4.tcp_congestion_control"
   sysctl -n net.ipv4.tcp_congestion_control
+  echo
+  # setup /usr/local/bin/kernel-update script
+  echo "wget -q -O /usr/local/bin/kernel-update https://github.com/centminmod/centminmod-digitalocean-marketplace/raw/master/packer/scripts/kernel-update.sh"
+  wget -q -O /usr/local/bin/kernel-update https://github.com/centminmod/centminmod-digitalocean-marketplace/raw/master/packer/scripts/kernel-update.sh
+  chmod +x /usr/local/bin/kernel-update
+  echo
+  echo "/usr/local/bin/kernel-update setup"
+  echo
+  cat /usr/local/bin/kernel-update
 fi
 if [[ "$INSTALL_BBR" = [yY] ]]; then
   echo 'net.core.default_qdisc=fq' | tee -a /etc/sysctl.conf
