@@ -17,7 +17,7 @@ update_kernel() {
   echo
   # only proceed further if yum installed kernel-ml version is greater than
   # version listed on uname -r output
-  if [[ "$yuminstalled_kernel" -ge "$unamer_kernel" ]]; then
+  if [[ "$yuminstalled_kernel" -gt "$unamer_kernel" ]]; then
     echo "update /boot/grub2/grub.cfg"
     echo
     echo "grub2-set-default 0"
