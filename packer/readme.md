@@ -164,9 +164,61 @@ Delete an Image by ID.
 doctl compute image delete image_id
 ```
 
+List Droplet Sizes
+
+```
+doctl compute size list
+```
+
+```
+doctl compute size list
+Slug               Memory    VCPUs    Disk    Price Monthly    Price Hourly
+512mb              512       1        20      5.00             0.007440
+s-1vcpu-1gb        1024      1        25      5.00             0.007440
+1gb                1024      1        30      10.00            0.014880
+s-1vcpu-2gb        2048      1        50      10.00            0.014880
+s-1vcpu-3gb        3072      1        60      15.00            0.022320
+s-2vcpu-2gb        2048      2        60      15.00            0.022320
+s-3vcpu-1gb        1024      3        60      15.00            0.022320
+2gb                2048      2        40      20.00            0.029760
+s-2vcpu-4gb        4096      2        80      20.00            0.029760
+4gb                4096      2        60      40.00            0.059520
+c-2                4096      2        25      40.00            0.060000
+s-4vcpu-8gb        8192      4        160     40.00            0.059520
+g-2vcpu-8gb        8192      2        25      60.00            0.089286
+gd-2vcpu-8gb       8192      2        50      65.00            0.096726
+8gb                8192      4        80      80.00            0.119050
+c-4                8192      4        50      80.00            0.119000
+s-6vcpu-16gb       16384     6        320     80.00            0.119050
+g-4vcpu-16gb       16384     4        50      120.00           0.178571
+gd-4vcpu-16gb      16384     4        100     130.00           0.193452
+16gb               16384     8        160     160.00           0.238100
+c-8                16384     8        100     160.00           0.238000
+s-8vcpu-32gb       32768     8        640     160.00           0.238100
+s-12vcpu-48gb      49152     12       960     240.00           0.357140
+g-8vcpu-32gb       32768     8        100     240.00           0.357143
+gd-8vcpu-32gb      32768     8        200     260.00           0.386905
+32gb               32768     12       320     320.00           0.476190
+c-16               32768     16       200     320.00           0.476000
+s-16vcpu-64gb      65536     16       1280    320.00           0.476190
+48gb               49152     16       480     480.00           0.714290
+s-20vcpu-96gb      98304     20       1920    480.00           0.714290
+g-16vcpu-64gb      65536     16       200     480.00           0.714286
+gd-16vcpu-64gb     65536     16       400     520.00           0.773810
+64gb               65536     20       640     640.00           0.952380
+c-32               65536     32       400     640.00           0.952000
+s-24vcpu-128gb     131072    24       2560    640.00           0.952380
+c-48               73728     48       20      960.00           1.429000
+s-32vcpu-192gb     196608    32       3840    960.00           1.428570
+g-32vcpu-128gb     131072    32       400     960.00           1.428570
+gd-32vcpu-128gb    131072    32       800     1040.00          1.547620
+g-40vcpu-160gb     163840    40       500     1200.00          1.785710
+gd-40vcpu-160gb    163840    40       1000    1300.00          1.934520
+```
+
 # packer explained
 
-Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-1gb) with CentOS 7 64bit OS and install Centmin Mod 123.09beta01 and then clean up after itself and create a DigitalOcean snapshot image and then automatically detroy and remove that temporary droplet. Using the below proces or build image scripts, the resulting snapshot image id will be provided. You can then use snapshot image to create a new droplet via DigitalOcean web gui control panel or via the DigitalOcean API. An example of using the API and `create_droplet.sh` script outlined [here](https://github.com/centminmod/centminmod-digitalocean-marketplace/tree/master/packer/digitalocean).
+Packer will use DigitalOcean API to spin up a temporary droplet (c-2 or s-1vcpu-1gb or g-2vcpu-8gb) with CentOS 7 64bit OS and install Centmin Mod 123.09beta01 and then clean up after itself and create a DigitalOcean snapshot image and then automatically detroy and remove that temporary droplet. Using the below proces or build image scripts, the resulting snapshot image id will be provided. You can then use snapshot image to create a new droplet via DigitalOcean web gui control panel or via the DigitalOcean API. An example of using the API and `create_droplet.sh` script outlined [here](https://github.com/centminmod/centminmod-digitalocean-marketplace/tree/master/packer/digitalocean).
 
 You can see the associated cost of my test Packer Centmin Mod DigitalOcean temporary droplets below:
 
@@ -176,7 +228,16 @@ You can see the associated cost of my test Packer Centmin Mod DigitalOcean tempo
 
 Below is an outline of manual Packer build commands although you can also use pre-made [build-image.sh scripts](#using-build-imagesh-script) to automate the whole process too.
 
-You can manually build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io using `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` or `packer-centos7-basic-php71.json` configuration using DigitalOcean `sfo2` region and lowest disk space sized DigitalOcean droplet plan, [cpu optimized droplet](https://centminmod.com/digitalocean/) (c-2 default) or [standard droplet 1GB plan](https://centminmod.com/digitalocean/) (s-1vcpu-1gb) - both come in at 25GB disk size. However cpu optimized droplet (c-2), can install Centmin and build DigitalOcean snapshot image 3x times faster than standard droplet 1GB plan.
+You can manually build CentOS 7 64bit Centmin Mod DigitalOcean snapshot image using packer.io using `packer-centos7-basic.json` or `packer-centos7-basic-php73.json` or `packer-centos7-basic-php71.json` configuration using DigitalOcean `sfo2` region and lowest disk space sized DigitalOcean droplet plan, [cpu optimized droplet](https://centminmod.com/digitalocean/) (c-2 default) or [standard droplet 1GB plan](https://centminmod.com/digitalocean/) (s-1vcpu-1gb) or [General Purpose](https://centminmod.com/digitalocean/) (g-2vcpu-8gb) - all come in at 25GB disk size. However Cpu Optimized droplet (c-2) and General Purpose droplet (g-2vcpu-8gb), can install Centmin and build DigitalOcean snapshot image 3x times faster than standard droplet 1GB plan.
+
+Droplet sizes with 25GB base disk size.
+
+```
+doctl compute size list | grep ' 25 '
+s-1vcpu-1gb        1024      1        25      5.00             0.007440
+c-2                4096      2        25      40.00            0.060000
+g-2vcpu-8gb        8192      2        25      60.00            0.089286
+```
 
 You need to manually export your generated [DigitalOcean API Token](https://cloud.digitalocean.com/account/api/tokens) below `TOKEN='YOUR_DO_API_KEY'`
 
@@ -289,7 +350,7 @@ Variables available
 * do_image_name - default = `centos7-packer-snapshot-{{timestamp}}`
 * do_image - default = `centos-7-x64`
 * do_region - default = `sfo2` (others available `nyc3` or `ams3` or `sgp1` which also have corresponding DigitalOcean Spaces region available)
-* do_size - default = `c-2` or set to `s-1vcpu-1gb`
+* do_size - default = `c-2` (CPU Optimized) or set to `s-1vcpu-1gb` (Standard Droplet) or set to `g-2vcpu-8gb` (General Purpose)
 * do_tags - default = `cmm`
 * install_elrepo - default = `n`
 * install_bbr - default = `n`
@@ -606,7 +667,7 @@ git pull
 ./build-image.sh YOUR_IMAGE_ID
 ```
 
-All build image scripts also support override variable `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size name from DigitalOcean API which is either `c-2` or set to `s-1vcpu-1gb`
+All build image scripts also support override variable `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size name from DigitalOcean API which is either `c-2` (CPU Optimized) or set to `s-1vcpu-1gb` (Standard Droplet) or set to `g-2vcpu-8gb` (General Purpose)
 
 ```
 cd /root/tools/centminmod-digitalocean-marketplace/packer
@@ -615,7 +676,7 @@ git pull
 ./build-image.sh YOUR_IMAGE_ID s-1vcpu-1gb
 ```
 
-All build image scripts also support override variable `-var "do_region=API_DO_REGION"` where `API_DO_REGION` is the droplet region  which is either `sfo2` or set to `nyc3` or one of the other regions `ams3`, `lon1`, `sgp1` and used together with `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size from DigitalOcean API which is either `c-2` or set to `s-1vcpu-1gb`
+All build image scripts also support override variable `-var "do_region=API_DO_REGION"` where `API_DO_REGION` is the droplet region  which is either `sfo2` or set to `nyc3` or one of the other regions `ams3`, `lon1`, `sgp1` and used together with `-var "do_size=API_DROPLET_SIZE"` where `API_DROPLET_SIZE` is the droplet size from DigitalOcean API which is either `c-2` (CPU Optimized) or set to `s-1vcpu-1gb` (Standard Droplet) or set to `g-2vcpu-8gb` (General Purpose)
 
 ```
 cd /root/tools/centminmod-digitalocean-marketplace/packer
