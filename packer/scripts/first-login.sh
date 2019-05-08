@@ -2,7 +2,9 @@
 ############################################################
 # https://github.com/digitalocean/marketplace-partners/blob/master/marketplace_docs/build-an-image.md
 ############################################################
-VER=0.1
+VER=0.2
+# revised nginx worker_proccess auto tuned settings for >12 cpu thread based servers
+NGINXCPU_AUTOTUNE_NEW='y'
 TOTALMEM=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 TOTALMEM_T=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 TOTALMEM_SWAP=$(awk '/SwapFree/ {print $2}' /proc/meminfo)
@@ -733,6 +735,69 @@ if [[ "$NOCPUS" -ge "257" ]]; then
     fi
 fi
 
+fi
+
+if [[ "$NGINXCPU_AUTOTUNE_NEW" = [yY] ]]; then
+    NOCPUS=$(grep -c "processor" /proc/cpuinfo)
+    NOCPUS_NGINX=$(($NOCPUS/2))
+    
+    if [[ "$NOCPUS_NGINX" -ge '6' && "$NOCPUS_NGINX" -lt '8' ]]; then
+    # optimise for up to 12-15 cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    elif [[ "$NOCPUS_NGINX" -ge '8' && "$NOCPUS_NGINX" -lt '16' ]]; then
+    # optimise for up to 16-31 cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    elif [[ "$NOCPUS_NGINX" -ge '16' && "$NOCPUS_NGINX" -lt '24' ]]; then
+    # optimise for upto 32-47 cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    elif [[ "$NOCPUS_NGINX" -ge '24' && "$NOCPUS_NGINX" -lt '28' ]]; then
+    # optimise for upto 48-55 cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    elif [[ "$NOCPUS_NGINX" -ge '28' && "$NOCPUS_NGINX" -lt '32' ]]; then
+    # optimise for upto 56-63 cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    elif [[ "$NOCPUS_NGINX" -ge '32' && "$NOCPUS_NGINX" -lt '48' ]]; then
+    # optimise for upto 64-95 cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    elif [[ "$NOCPUS_NGINX" -ge '48' && "$NOCPUS_NGINX" -lt '64' ]]; then
+    # optimise for 96-127 cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    elif [[ "$NOCPUS_NGINX" -ge '64' ]]; then
+    # optimise for 128+ cpu cores
+    # NOCPUS_NGINX=$(($NOCPUS_NGINX/1))
+    sed -i '/worker_cpu_affinity/d' $NGINXCONFCPU
+    sed -i "s/worker_processes .*;/worker_processes $NOCPUS_NGINX;\nworker_cpu_affinity auto;/g" $NGINXCONFCPU
+    # grep worker_ $NGINXCONFCPU
+    # for p in $(pidof nginx); do taskset -c -p $p; done
+    fi
 fi
 }
 

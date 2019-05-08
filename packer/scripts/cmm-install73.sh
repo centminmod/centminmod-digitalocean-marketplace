@@ -382,7 +382,7 @@ if [[ "$INSTALL_ELREPO" = [yY] ]]; then
   rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
   yum -y remove kernel-tools kernel-tools-libs
   yum-config-manager --enable elrepo-kernel
-  yum -y install kernel-ml kernel-ml-devel kernel-ml-tools --enablerepo=elrepo-kernel
+  yum -y install kernel-ml kernel-ml-devel kernel-ml-tools microcode_ctl --enablerepo=elrepo-kernel
   yum -y versionlock kernel-[0-9]*
   awk -F\' '$1=="menuentry " {print i++ " : " $2}' /etc/grub2.cfg
   grub2-set-default 0
@@ -676,7 +676,7 @@ rm -rf /usr/local/nginxbackup/confbackup/*
 rm -rf /usr/local/nginxbackup/nginxdirbackup/*
 find /var/log -mtime -1 -type f -exec truncate -s 0 {} \;
 rm -rf /home/packertmp
-rm -f /etc/ssh/*key*
+rm -f /root/.ssh/authorized_keys /etc/ssh/*key*
 history -c
 echo
 date
