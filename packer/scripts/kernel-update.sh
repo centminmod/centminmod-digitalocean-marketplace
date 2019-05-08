@@ -2,7 +2,6 @@
 #####################################################################
 # elrepo kernel-ml updater that takes care of grub2-mkconfig run
 #####################################################################
-yuminstalled_kernel=$(yum -q info kernel-ml | awk '/Version/ {print $3}' | tail -1| awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }')
 unamer_kernel=$(uname -r | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }')
 
 update_kernel() {
@@ -15,6 +14,7 @@ update_kernel() {
   echo "yum -y update kernel-ml kernel-ml-devel kernel-ml-tools --enablerepo=elrepo-kernel"
   yum -y update kernel-ml kernel-ml-devel kernel-ml-tools --enablerepo=elrepo-kernel
   echo
+  yuminstalled_kernel=$(yum -q info kernel-ml | awk '/Version/ {print $3}' | tail -1| awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }')
   # only proceed further if yum installed kernel-ml version is greater than
   # version listed on uname -r output
   if [[ "$yuminstalled_kernel" -gt "$unamer_kernel" ]]; then
