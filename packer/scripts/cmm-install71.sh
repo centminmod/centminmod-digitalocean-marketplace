@@ -135,6 +135,7 @@ elif [[ "$INSTALL_MARIADBTENTHREE" = [yY] ]]; then
 elif [[ "$INSTALL_MARIADBTENTWO" = [yY] ]]; then
   echo "MARIADB_INSTALLTENTWO='y'" >> /etc/centminmod/custom_config.inc
 fi
+echo "AUTOHARDTUNE_NGINXBACKLOG='y'" >> /etc/centminmod/custom_config.inc
 cat /etc/centminmod/custom_config.inc
 echo
 
