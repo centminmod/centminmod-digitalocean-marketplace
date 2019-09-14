@@ -24,9 +24,12 @@ update_kernel() {
       fi
       # check EFI bios support
       check_efibios=$(efibootmgr 2>&1 | grep -o 'not supported')
+      check_bootefi=$(df -P --local | grep nvme | grep -o '/boot/efi')
+      check_grubefi=$(egrep 'linuxefi|initrdefi' /boot/grub2/grub.cfg)
+      check_grub_noefi=$(egrep 'linux16|initrd16' /boot/grub2/grub.cfg)
     fi
-    # if [[ "$check_efibios" != 'not supported' && "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
-    if [[ "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
+    if [[ "$check_grubefi" && "$check_bootefi" = '/boot/efi' && "$check_efibios" != 'not supported' && "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos && -d /sys/firmware/efi ]]; then
+    # if [[ "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
       echo "update /boot/efi/EFI/centos/grub.cfg"
     else
       echo "update /boot/grub2/grub.cfg"
@@ -34,8 +37,8 @@ update_kernel() {
     echo
     echo "grub2-set-default 0"
     grub2-set-default 0
-    # if [[ "$check_efibios" != 'not supported' && "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
-    if [[ "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
+    if [[ "$check_grubefi" && "$check_bootefi" = '/boot/efi' && "$check_efibios" != 'not supported' && "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos && -d /sys/firmware/efi ]]; then
+    # if [[ "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
       echo "grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg"
       grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
       ls -lah /boot/efi/EFI/centos/grub.cfg
