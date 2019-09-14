@@ -18,12 +18,32 @@ update_kernel() {
   # only proceed further if yum installed kernel-ml version is greater than
   # version listed on uname -r output
   if [[ "$yuminstalled_kernel" -gt "$unamer_kernel" ]]; then
-    echo "update /boot/grub2/grub.cfg"
+    if [[ "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
+      if [ ! -f /usr/sbin/efibootmgr ]; then
+        yum -q -y install efibootmgr
+      fi
+      # check EFI bios support
+      check_efibios=$(efibootmgr 2>&1 | grep -o 'not supported')
+    fi
+    # if [[ "$check_efibios" != 'not supported' && "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
+    if [[ "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
+      echo "update /boot/efi/EFI/centos/grub.cfg"
+    else
+      echo "update /boot/grub2/grub.cfg"
+    fi
     echo
     echo "grub2-set-default 0"
     grub2-set-default 0
-    echo "grub2-mkconfig -o /boot/grub2/grub.cfg"
-    grub2-mkconfig -o /boot/grub2/grub.cfg
+    # if [[ "$check_efibios" != 'not supported' && "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
+    if [[ "$(lsblk | grep nvme)" && -d /boot/efi/EFI/centos ]]; then
+      echo "grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg"
+      grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
+      ls -lah /boot/efi/EFI/centos/grub.cfg
+      ls -lah /etc/grub2-efi.cfg
+    else
+      echo "grub2-mkconfig -o /boot/grub2/grub.cfg"
+      grub2-mkconfig -o /boot/grub2/grub.cfg
+    fi
     echo
     echo "grub2-editenv list"
     grub2-editenv list

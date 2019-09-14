@@ -27,7 +27,7 @@ fi
 if [[ "$INSTALL_ELREPO" = [yY] ]]; then
   uname -r
   rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-  rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+  rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
   yum -y remove kernel-tools kernel-tools-libs
   yum -y install kernel-ml kernel-ml-devel kernel-ml-tools --enablerepo=elrepo-kernel
   yum -y versionlock kernel-[0-9]*
